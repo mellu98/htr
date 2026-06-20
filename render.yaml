@@ -1,0 +1,46 @@
+# Wave Up — Render Blueprint
+#
+# Defines:
+#   1. A managed Postgres database (Starter plan, $7/mo) for Prisma.
+#   2. A Node web service that builds Next.js, pushes the Prisma schema,
+#      starts the server, and connects to the Postgres database above.
+#
+# Apply this from the Render Dashboard:
+#   New → Blueprint → select repo mellu98/htr → Apply.
+# Or programmatically via POST https://api.render.com/v1/blueprints.
+
+services:
+  - type: pserv
+    name: wave-up-db
+    plan: starter
+    databaseName: waveup
+    user: waveup
+    ipAllowList: [] # only allow internal access from the web service
+
+  - type: web
+    name: wave-up
+    runtime: node
+    plan: starter
+    region: oregon
+    branch: main
+    buildCommand: npm ci && npm run build
+    # db:push applies the Prisma schema to Postgres on each deploy; safe because
+    # Prisma's create-only migration model doesn't drop data. For a real prod
+    # migration flow, swap to `npx prisma migrate deploy` + proper migration
+    # files.
+    startCommand: npm run db:push && npm start
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wave-up-db
+          property: connectionString
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: PORT
+        value: "10000"
+      - key: HOSTNAME
+        value: "0.0.0.0"

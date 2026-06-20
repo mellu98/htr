@@ -1,0 +1,46 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Prisma
+/prisma/dev.db
+/prisma/dev.db-journal
+
+# Generated content (keep course.json, ignore generated/)
+/content/generated/
+
+# MP4 videos are committed to the repo so the Render deploy ships with them.
+# Limit: ~5GB total GitHub repo size. When the user adds more videos, switch
+# to admin upload + Render persistent disk instead of committing more files.
+# (See plan: deploy-videos strategy to revisit when 4th+ lesson is added.)

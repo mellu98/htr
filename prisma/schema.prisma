@@ -1,0 +1,251 @@
+// Wave Up — Prisma schema
+// Adds the Wave Up product layer on top of HTR Training course engine.
+// All Wave Up tables live alongside the original course tables; existing
+// data is untouched.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Postgres for production (Render) and dev. Set DATABASE_URL accordingly:
+//   - dev: postgresql://user:pass@localhost:5432/waveup
+//   - prod (Render): injected automatically from the linked database
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===========================================================================
+// HTR Training — course engine (unchanged)
+// ===========================================================================
+
+model LessonProgress {
+  id               String   @id @default(cuid())
+  courseId         String
+  lessonId         String
+  lessonSlug       String
+  watchedSeconds   Int      @default(0)
+  videoPercent     Int      @default(0)
+  completed        Boolean  @default(false)
+  applied          Boolean  @default(false)
+  lastWatchedAt    DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@unique([courseId, lessonId])
+  @@index([courseId, lessonSlug])
+}
+
+model Note {
+  id         String   @id @default(cuid())
+  courseId   String
+  lessonId   String
+  lessonSlug String
+  body       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([courseId, lessonId])
+}
+
+model Bookmark {
+  id         String   @id @default(cuid())
+  courseId   String
+  lessonId   String
+  lessonSlug String
+  title      String
+  note       String?
+  videoTime  Int?
+  createdAt  DateTime @default(now())
+
+  @@index([courseId, lessonId])
+}
+
+model ChecklistProgress {
+  id          String    @id @default(cuid())
+  courseId    String
+  lessonId    String
+  lessonSlug  String
+  itemId      String
+  completed   Boolean   @default(false)
+  completedAt DateTime?
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([courseId, lessonId, itemId])
+  @@index([courseId, lessonSlug])
+}
+
+model FlashcardProgress {
+  id         String   @id @default(cuid())
+  courseId   String
+  lessonId   String
+  lessonSlug String
+  cardId     String
+  status     String   @default("unknown")
+  updatedAt  DateTime @updatedAt
+
+  @@unique([courseId, lessonId, cardId])
+  @@index([courseId, lessonSlug])
+}
+
+model QuizAttempt {
+  id             String   @id @default(cuid())
+  courseId       String
+  lessonId       String
+  lessonSlug     String
+  score          Int
+  totalQuestions Int
+  correctAnswers Int
+  answers        String
+  createdAt      DateTime @default(now())
+
+  @@index([courseId, lessonSlug])
+}
+
+model ReviewStatus {
+  id            String   @id @default(cuid())
+  courseId      String
+  lessonId      String
+  lessonSlug    String
+  status        String   @default("pending")
+  notes         String?
+  reviewerNotes String?
+  updatedAt     DateTime @updatedAt
+
+  @@unique([courseId, lessonId])
+  @@index([courseId, lessonSlug])
+}
+
+model AppSettings {
+  id             String   @id @default("singleton")
+  theme          String   @default("dark")
+  preferredModel String?
+  activeArtistId String?
+  updatedAt      DateTime @updatedAt
+}
+
+// ===========================================================================
+// Wave Up — product layer
+// ===========================================================================
+
+/// Artist profile — single source of truth for the artist being coached.
+/// There's at most one "primary" artist per install, but managers may have
+/// many ManagerArtist entries that reference a profile.
+model ArtistProfile {
+  id               String   @id @default(cuid())
+  artistName       String
+  musicGenre       String?
+  currentLevel     String?  // emerging | growing | established
+  mainGoal         String?
+  targetAudience   String?
+  nextReleaseDate  DateTime?
+  activePlatforms  String?  // JSON: ["instagram","spotify","tiktok",…]
+  biggestBlock     String?
+  brandKeywords    String?  // comma-separated or JSON
+  referenceArtists String?
+  notes            String?
+  // Operational metadata
+  weeklyCallDay    String?  // "monday" … "sunday" — when the human call happens
+  nextCallAt       DateTime?
+  // Course linkage
+  courseId         String   @default("htr-training")
+  startedAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  managerArtists      ManagerArtist[]
+  tasks              Task[]
+  callPrepReports    CallPrepReport[]
+  coachConversations CoachConversation[]
+
+  @@index([courseId])
+}
+
+/// When the user is a manager, they can track multiple artists.
+/// Each ManagerArtist is a lightweight "card" that points back to an
+/// ArtistProfile (so a profile can exist without a manager relationship).
+model ManagerArtist {
+  id               String   @id @default(cuid())
+  artistProfileId  String
+  nickname         String?  // how the manager refers to them
+  status           String   @default("active") // active | paused | archived
+  courseProgressPercent Int   @default(0)
+  openTasksCount   Int      @default(0)
+  blockedTasksCount Int     @default(0)
+  lastBlock        String?
+  nextAction       String?
+  nextCallAt       DateTime?
+  joinedAt         DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  artistProfile   ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+  tasks           Task[]
+
+  @@index([artistProfileId])
+}
+
+/// Tasks are the atomic unit of work between coaching sessions.
+/// They can be linked to a course lesson (optional) so the user can always
+/// trace an action back to the framework that produced it.
+model Task {
+  id              String   @id @default(cuid())
+  courseId        String
+  artistProfileId String
+  managerArtistId String?  // optional: when created from manager view
+  lessonSlug      String?
+  title           String
+  description     String?
+  priority        String   @default("medium") // low | medium | high | urgent
+  status          String   @default("todo") // todo | in_progress | done | blocked
+  dueDate         DateTime?
+  expectedOutput  String?
+  coachPromptId   String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  completedAt     DateTime?
+
+  artistProfile   ArtistProfile    @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+  managerArtist   ManagerArtist?   @relation(fields: [managerArtistId], references: [id], onDelete: SetNull)
+
+  @@index([artistProfileId])
+  @@index([managerArtistId])
+  @@index([courseId, lessonSlug])
+  @@index([status])
+}
+
+/// Generated call-prep reports. Stored so the user can revisit the
+/// pre-call snapshot they used last week and see the diff with this week.
+model CallPrepReport {
+  id              String   @id @default(cuid())
+  courseId        String
+  artistProfileId String
+  callDate        DateTime?
+  completedSince  String?  // markdown
+  openTasks       String?  // markdown
+  blocks          String?  // markdown
+  questions       String?  // markdown
+  decisions       String?  // markdown
+  nextWeekPlan    String?  // markdown
+  fullMarkdown    String?  // full report
+  createdAt       DateTime @default(now())
+
+  artistProfile ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+
+  @@index([artistProfileId])
+}
+
+/// Coach conversation log — appended every time the user chats with the
+/// coach. This is the "memory" the coach can recall between sessions.
+model CoachConversation {
+  id              String   @id @default(cuid())
+  artistProfileId String?
+  promptId        String
+  promptLabel     String
+  userMessage     String?
+  coachResponse   String
+  sources         String?  // JSON array of file refs
+  createdAt       DateTime @default(now())
+
+  artistProfile ArtistProfile? @relation(fields: [artistProfileId], references: [id], onDelete: SetNull)
+
+  @@index([artistProfileId])
+  @@index([createdAt])
+}
