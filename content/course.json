@@ -459,16 +459,17 @@
     },
     {
       "id": "l28",
-      "moduleId": "mod-4",
-      "moduleTitle": "Modulo 4 — Case Studies & Advanced Topics",
-      "slug": "modulo-4-17-final-recap",
-      "title": "MODULO 4.17 - Final Recap",
-      "duration": "26:14",
-      "durationSeconds": 1574,
-      "videoPath": "/videos/27-modulo-4-17.mp4",
+      "moduleId": "mod-12",
+      "moduleTitle": "Modulo 12 — Mindset",
+      "slug": "modulo-12-mindset-pt-1-updated",
+      "title": "MODULO 12 - Mindset pt.1 [UPDATED]",
+      "duration": "42:55",
+      "durationSeconds": 2575,
+      "videoPath": "/videos/modulo_12_-_mindset_pt.1_[updated]_v1 (720p).mp4",
       "order": 28,
-      "videoFileExists": false,
-      "aiStatus": "not_analyzed"
+      "videoFileExists": true,
+      "aiStatus": "not_analyzed",
+      "fileSizeBytes": 725736312
     }
   ]
 }
