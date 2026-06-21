@@ -99,17 +99,17 @@ export function VideoLibrary({ lessons, statuses, summary }: VideoLibraryProps) 
             Tocca per aprire
           </span>
         </summary>
-        <div className="flex flex-col gap-3 border-t border-border/60 p-4 md:flex-row md:items-center">
-          <div className="relative flex-1">
+        <div className="flex flex-col gap-3 border-t border-border/60 p-4 md:flex-row md:flex-wrap md:items-center">
+          <div className="relative w-full min-w-0 md:flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Cerca per titolo, slug o modulo…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="pl-9"
+              className="w-full pl-9"
             />
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex w-full min-w-0 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center md:w-auto md:flex-1">
             <FilterPill
               icon={Layers}
               label="Modulo"
@@ -305,8 +305,12 @@ function FilterPill<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="inline-flex items-center gap-1 rounded-md border border-input bg-background/40 p-0.5">
-      <span className="inline-flex items-center gap-1 px-2 text-xs text-muted-foreground">
+    // `flex flex-wrap` lets the option buttons wrap onto multiple lines inside
+    // the pill on narrow screens (was the main overflow culprit — with 14
+    // module options the pill was wider than the viewport). `max-w-full` +
+    // `min-w-0` ensure the pill honours its container width.
+    <div className="flex max-w-full min-w-0 flex-wrap items-center gap-1 rounded-md border border-input bg-background/40 p-0.5">
+      <span className="inline-flex shrink-0 items-center gap-1 px-2 text-xs text-muted-foreground">
         <Icon className="h-3.5 w-3.5" />
         {label}
       </span>
@@ -316,9 +320,10 @@ function FilterPill<T extends string>({
           onClick={() => onChange(opt.value)}
           // min-h-[36px] is the visual minimum that keeps the FilterPill row
           // compact (40px+ breaks the inline layout). touch-manipulation
-          // removes the 300ms tap delay so the filter feels instant.
+          // removes the 300ms tap delay so the filter feels instant. shrink-0
+          // keeps the active state pill from collapsing.
           className={cn(
-            'inline-flex min-h-[36px] items-center rounded px-3 py-1.5 text-xs touch-manipulation transition-colors',
+            'inline-flex shrink-0 min-h-[36px] items-center rounded px-3 py-1.5 text-xs touch-manipulation transition-colors',
             value === opt.value
               ? 'bg-accent/20 text-accent'
               : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',

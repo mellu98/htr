@@ -85,6 +85,15 @@
     height: 100%;
   }
 
+  /* Prevent any single child from forcing horizontal scroll on small viewports.
+     Individual components that need to scroll horizontally (e.g. lesson tabs,
+     the video timeline) already use `overflow-x-auto` on their own container
+     — this is the safety net for everything else. */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     background-image:
