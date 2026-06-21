@@ -4,6 +4,7 @@
   "private": true,
   "description": "HTR Training Brain — Intelligent video training system for music, branding and artist development",
   "scripts": {
+    "prebuild": "prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -52,5 +53,8 @@
     "tailwindcss": "^3.4.14",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": "20.x"
   }
 }
