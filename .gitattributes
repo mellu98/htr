@@ -1,3 +1,0 @@
-# Track all MP4 videos with Git LFS so the repo stays small enough to push.
-# Without this, the 2GB+ of course videos would exceed GitHub's HTTP push limit.
-*.mp4 filter=lfs diff=lfs merge=lfs -text
