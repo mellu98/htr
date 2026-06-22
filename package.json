@@ -18,7 +18,8 @@
     "test:chat": "tsx scripts/test-chat.ts",
     "generate:manifest": "tsx scripts/generate-course-manifest.ts",
     "sync:videos": "tsx scripts/sync-videos.ts",
-    "inventory:check": "tsx scripts/inventory-check.ts"
+    "inventory:check": "tsx scripts/inventory-check.ts",
+    "generate:pwa-icons": "tsx scripts/generate-pwa-icons.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -35,6 +36,7 @@
     "@radix-ui/react-toast": "^1.2.2",
     "@radix-ui/react-tooltip": "^1.1.4",
     "@types/node": "^20.17.6",
+    "@types/pngjs": "^6.0.5",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
@@ -44,6 +46,7 @@
     "eslint-config-next": "14.2.18",
     "lucide-react": "^0.460.0",
     "next": "14.2.18",
+    "pngjs": "^7.0.0",
     "postcss": "^8.4.49",
     "prisma": "^5.22.0",
     "react": "^18.3.1",
@@ -52,11 +55,11 @@
     "tailwindcss": "^3.4.14",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3",
-    "pngjs": "^7.0.0",
-    "@types/pngjs": "^6.0.5"
+    "typescript": "^5.6.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sharp": "^0.35.2"
+  },
   "engines": {
     "node": "20.x"
   }

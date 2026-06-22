@@ -1,153 +1,116 @@
 /**
- * generate-pwa-icons.ts
+ * Generate PWA icon variants from a single source PNG.
  *
- * One-off script to generate the Wave Up PWA icon set:
- *   - public/icons/icon-192.png            (192x192, full bleed)
- *   - public/icons/icon-512.png            (512x512, full bleed)
- *   - public/icons/icon-maskable-512.png   (512x512, with 20% safe zone)
- *   - public/icons/apple-touch-icon.png    (180x180, iOS rounded-corner style)
+ * Input:  <root>/icona.png                  (any square ≥ 512px)
+ * Output: public/icons/*.png                (192, 512, maskable-512, apple-touch)
  *
- * Brand:
- *   - Background: diagonal gradient cyan #22d3ee → violet #8b5cf6 → blue #3b82f6
- *   - Foreground: white stylized "W" monogram (rounded chevrons)
+ * Variants:
+ *   - icon-192.png         192×192   plain (fits manifest "any")
+ *   - icon-512.png         512×512   plain (splash / app stores)
+ *   - apple-touch-icon.png 180×180   iOS home screen
+ *   - icon-maskable-512.png 512×512  +10% transparent padding for safe zone
  *
- * No external SVG/font deps — every pixel is computed so the script works
- * in a clean checkout with only pngjs installed.
+ * The maskable safe zone is the inner 80% of the icon: anything outside
+ * may be cropped by Android launchers (circle / squircle / teardrop masks).
+ * We add 10% padding all around, which keeps the original artwork centred
+ * and visible across all mask shapes.
+ *
+ * Run: `npm run generate:pwa-icons`
  */
 
-import { PNG } from 'pngjs';
-import fs from 'node:fs';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import path from 'node:path';
+import sharp from 'sharp';
 
-const OUT_DIR = path.join(process.cwd(), 'public', 'icons');
-fs.mkdirSync(OUT_DIR, { recursive: true });
+const ROOT = path.resolve(__dirname, '..');
+const SOURCE = path.join(ROOT, 'icona.png');
+const OUT_DIR = path.join(ROOT, 'public', 'icons');
 
-// Brand colours (RGB)
-const CYAN   = { r: 0x22, g: 0xd3, b: 0xee };
-const VIOLET = { r: 0x8b, g: 0x5c, b: 0xf6 };
-const BLUE   = { r: 0x3b, g: 0x82, b: 0xf6 };
-const WHITE  = { r: 0xff, g: 0xff, b: 0xff };
+// Match the manifest theme_color / background_color so any transparent
+// margin blends with the install splash.
+const BG = { r: 10, g: 10, b: 20, alpha: 1 }; // #0a0a14
 
-/**
- * Linear interpolation in RGB space — fine for the brand's analogous hues
- * (cyan/violet/blue are far enough apart that a 3-stop gradient is smooth).
- */
-function lerp(a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }, t: number) {
-  return {
-    r: Math.round(a.r + (b.r - a.r) * t),
-    g: Math.round(a.g + (b.g - a.g) * t),
-    b: Math.round(a.b + (b.b - a.b) * t),
-  };
-}
+type Variant = {
+  file: string;
+  size: number;
+  /** Extra padding percentage (0 = none, 10 = maskable safe zone). */
+  paddingPct: number;
+};
 
-/**
- * Diagonal 3-stop gradient.
- *  t=0  → CYAN (top-left)
- *  t=0.5 → VIOLET
- *  t=1  → BLUE (bottom-right)
- */
-function gradientAt(x: number, y: number, size: number) {
-  const t = (x + y) / (2 * (size - 1));
-  if (t < 0.5) return lerp(CYAN, VIOLET, t * 2);
-  return lerp(VIOLET, BLUE, (t - 0.5) * 2);
-}
+const VARIANTS: Variant[] = [
+  { file: 'icon-192.png', size: 192, paddingPct: 0 },
+  { file: 'icon-512.png', size: 512, paddingPct: 0 },
+  { file: 'apple-touch-icon.png', size: 180, paddingPct: 0 },
+  { file: 'icon-maskable-512.png', size: 512, paddingPct: 10 },
+];
 
-/**
- * Draw a stylised "W" monogram (4 chevrons, rounded) in white at the
- * centre of the canvas, then return the canvas.
- *
- * `scale` is the fraction of the icon height used for the W.
- * The W is positioned within the inner safe zone (maskable uses 0.8×0.8).
- */
-function drawMonogram(img: PNG, size: number, safeInset: number) {
-  const W = WHITE;
-  const height = size * 0.46;                  // monogram height
-  const width  = size * 0.66;                  // monogram width
-  const top    = (size - height) / 2;          // vertically centred
-  const left   = (size - width) / 2;           // horizontally centred
-
-  // 4 chevron strokes (slopes): top-left, bottom-valley, top-right, bottom-valley
-  // Built as 4 thick line segments rendered with a small per-pixel brush.
-  const strokes: Array<[[number, number], [number, number]]> = [
-    [[left,                   top],                [left + width * 0.25,  top + height]], // \
-    [[left + width * 0.25,    top + height],      [left + width * 0.50,  top + height * 0.55]], // /
-    [[left + width * 0.50,    top + height * 0.55],[left + width * 0.75,  top + height]], // \
-    [[left + width * 0.75,    top + height],      [left + width,          top]], // /
-  ];
-
-  const strokeWidth = Math.max(4, Math.round(size * 0.085));
-  const halfStroke  = strokeWidth / 2;
-
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      // Skip if outside the monogram bounding box (cheap reject).
-      if (x < left - strokeWidth || x > left + width + strokeWidth) continue;
-      if (y < top  - strokeWidth || y > top  + height + strokeWidth) continue;
-
-      let onStroke = false;
-      for (const [[x1, y1], [x2, y2]] of strokes) {
-        // Perpendicular distance from point (x, y) to segment.
-        const dx = x2 - x1;
-        const dy = y2 - y1;
-        const len2 = dx * dx + dy * dy;
-        if (len2 === 0) continue;
-        const t = Math.max(0, Math.min(1, ((x - x1) * dx + (y - y1) * dy) / len2));
-        const projX = x1 + t * dx;
-        const projY = y1 + t * dy;
-        const d2 = (x - projX) ** 2 + (y - projY) ** 2;
-        if (d2 <= halfStroke * halfStroke) {
-          onStroke = true;
-          break;
-        }
-      }
-      if (onStroke) {
-        // Round the cap ends with a small soft edge so the W doesn't look pixelated.
-        const idx = (y * size + x) << 2;
-        img.data[idx]     = W.r;
-        img.data[idx + 1] = W.g;
-        img.data[idx + 2] = W.b;
-        img.data[idx + 3] = 255;
-      }
-    }
+async function ensureOutDir(): Promise<void> {
+  if (!existsSync(OUT_DIR)) {
+    await mkdir(OUT_DIR, { recursive: true });
   }
-  // unused parameter — safeInset is reserved for future cropping
-  void safeInset;
 }
 
-/**
- * Generate one icon. `maskable=true` paints a flat background (no rounded
- * mask assumptions) and keeps the W inside a 0.8 safe zone for launchers
- * that crop a circle/squircle.
- */
-function makeIcon(size: number, maskable: boolean) {
-  const img = new PNG({ width: size, height: size });
-  // Full-bleed gradient (or solid for maskable so cropping reveals colour).
-  const bg = maskable ? VIOLET : null;
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      const idx = (y * size + x) << 2;
-      const c = bg ?? gradientAt(x, y, size);
-      img.data[idx]     = c.r;
-      img.data[idx + 1] = c.g;
-      img.data[idx + 2] = c.b;
-      img.data[idx + 3] = 255;
-    }
+async function loadSource(): Promise<Buffer> {
+  if (!existsSync(SOURCE)) {
+    throw new Error(`Source icon not found at ${SOURCE}`);
   }
-  // Maskable: ensure the W sits inside the central 80% (safe zone).
-  const safeInset = maskable ? size * 0.1 : 0;
-  drawMonogram(img, size, safeInset);
-  return img;
+  return readFile(SOURCE);
 }
 
-function writePng(png: PNG, filename: string) {
-  const out = path.join(OUT_DIR, filename);
-  fs.writeFileSync(out, PNG.sync.write(png));
-  console.log(`✓ ${filename}  (${png.width}x${png.height}, ${(fs.statSync(out).size / 1024).toFixed(1)} KB)`);
+async function makeVariant(source: Buffer, v: Variant): Promise<void> {
+  const target = path.join(OUT_DIR, v.file);
+  let pipeline: sharp.Sharp;
+
+  if (v.paddingPct === 0) {
+    pipeline = sharp(source).resize(v.size, v.size, {
+      fit: 'contain',
+      background: BG,
+    });
+  } else {
+    // Maskable: shrink the artwork to (100 - 2*paddingPct)% and centre it
+    // on a solid BG canvas the size of the output.
+    const innerSize = Math.round(v.size * (1 - v.paddingPct / 50));
+    const pad = (v.size - innerSize) / 2;
+    pipeline = sharp(source)
+      .resize(innerSize, innerSize, {
+        fit: 'contain',
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .extend({
+        top: pad,
+        bottom: pad,
+        left: pad,
+        right: pad,
+        background: BG,
+      });
+  }
+
+  const buf = await pipeline.png({ compressionLevel: 9 }).toBuffer();
+  await writeFile(target, buf);
+  console.log(
+    `  ✓ ${v.file} (${v.size}×${v.size}${v.paddingPct ? `, +${v.paddingPct}% pad` : ''}) ${buf.length.toLocaleString()} bytes`,
+  );
 }
 
-writePng(makeIcon(192, false), 'icon-192.png');
-writePng(makeIcon(512, false), 'icon-512.png');
-writePng(makeIcon(512, true),  'icon-maskable-512.png');
-writePng(makeIcon(180, false), 'apple-touch-icon.png');
+async function main(): Promise<void> {
+  console.log(`[generate-pwa-icons] source: ${SOURCE}`);
+  console.log(`[generate-pwa-icons] output: ${OUT_DIR}`);
+  await ensureOutDir();
+  const source = await loadSource();
+  const meta = await sharp(source).metadata();
+  console.log(
+    `[generate-pwa-icons] input: ${meta.width}×${meta.height} ${meta.format} ${meta.size?.toLocaleString() ?? '?'} bytes`,
+  );
 
-console.log(`\nPWA icons generated in ${OUT_DIR}`);
+  for (const v of VARIANTS) {
+    await makeVariant(source, v);
+  }
+
+  console.log(`\n[generate-pwa-icons] done — ${VARIANTS.length} variants written`);
+}
+
+main().catch((err) => {
+  console.error('[generate-pwa-icons] fatal:', err);
+  process.exit(1);
+});

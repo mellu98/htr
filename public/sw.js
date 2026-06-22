@@ -18,7 +18,7 @@
  * video playbacks.
  */
 
-const VERSION = 'wave-up-v1';
+const VERSION = 'wave-up-v2';
 const CORE = [
   '/',
   '/library',
