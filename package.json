@@ -14,6 +14,7 @@
     "db:seed": "tsx scripts/seed-db.ts",
     "analyze:video": "tsx scripts/analyze-video.ts",
     "analyze:all": "tsx scripts/analyze-all.ts",
+    "test:minimax": "tsx scripts/test-minimax.ts",
     "generate:manifest": "tsx scripts/generate-course-manifest.ts",
     "sync:videos": "tsx scripts/sync-videos.ts",
     "inventory:check": "tsx scripts/inventory-check.ts"

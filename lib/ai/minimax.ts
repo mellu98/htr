@@ -1,14 +1,26 @@
 /**
- * MiniMax adapter — STUB.
+ * MiniMax adapter.
  *
- * Today, no model is called: when MINIMAX_API_KEY is missing or empty, every
- * function in this file returns a deterministic mock that the script pipeline
- * (scripts/analyze-video.ts) and the AI Tutor (lib/ai/tutor.ts) both consume.
+ * Wires the project to a real MiniMax chat-completions endpoint with an
+ * OpenAI-compatible payload (works against api.minimax.io and any
+ * OpenAI-compatible proxy the user might want to point at via
+ * MINIMAX_BASE_URL).
  *
- * When MINIMAX_API_KEY is provided we log a "would-call" line via
- * `callModel()` and still return mock data so the rest of the app keeps
- * working — the wiring is in place, the network call is not. That keeps
- * "open-source + offline + vendor-agnostic" as the default mode.
+ * Behavior:
+ *   - MINIMAX_API_KEY unset/empty → every function returns deterministic
+ *     mock output. The script pipeline + AI Tutor keep working offline,
+ *     which preserves the "open-source, vendor-agnostic, no-key-needed"
+ *     default.
+ *   - MINIMAX_API_KEY set → `callModel()` issues a real POST to
+ *     `${MINIMAX_BASE_URL}/chat/completions` with Bearer auth, returns
+ *     the model text. Any network / parse error is thrown so callers can
+ *     decide whether to fall back to mock or surface the error.
+ *   - analyzeVideoWithMiniMax() composes a single JSON request covering
+ *     the full lesson artifact set (transcript, summary, checklist, quiz,
+ *     flashcards, action plan, lesson analysis) and parses the response
+ *     into RawModelOutput. JSON mode is requested via response_format.
+ *     If the model call fails, we log + fall back to mock so the rest of
+ *     the pipeline (file generation, review UI) keeps working.
  */
 
 import fs from 'node:fs';
@@ -28,12 +40,20 @@ const course = courseJson as typeof courseJson;
 export interface MiniMaxConfig {
   apiKey: string | null;
   model: string;
+  baseUrl: string;
 }
+
+const DEFAULT_BASE_URL = 'https://api.minimax.io/v1';
+const DEFAULT_MODEL = 'MiniMax-M3';
 
 export function getMiniMaxConfig(): MiniMaxConfig {
   return {
     apiKey: process.env.MINIMAX_API_KEY?.trim() || null,
-    model: process.env.MINIMAX_MODEL?.trim() || 'MiniMax-M3',
+    model: process.env.MINIMAX_MODEL?.trim() || DEFAULT_MODEL,
+    baseUrl: (process.env.MINIMAX_BASE_URL?.trim() || DEFAULT_BASE_URL).replace(
+      /\/+$/,
+      '',
+    ),
   };
 }
 
@@ -42,26 +62,107 @@ export function isMiniMaxConfigured(): boolean {
   return Boolean(apiKey && apiKey.length > 0);
 }
 
+/** Mask an API key for safe logging (first 4 + … + last 4). */
+function maskKey(k: string | null): string {
+  if (!k) return '(none)';
+  if (k.length <= 10) return '***';
+  return `${k.slice(0, 4)}…${k.slice(-4)}`;
+}
+
 /**
- * Stub for the model call.
- * Replace this body with a real fetch() / SDK call once the API is wired in.
+ * Some models (including reasoning-tuned ones) prefix replies with a
+ * `<think>...</think>` chain-of-thought block. We strip that here so
+ * downstream code (and JSON parsers) see only the actual answer.
  *
- * For now it logs a "would-call" line and returns `null` so callers fall back
- * to deterministic mock generation.
+ * Also handles a stray code-fence wrapper around JSON (` ```json ... ``` `)
+ * in case the model falls back to markdown despite response_format.
+ */
+export function stripThinkingAndFences(text: string): string {
+  let out = text;
+  // Remove all <think>...</think> blocks (greedy across newlines).
+  out = out.replace(/<think>[\s\S]*?<\/think>/gi, '');
+  // Strip a leading/trailing markdown JSON fence if present.
+  const fence = /^\s*```(?:json)?\s*([\s\S]*?)\s*```\s*$/i.exec(out);
+  if (fence) out = fence[1];
+  return out.trim();
+}
+
+export class MiniMaxApiError extends Error {
+  status: number;
+  body: string;
+  constructor(status: number, statusText: string, body: string) {
+    super(`[minimax] ${status} ${statusText}: ${body.slice(0, 500)}`);
+    this.name = 'MiniMaxApiError';
+    this.status = status;
+    this.body = body;
+  }
+}
+
+/**
+ * Issue a real chat-completions call against the configured MiniMax
+ * endpoint. Returns the assistant message text, or null when no key is
+ * configured (callers can then fall back to mock).
+ *
+ * Throws MiniMaxApiError on non-2xx responses so callers can decide
+ * whether to retry, surface the error, or fall back to mock.
  */
 export async function callModel(
   prompt: string,
-  opts?: { json?: boolean },
+  opts?: { json?: boolean; system?: string; temperature?: number },
 ): Promise<string | null> {
   if (!isMiniMaxConfigured()) return null;
-  // Wiring point — implement the real call here.
-  // Example (do not run as-is):
-  //   const r = await fetch('https://api.example.com/v1/chat', { ... });
-  //   return await r.text();
-  console.warn(
-    '[minimax] API key present but no real implementation yet — returning mock.',
-  );
-  return null;
+
+  const config = getMiniMaxConfig();
+  const url = `${config.baseUrl}/chat/completions`;
+
+  const messages: Array<{ role: 'system' | 'user'; content: string }> = [];
+  if (opts?.system) messages.push({ role: 'system', content: opts.system });
+  messages.push({ role: 'user', content: prompt });
+
+  const body: Record<string, unknown> = {
+    model: config.model,
+    messages,
+    temperature: opts?.temperature ?? 0.7,
+  };
+  if (opts?.json) {
+    body.response_format = { type: 'json_object' };
+  }
+
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${config.apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (err) {
+    throw new Error(
+      `[minimax] network error calling ${url} (key=${maskKey(config.apiKey)}): ${
+        (err as Error).message
+      }`,
+    );
+  }
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new MiniMaxApiError(res.status, res.statusText, errText);
+  }
+
+  const data = (await res.json()) as {
+    choices?: Array<{ message?: { content?: unknown } }>;
+  };
+  const content = data?.choices?.[0]?.message?.content;
+  if (typeof content !== 'string') {
+    throw new Error(
+      `[minimax] unexpected response shape (no choices[0].message.content string): ${JSON.stringify(
+        data,
+      ).slice(0, 500)}`,
+    );
+  }
+  return stripThinkingAndFences(content);
 }
 
 // ---------------------------------------------------------------------------
@@ -79,18 +180,99 @@ export async function uploadVideoToMiniMax(videoPath: string): Promise<string> {
 export async function analyzeVideoWithMiniMax(
   videoPath: string,
 ): Promise<RawModelOutput> {
-  const config = getMiniMaxConfig();
   if (!isMiniMaxConfigured()) {
     console.log(
       `[minimax] No API key set — generating mock output for ${videoPath}.`,
     );
     return buildMockOutputFromVideo(videoPath);
   }
-  // Real call would happen here. Until then, log + return mock so the UI keeps working.
-  console.log(
-    `[minimax] (${config.model}) would call real model for ${videoPath}; using mock output.`,
-  );
-  return buildMockOutputFromVideo(videoPath);
+
+  const config = getMiniMaxConfig();
+  const filename = path.basename(videoPath);
+  const lesson = course.lessons.find((l) => l.videoPath.endsWith(filename));
+  const lessonTitle = lesson?.title ?? filename;
+  const moduleTitle = lesson
+    ? (course.modules.find((m) => m.id === lesson.moduleId)?.title ?? '')
+    : '';
+
+  // Build a single JSON request covering all the lesson artifacts the rest
+  // of the app expects. The model is asked to estimate the transcript from
+  // the lesson title + module context — we don't have an ASR step here yet,
+  // so the transcript is best-effort rather than verbatim. If we later wire
+  // Whisper / Deepgram, this prompt gets a real transcript instead of the
+  // "(stima dal titolo)" placeholder section.
+  const prompt = `Sei un coach didattico per il corso HTR Training (music business per artisti italiani).
+Devi produrre un pacchetto didattico completo in italiano per la seguente lezione:
+
+- Titolo lezione: ${lessonTitle}
+- Modulo: ${moduleTitle}
+- File video: ${filename}
+
+Rispondi ESCLUSIVAMENTE con un JSON valido (nessun testo prima o dopo) che rispetti esattamente questo schema:
+
+{
+  "transcript": "stringa markdown con trascrizione stimata (sezioni [MM:SS] + testo parlato)",
+  "visualNotes": "stringa markdown che descrive cosa si vede nel video (slide, whiteboard, schermo, foto, grafici)",
+  "summary": "stringa markdown con sezione 'Key takeaways' (5 bullet), 'Why it matters', 'What to do next'",
+  "actionPlan": "stringa markdown con sezioni 'Entro 24 ore', 'Entro la settimana', 'Entro il mese', ciascuna con 2-3 bullet",
+  "checklist": [
+    { "id": "check-1", "title": "titolo breve azionabile", "description": "descrizione più dettagliata", "completed": false }
+  ] (3-5 elementi),
+  "quiz": [
+    { "id": "q1", "question": "domanda", "options": ["a", "b", "c", "d"], "correctAnswer": "una delle opzioni esattamente", "explanation": "perché" }
+  ] (3 domande),
+  "flashcards": [
+    { "id": "f1", "front": "domanda/concetto", "back": "risposta", "difficulty": "easy|medium|hard" }
+  ] (4 elementi),
+  "analysis": {
+    "lessonSlug": "${lesson?.slug ?? 'unknown'}",
+    "mainTopics": ["topic1", "topic2", "topic3", "topic4"],
+    "visualElements": [{ "type": "slide|whiteboard|photo|diagram|screen", "description": "..." }],
+    "importantMoments": [{ "timestamp": "MM:SS", "title": "...", "why": "..." }],
+    "practicalOutput": "deliverable concreto che lo studente produce dopo la lezione",
+    "difficulty": "beginner|intermediate|advanced",
+    "recommendedNextAction": "azione specifica per la prossima settimana",
+    "managerNotes": "cosa deve verificare un manager per assicurarsi che l'articolo abbia capito"
+  }
+}
+
+Vincoli:
+- Tutti i testi in italiano, tono professionale ma diretto.
+- Le domande del quiz devono avere UNA sola risposta corretta, presente testualmente nelle options.
+- Le flashcard devono essere auto-esplicative (front e back leggibili da soli).
+- I timestamp di importantMoments in formato MM:SS.
+- Nessun campo può essere null o vuoto. Se non sai un campo, inferiscilo dal titolo della lezione.`;
+
+  try {
+    const raw = await callModel(prompt, {
+      json: true,
+      temperature: 0.6,
+      system:
+        'Sei un coach didattico per il corso HTR Training. Rispondi solo con JSON valido.',
+    });
+    if (!raw) return buildMockOutputFromVideo(videoPath);
+
+    const parsed = JSON.parse(stripThinkingAndFences(raw)) as RawModelOutput;
+    if (!parsed.analysis) {
+      parsed.analysis = {
+        lessonSlug: lesson?.slug ?? 'unknown',
+        mainTopics: [],
+        visualElements: [],
+        importantMoments: [],
+        practicalOutput: '',
+        difficulty: 'intermediate',
+        recommendedNextAction: '',
+        managerNotes: '',
+      };
+    }
+    return parsed;
+  } catch (err) {
+    console.error(
+      `[minimax] analyzeVideo failed for ${videoPath} — falling back to mock.`,
+      (err as Error).message,
+    );
+    return buildMockOutputFromVideo(videoPath);
+  }
 }
 
 /**
