@@ -321,9 +321,11 @@ export async function logCoachTurn(input: {
   artistProfileId?: string | null;
   promptId: string;
   promptLabel: string;
-  userMessage?: string;
+  userMessage?: string | null;
   coachResponse: string;
   sources?: string[];
+  sessionId?: string | null;
+  role?: 'user' | 'assistant' | 'preset' | null;
 }) {
   return prisma.coachConversation.create({
     data: {
@@ -333,6 +335,8 @@ export async function logCoachTurn(input: {
       userMessage: input.userMessage ?? null,
       coachResponse: input.coachResponse,
       sources: input.sources?.length ? JSON.stringify(input.sources) : null,
+      sessionId: input.sessionId ?? null,
+      role: input.role ?? 'preset',
     },
   });
 }
@@ -343,6 +347,40 @@ export async function listCoachHistory(artistProfileId?: string | null) {
     orderBy: { createdAt: 'desc' },
     take: 30,
   });
+}
+
+/**
+ * Load the most recent chat thread for an artist (last 7 days).
+ * Returns rows for the most recent sessionId that has at least one
+ * user/assistant chat turn (not a preset row). Ordered ascending by
+ * createdAt so the client can render top-to-bottom.
+ */
+export async function loadRecentChatThread(artistProfileId: string, maxRows = 40) {
+  const prisma = (await import('./index')).default;
+  const recent = await prisma.coachConversation.findFirst({
+    where: {
+      artistProfileId,
+      role: { in: ['user', 'assistant'] },
+      createdAt: { gte: new Date(Date.now() - 7 * 86400000) },
+    },
+    orderBy: { createdAt: 'desc' },
+    select: { sessionId: true },
+  });
+  if (!recent?.sessionId) return { sessionId: null as string | null, rows: [] as Array<{
+    id: string;
+    role: string | null;
+    userMessage: string | null;
+    coachResponse: string;
+    sources: string | null;
+    createdAt: Date;
+  }> };
+
+  const rows = await prisma.coachConversation.findMany({
+    where: { sessionId: recent.sessionId },
+    orderBy: { createdAt: 'asc' },
+    take: maxRows,
+  });
+  return { sessionId: recent.sessionId, rows };
 }
 
 // ---------------------------------------------------------------------------

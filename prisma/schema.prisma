@@ -240,6 +240,12 @@ model CallPrepReport {
 
 /// Coach conversation log — appended every time the user chats with the
 /// coach. This is the "memory" the coach can recall between sessions.
+///
+/// `sessionId` groups user + assistant turns of one chat thread.
+/// `role` discriminates the speaker: 'user' | 'assistant' | 'preset'.
+///   - 'preset'   → legacy 13-button coach prompts (backward compat)
+///   - 'user'     → free-form chat user message
+///   - 'assistant' → free-form chat M3 reply
 model CoachConversation {
   id              String   @id @default(cuid())
   artistProfileId String?
@@ -248,12 +254,15 @@ model CoachConversation {
   userMessage     String?
   coachResponse   String
   sources         String?  // JSON array of file refs
+  sessionId       String?
+  role            String?  // 'user' | 'assistant' | 'preset'
   createdAt       DateTime @default(now())
 
   artistProfile ArtistProfile? @relation(fields: [artistProfileId], references: [id], onDelete: SetNull)
 
   @@index([artistProfileId])
   @@index([createdAt])
+  @@index([sessionId])
 }
 
 // ===========================================================================

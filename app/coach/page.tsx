@@ -4,6 +4,7 @@ import {
   getTaskStats,
   listCoachHistory,
   listTasks,
+  loadRecentChatThread,
 } from '@/lib/db/wave-up-queries';
 import { CoachPanel } from '@/components/coach/CoachPanel';
 
@@ -16,6 +17,16 @@ export default async function CoachPage() {
     ? await getTaskStats(active.id)
     : { todo: 0, inProgress: 0, done: 0, blocked: 0, overdue: 0, total: 0 };
   const history = active ? await listCoachHistory(active.id) : [];
+  const recentThread = active
+    ? await loadRecentChatThread(active.id, 60)
+    : { sessionId: null as string | null, rows: [] as Array<{
+        id: string;
+        role: string | null;
+        userMessage: string | null;
+        coachResponse: string;
+        sources: string | null;
+        createdAt: Date;
+      }> };
 
   return (
     <CoachPanel
@@ -32,6 +43,15 @@ export default async function CoachPage() {
           : null
       }
       lessons={course.lessons}
+      initialSessionId={recentThread.sessionId}
+      initialMessages={recentThread.rows.map((r) => ({
+        id: r.id,
+        role: (r.role === 'user' ? 'user' : 'assistant') as 'user' | 'assistant',
+        content:
+          (r.role === 'user' ? r.userMessage : r.coachResponse) ?? '',
+        sources: r.sources ? safeJsonArray(r.sources) : [],
+        createdAt: r.createdAt.toISOString(),
+      }))}
       initialHistory={history.map((h) => ({
         id: h.id,
         promptLabel: h.promptLabel,
