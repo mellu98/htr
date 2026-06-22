@@ -116,12 +116,10 @@ export async function POST(request: NextRequest) {
       type: 'ep',
       status: 'pre_release',
       releaseDate: new Date(Date.now() + 21 * 86400000),
-      description: 'EP di 5 tracce urban/cantautorato. Concept: notti insonni a Milano.',
-      targetAudience: 'Ascoltatori urban 18-30 che amano testi intimi',
-      mainGoal: '500 fan email + 50K stream nelle prime 4 settimane',
+      mainGoal: '500 fan email + 50K stream nelle prime 4 settimane. Concept: notti insonni a Milano. Ascoltatori urban 18-30 che amano testi intimi.',
       platforms: JSON.stringify(['spotify', 'apple_music', 'youtube', 'instagram', 'tiktok']),
       budget: 500,
-      coverNotes: 'Tono notturno viola/blu. Luna piena stilizzata. Niente foto artista.',
+      notes: 'Cover: tono notturno viola/blu, luna piena stilizzata, niente foto artista.',
     },
   });
   log.push(`Release: ${release.title}`);
@@ -130,18 +128,16 @@ export async function POST(request: NextRequest) {
   const milestones = await Promise.all([
     prisma.releaseMilestone.create({
       data: {
-        artistProfileId: artist.id,
         releaseId: release.id,
         title: 'Finalizzare master EP con fonico',
+        description: 'Saltarebbe tutto il calendario se slitta.',
         status: 'in_progress',
         priority: 'high',
         dueDate: new Date(Date.now() + 5 * 86400000),
-        notes: 'Saltarebbe tutto il calendario se slitta.',
       },
     }),
     prisma.releaseMilestone.create({
       data: {
-        artistProfileId: artist.id,
         releaseId: release.id,
         title: 'Confermare pitch curator playlist indie italiane',
         status: 'todo',
@@ -151,7 +147,6 @@ export async function POST(request: NextRequest) {
     }),
     prisma.releaseMilestone.create({
       data: {
-        artistProfileId: artist.id,
         releaseId: release.id,
         title: 'Pubblicare primo TikTok teaser del singolo',
         status: 'todo',
@@ -357,12 +352,13 @@ export async function POST(request: NextRequest) {
   await prisma.task.create({
     data: {
       artistProfileId: artist.id,
+      courseId: 'growth', // no specific course, growth-os workflow
       title: 'Inviare demo a Veronica Conti (curator Indie Italia)',
+      description: 'Veronica ha risposto al primo pitch, vuole sentire la traccia 2.',
       status: 'in_progress',
       priority: 'high',
       dueDate: new Date(Date.now() + 2 * 86400000),
       expectedOutput: 'Demo + press kit + link streaming',
-      notes: 'Veronica ha risposto al primo pitch, vuole sentire la traccia 2.',
     },
   });
   log.push('Task: 1 sample task');
