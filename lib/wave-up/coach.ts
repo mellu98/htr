@@ -35,13 +35,18 @@ export type CoachPromptId =
   | 'unblock'
   | 'plan-7'
   | 'plan-30'
-  | 'apply-to-artist';
+  | 'apply-to-artist'
+  | 'release-plan'
+  | 'content-week'
+  | 'metrics-review'
+  | 'outreach-plan'
+  | 'goal-check';
 
 export interface CoachPrompt {
   id: CoachPromptId;
   label: string;
   description: string;
-  category: 'diagnostic' | 'planning' | 'execution' | 'reflection';
+  category: 'diagnostic' | 'planning' | 'execution' | 'reflection' | 'growth';
 }
 
 export const COACH_PROMPTS: CoachPrompt[] = [
@@ -93,6 +98,36 @@ export const COACH_PROMPTS: CoachPrompt[] = [
     description: 'Per i manager: traduci la lezione in azioni per uno specifico artista del roster.',
     category: 'execution',
   },
+  {
+    id: 'release-plan',
+    label: 'Preparami il piano di lancio',
+    description: 'Per una release: diagnosi, 3 milestone, 5 contenuti, 3 outreach, 1 metrica da guardare.',
+    category: 'growth',
+  },
+  {
+    id: 'content-week',
+    label: 'Cosa pubblico questa settimana?',
+    description: '5 idee con hook, formato, CTA e piattaforma consigliata.',
+    category: 'growth',
+  },
+  {
+    id: 'metrics-review',
+    label: 'Analizza i miei risultati',
+    description: 'Cosa sta crescendo, cosa è fermo, cosa testare, quale metrica guardare.',
+    category: 'growth',
+  },
+  {
+    id: 'outreach-plan',
+    label: 'Chi devo contattare?',
+    description: 'Categorie di contatti utili, messaggio base, follow-up, priorità.',
+    category: 'growth',
+  },
+  {
+    id: 'goal-check',
+    label: 'Sto andando verso l\'obiettivo?',
+    description: 'Stato obiettivi, rischio, prossima azione.',
+    category: 'growth',
+  },
 ];
 
 export interface CoachContext {
@@ -118,6 +153,23 @@ export interface CoachContext {
   activeTaskCount: number;
   blockedTaskCount: number;
   nextCallAt: Date | null;
+  /** Release context — used by the 5 growth prompts. */
+  releases?: {
+    id: string;
+    title: string;
+    type: string;
+    status: string;
+    releaseDate: Date | null;
+    mainGoal: string | null;
+    milestones: { id: string; title: string; status: string; priority: string; dueDate: Date | null }[];
+    contentIdeas: { id: string; title: string; platform: string; format: string; status: string; publishAt: Date | null }[];
+    goals: { id: string; title: string; metric: string; targetValue: number; currentValue: number; status: string; deadline: Date | null }[];
+    outreach: { id: string; channel: string; status: string; contactName: string; nextFollowUpAt: Date | null }[];
+  }[];
+  contentIdeas?: { id: string; title: string; platform: string; format: string; status: string; publishAt: Date | null }[];
+  metrics?: { id: string; platform: string; date: Date; followers: number | null; views: number | null; streams: number | null; linkClicks: number | null }[];
+  goals?: { id: string; title: string; metric: string; targetValue: number; currentValue: number; status: string; deadline: Date | null }[];
+  outreach?: { id: string; channel: string; status: string; contactName: string; nextFollowUpAt: Date | null }[];
 }
 
 export interface CoachResponse {
@@ -162,6 +214,16 @@ export function runCoach(
       return plan30Days(context);
     case 'apply-to-artist':
       return applyToArtist(context);
+    case 'release-plan':
+      return releasePlan(context);
+    case 'content-week':
+      return contentWeek(context);
+    case 'metrics-review':
+      return metricsReview(context);
+    case 'outreach-plan':
+      return outreachPlan(context);
+    case 'goal-check':
+      return goalCheck(context);
   }
 }
 
@@ -625,4 +687,429 @@ function priorityRank(p: string): number {
     default:
       return 0;
   }
+}
+
+// ---------------------------------------------------------------------------
+// Release Growth System — 5 prompt
+// ---------------------------------------------------------------------------
+
+function releasePlan(context: CoachContext): CoachResponse {
+  const releases = context.releases ?? [];
+  const active =
+    releases.find((r) => r.status === 'planning' || r.status === 'pre_release') ??
+    releases[0] ??
+    null;
+
+  if (!active) {
+    return {
+      promptId: 'release-plan',
+      title: 'Piano di lancio',
+      body: withFrame(
+        'Nessuna release attiva',
+        [
+          'Non c\'è ancora una release da pianificare.',
+          '',
+          '**Prossima azione**: apri la pagina *Prossime uscite* e crea la prima release (singolo, EP, album, videoclip o campagna).',
+          '',
+          'Dopo averla creata, torna qui e il coach ti preparerà 3 milestone + 5 contenuti + 3 outreach + 1 metrica da guardare, basandosi sullo stato reale della tua release.',
+        ].join('\n'),
+      ),
+      sourcesUsed: ['Release'],
+      suggestedTasks: [],
+    };
+  }
+
+  const openMs = active.milestones.filter((m) => m.status !== 'done');
+  const plannedContent = active.contentIdeas.filter(
+    (c) => c.status === 'idea' || c.status === 'draft' || c.status === 'approved',
+  );
+  const outreach = active.outreach.filter(
+    (o) => o.status === 'to_contact' || o.status === 'contacted',
+  );
+  const releaseDate = active.releaseDate
+    ? new Date(active.releaseDate).toLocaleDateString('it-IT')
+    : 'non fissata';
+
+  return {
+    promptId: 'release-plan',
+    title: `Piano di lancio: ${active.title}`,
+    body: withFrame(
+      `Release: ${active.title}`,
+      [
+        `Tipo: ${active.type} · Stato: ${active.status} · Uscita: ${releaseDate}`,
+        active.mainGoal ? `\n**Obiettivo principale:** ${active.mainGoal}` : '',
+        '',
+        '### Diagnosi stato release',
+        `- Milestone aperte: ${openMs.length} su ${active.milestones.length}`,
+        `- Contenuti pianificati: ${plannedContent.length}`,
+        `- Outreach pendenti: ${outreach.length}`,
+        `- Goal attivi: ${active.goals.filter((g) => g.status === 'active').length}`,
+        '',
+        '### 3 milestone da chiudere prima dell\'uscita',
+        openMs.length
+          ? openMs
+              .slice(0, 3)
+              .map(
+                (m, i) =>
+                  `${i + 1}. **${m.title}** — priorità ${m.priority}${
+                    m.dueDate
+                      ? `, entro ${new Date(m.dueDate).toLocaleDateString('it-IT')}`
+                      : ''
+                  }`,
+              )
+              .join('\n')
+          : '— Nessuna milestone aperta, aggiungine 3 ora.',
+        '',
+        '### 5 contenuti consigliati per le prossime 2 settimane',
+        plannedContent.length >= 5
+          ? plannedContent
+              .slice(0, 5)
+              .map((c) => `- [${c.platform}/${c.format}] ${c.title}`)
+              .join('\n')
+          : [
+              '- [instagram/reel] Story time: il momento in cui hai scritto il ritornello',
+              '- [tiktok/short] 30 sec del drop migliore + caption che genera curiosità',
+              '- [instagram/carousel] 5 slide dietro le quinte della produzione',
+              '- [newsletter/email] Annuncio ufficiale con data e pre-save',
+              '- [tiktok/live] Mini-live di 15 min prima dell\'uscita',
+            ].join('\n'),
+        '',
+        '### 3 outreach da fare ora',
+        outreach.length
+          ? outreach
+              .slice(0, 3)
+              .map((o) => `- [${o.channel}] ${o.contactName}`)
+              .join('\n')
+          : [
+              '- [instagram] 3 playlist curator del tuo genere',
+              '- [email] 2 venue che ospitano artisti simili al tuo',
+              '- [instagram] 1 giornalista/blog che ha parlato di artisti vicini',
+            ].join('\n'),
+        '',
+        '### 1 metrica da guardare questa settimana',
+        active.goals[0]
+          ? `**${active.goals[0].title}** (${active.goals[0].currentValue}/${active.goals[0].targetValue} ${active.goals[0].metric}). Una sola. Non guardare le altre.`
+          : 'Definisci un numero: "100 fan email entro 30 giorni" è più utile di "crescere".',
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    ),
+    sourcesUsed: ['Release', 'ReleaseMilestone', 'ContentIdea', 'Outreach', 'Goal'],
+    suggestedTasks: openMs.slice(0, 3).map((m, i) => ({
+      title: `Release "${active.title}" — ${m.title}`,
+      description: `Porta avanti la milestone "${m.title}" prima dell'uscita del ${releaseDate}.`,
+      priority: (i === 0 ? 'urgent' : 'high') as 'urgent' | 'high',
+      expectedOutput: 'Milestone status = done.',
+      dueInDays: m.dueDate
+        ? Math.max(1, Math.round((new Date(m.dueDate).getTime() - Date.now()) / 86400000))
+        : 3 + i * 2,
+    })),
+  };
+}
+
+function contentWeek(context: CoachContext): CoachResponse {
+  const ideas = context.contentIdeas ?? [];
+  const upcoming = ideas.filter(
+    (i) =>
+      i.status === 'idea' || i.status === 'draft' || i.status === 'approved' || i.status === 'scheduled',
+  );
+
+  const fallbackIdeas = upcoming.length < 5
+    ? [
+        {
+          id: 'fb-1',
+          title: 'Story time: il momento in cui hai scritto il ritornello',
+          platform: 'instagram',
+          format: 'reel',
+          status: 'idea',
+          publishAt: null,
+        },
+        {
+          id: 'fb-2',
+          title: '30 sec del drop migliore + caption che genera curiosità',
+          platform: 'tiktok',
+          format: 'short',
+          status: 'idea',
+          publishAt: null,
+        },
+        {
+          id: 'fb-3',
+          title: '5 slide dietro le quinte della produzione',
+          platform: 'instagram',
+          format: 'carousel',
+          status: 'idea',
+          publishAt: null,
+        },
+        {
+          id: 'fb-4',
+          title: 'Annuncio ufficiale con data e pre-save',
+          platform: 'newsletter',
+          format: 'email',
+          status: 'idea',
+          publishAt: null,
+        },
+        {
+          id: 'fb-5',
+          title: 'Mini-live di 15 min prima dell\'uscita',
+          platform: 'tiktok',
+          format: 'live',
+          status: 'idea',
+          publishAt: null,
+        },
+      ]
+    : [];
+
+  const five = [...upcoming, ...fallbackIdeas].slice(0, 5);
+
+  return {
+    promptId: 'content-week',
+    title: 'Cosa pubblichiamo questa settimana',
+    body: withFrame(
+      '5 contenuti per la settimana',
+      [
+        'Niente di generico. Ogni contenuto è un\'azione specifica con piattaforma, hook e CTA.',
+        '',
+        ...five.flatMap((c, i) => [
+          `### ${i + 1}. ${c.title}`,
+          `- **Piattaforma**: ${c.platform} · **Formato**: ${c.format}`,
+          `- **Hook**: prima riga che aggancia — non spiegare, incuriosisci.`,
+          `- **CTA**: cosa vuoi che faccia chi guarda? (segui, salva, commenta, pre-save).`,
+          `- **Quando**: scegli un giorno specifico, non "questa settimana".`,
+          '',
+        ]),
+        '### Regola della settimana',
+        'Meglio 3 contenuti fatti bene che 5 buttati. Se devi tagliarne, taglia: la qualità si vede, la quantità no.',
+      ].join('\n'),
+    ),
+    sourcesUsed: ['ContentIdea'],
+    suggestedTasks: five.slice(0, 3).map((c, i) => ({
+      title: `Prepara contenuto: ${c.title}`,
+      description: `Scrivi hook + CTA + caption. Pubblica su ${c.platform}/${c.format}.`,
+      priority: i === 0 ? 'high' : 'medium',
+      expectedOutput: 'Contenuto pubblicato con link al post.',
+      dueInDays: 2 + i * 2,
+    })),
+  };
+}
+
+function metricsReview(context: CoachContext): CoachResponse {
+  const metrics = context.metrics ?? [];
+  const goals = context.goals ?? [];
+
+  const byPlatform: Record<string, typeof metrics> = {};
+  for (const m of metrics) {
+    if (!byPlatform[m.platform]) byPlatform[m.platform] = [];
+    byPlatform[m.platform].push(m);
+  }
+
+  const growing: string[] = [];
+  const flat: string[] = [];
+  for (const [plat, list] of Object.entries(byPlatform)) {
+    const sorted = [...list].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    );
+    const latest = sorted[0];
+    const previous = sorted[1];
+    if (!latest) continue;
+    const fields = [
+      { key: 'followers', label: 'follower' },
+      { key: 'streams', label: 'stream' },
+      { key: 'views', label: 'views' },
+      { key: 'linkClicks', label: 'link clicks' },
+    ] as const;
+    for (const f of fields) {
+      const cur = (latest as any)[f.key];
+      const prev = previous ? (previous as any)[f.key] : null;
+      if (cur == null) continue;
+      if (prev != null && cur > prev) {
+        growing.push(`${plat} ${f.label}: ${prev} → ${cur}`);
+      } else if (prev != null && cur === prev) {
+        flat.push(`${plat} ${f.label}: fermo a ${cur}`);
+      }
+    }
+  }
+
+  return {
+    promptId: 'metrics-review',
+    title: 'Analisi dei numeri',
+    body: withFrame(
+      'Cosa sta succedendo davvero',
+      [
+        goals.length === 0 && metrics.length === 0
+          ? 'Non hai ancora snapshot metriche né obiettivi misurabili. Senza numeri, stai lavorando a sensazione.\n\n**Prossima azione**: apri *Numeri* e inserisci il primo snapshot. Poi apri *Obiettivi* e definiscine uno con target + deadline.'
+          : '',
+        growing.length
+          ? `### Cosa sta crescendo\n${growing.map((g) => `- ${g}`).join('\n')}`
+          : '### Cosa sta crescendo\n— Nessun dato di crescita ancora. Aggiungi uno snapshot.',
+        flat.length
+          ? `\n### Cosa è fermo\n${flat.map((f) => `- ${f}`).join('\n')}`
+          : '\n### Cosa è fermo\n— Nessun dato "piatto" rilevato.',
+        goals.length
+          ? `\n### Goal attivi\n${goals
+              .filter((g) => g.status === 'active')
+              .map((g) => {
+                const pct = g.targetValue > 0
+                  ? Math.round((g.currentValue / g.targetValue) * 100)
+                  : 0;
+                return `- ${g.title}: ${g.currentValue}/${g.targetValue} ${g.metric} (${pct}%)${
+                  g.deadline ? `, entro ${new Date(g.deadline).toLocaleDateString('it-IT')}` : ''
+                }`;
+              })
+              .join('\n')}`
+          : '',
+        '\n### Cosa testare questa settimana',
+        '- Un contenuto in più su una piattaforma dove stai crescendo (raddoppia, non disperdere).',
+        '- Una sola modifica al messaggio/CTA principale (non 5).',
+        '- Un\'azione di outreach mirata (1 contatto curato batte 10 a caso).',
+        '\n### Metrica singola da guardare',
+        goals[0]
+          ? `**${goals[0].title}** — è la metrica che decide se stai crescendo o meno. Tutto il resto è contorno.`
+          : 'Scegli una metrica e guardala SOLO per 7 giorni. Resisti alla tentazione di controllare tutto.',
+      ]
+        .filter(Boolean)
+        .join('\n'),
+    ),
+    sourcesUsed: ['MetricSnapshot', 'Goal'],
+    suggestedTasks: [
+      {
+        title: 'Snapshot metriche di fine settimana',
+        description: 'Inserisci i numeri reali di venerdì su tutte le piattaforme attive.',
+        priority: 'medium',
+        expectedOutput: 'Snapshot salvato per ogni piattaforma.',
+        dueInDays: 3,
+      },
+    ],
+  };
+}
+
+function outreachPlan(context: CoachContext): CoachResponse {
+  const outreach = context.outreach ?? [];
+  const due = outreach.filter((o) => {
+    if (o.status === 'closed' || o.status === 'rejected') return false;
+    if (!o.nextFollowUpAt) return o.status === 'to_contact';
+    return new Date(o.nextFollowUpAt) <= new Date();
+  });
+
+  return {
+    promptId: 'outreach-plan',
+    title: 'Chi contattare ora',
+    body: withFrame(
+      'Outreach di questa settimana',
+      [
+        due.length
+          ? `### Follow-up in scadenza\n${due
+              .slice(0, 5)
+              .map((o) => `- [${o.status}] **${o.contactName}** (${o.channel})${
+                o.nextFollowUpAt
+                  ? ` — follow-up ${new Date(o.nextFollowUpAt).toLocaleDateString('it-IT')}`
+                  : ''
+              }`)
+              .join('\n')}`
+          : '### Nessun follow-up scaduto. Bene.',
+        '',
+        '### Categorie da aprire (se non ce l\'hai)',
+        '- 3 playlist curator del tuo genere (Instagram o email)',
+        '- 2 venue che ospitano artisti simili al tuo',
+        '- 1 giornalista o blog che ha parlato di artisti vicini',
+        '- 3 creator che fanno reel/scritti su musica del tuo genere',
+        '',
+        '### Messaggio base (adatta in base al canale)',
+        '> Ciao [nome], ascolto [riferimento specifico a qualcosa che hanno fatto/pubblicato]. Sto lavorando a [release], ti mando un link in anteprima se ti interessa. Senza pressione.',
+        '',
+        '### Regola outreach',
+        '1 contatto curato al giorno batte 10 DM a raffica. Se non riesci a personalizzare, non mandare.',
+      ].join('\n'),
+    ),
+    sourcesUsed: ['Outreach', 'Contact'],
+    suggestedTasks: due.slice(0, 3).map((o) => ({
+      title: `Follow-up: ${o.contactName}`,
+      description: `Scrivi il messaggio, salva la risposta o imposta il prossimo follow-up. Canale: ${o.channel}.`,
+      priority: 'high',
+      expectedOutput: 'Risposta registrata o nuovo follow-up fissato.',
+      dueInDays: 2,
+    })),
+  };
+}
+
+function goalCheck(context: CoachContext): CoachResponse {
+  const goals = context.goals ?? [];
+  const active = goals.filter((g) => g.status === 'active');
+
+  if (active.length === 0) {
+    return {
+      promptId: 'goal-check',
+      title: 'Stato obiettivi',
+      body: withFrame(
+        'Nessun obiettivo attivo',
+        [
+          'Senza obiettivi misurabili, "crescere" è una parola vuota.',
+          '',
+          '**Prossima azione**: apri *Obiettivi* e creane uno. Esempi:',
+          '- 100 fan email entro 30 giorni',
+          '- 1.000 stream mensili su Spotify entro 60 giorni',
+          '- 5 contatti curator che rispondono entro 14 giorni',
+          '- 500 follower Instagram entro 30 giorni',
+        ].join('\n'),
+      ),
+      sourcesUsed: ['Goal'],
+      suggestedTasks: [],
+    };
+  }
+
+  const lines = active.map((g) => {
+    const pct = g.targetValue > 0
+      ? Math.round((g.currentValue / g.targetValue) * 100)
+      : 0;
+    const remaining = Math.max(0, g.targetValue - g.currentValue);
+    const deadline = g.deadline ? new Date(g.deadline) : null;
+    const daysLeft = deadline
+      ? Math.round((deadline.getTime() - Date.now()) / 86400000)
+      : null;
+    let risk: 'on_track' | 'at_risk' | 'off_track' | 'unknown' = 'unknown';
+    if (daysLeft != null && daysLeft > 0) {
+      const ratio = pct / 100;
+      const timeRatio = 1 - daysLeft / 30; // very rough: 30-day window
+      if (ratio >= timeRatio) risk = 'on_track';
+      else if (ratio >= timeRatio * 0.5) risk = 'at_risk';
+      else risk = 'off_track';
+    }
+    const riskLabel = {
+      on_track: 'in linea',
+      at_risk: 'a rischio',
+      off_track: 'fuori strada',
+      unknown: 'da valutare',
+    }[risk];
+    return `- **${g.title}**: ${g.currentValue}/${g.targetValue} ${g.metric} (${pct}%) — ${riskLabel}${
+      deadline ? ` · scadenza ${deadline.toLocaleDateString('it-IT')}` : ''
+    } · mancano ${remaining} ${g.metric}`;
+  });
+
+  return {
+    promptId: 'goal-check',
+    title: 'Stato obiettivi',
+    body: withFrame(
+      'Dove sei rispetto a dove vuoi essere',
+      [
+        ...lines,
+        '',
+        '### Prossima azione singola',
+        active.length
+          ? `Lavora sull'obiettivo "${active[0].title}" — è il primo, il più urgente, quello che decide se la settimana è stata buona o no.`
+          : 'Definisci il primo obiettivo.',
+        '',
+        '### Ricorda',
+        'Un goal al 50% a metà percorso è in salute. Un goal al 20% a metà percorso è in pericolo: o cambi strategia, o cambi il goal. Non mentire a te stesso sui numeri.',
+      ].join('\n'),
+    ),
+    sourcesUsed: ['Goal'],
+    suggestedTasks: [
+      {
+        title: 'Aggiorna i numeri degli obiettivi attivi',
+        description: 'Inserisci i valori reali di oggi per ogni goal attivo.',
+        priority: 'high',
+        expectedOutput: 'Valori currentValue aggiornati.',
+        dueInDays: 1,
+      },
+    ],
+  };
 }

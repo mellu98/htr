@@ -155,6 +155,12 @@ model ArtistProfile {
   tasks              Task[]
   callPrepReports    CallPrepReport[]
   coachConversations CoachConversation[]
+  releases           Release[]
+  contentIdeas       ContentIdea[]
+  metricSnapshots    MetricSnapshot[]
+  contacts           Contact[]
+  outreach           Outreach[]
+  goals              Goal[]
 
   @@index([courseId])
 }
@@ -248,4 +254,189 @@ model CoachConversation {
 
   @@index([artistProfileId])
   @@index([createdAt])
+}
+
+// ===========================================================================
+// Release Growth System — daily operating layer for artists and managers
+// ===========================================================================
+
+/// A single release (single, EP, album, videoclip, live, campaign).
+/// Everything operational for the launch hangs off the Release:
+/// milestones, content ideas, goals, metrics, outreach.
+model Release {
+  id              String    @id @default(cuid())
+  artistProfileId String
+  title           String
+  type            String    @default("single") // single | ep | album | videoclip | live | campaign
+  status          String    @default("planning") // planning | pre_release | released | post_release | archived
+  releaseDate     DateTime?
+  mainGoal        String?
+  budget          Float?
+  platforms       String?   // JSON array
+  notes           String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  artistProfile ArtistProfile       @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+  milestones    ReleaseMilestone[]
+  contentIdeas  ContentIdea[]
+  metrics       MetricSnapshot[]
+  goals         Goal[]
+  outreach      Outreach[]
+
+  @@index([artistProfileId])
+  @@index([status])
+  @@index([releaseDate])
+}
+
+/// A milestone within a release (kickoff, single artwork, mixing, PR push,
+/// release day, post-release review). Drives the kanban-style release view.
+model ReleaseMilestone {
+  id          String   @id @default(cuid())
+  releaseId   String
+  title       String
+  description String?
+  dueDate     DateTime?
+  status      String   @default("todo") // todo | in_progress | done | blocked
+  priority    String   @default("medium") // low | medium | high | urgent
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  release Release @relation(fields: [releaseId], references: [id], onDelete: Cascade)
+
+  @@index([releaseId])
+  @@index([status])
+}
+
+/// Content idea — calendar entries for reels, tiktoks, posts, lives.
+/// Optionally tied to a release so the user can plan content per launch.
+model ContentIdea {
+  id              String    @id @default(cuid())
+  artistProfileId String
+  releaseId       String?
+  platform        String    // instagram | tiktok | youtube | spotify | newsletter | website | other
+  format          String    // reel | tiktok | carousel | story | short | post | email | live | other
+  title           String
+  hook            String?
+  script          String?
+  caption         String?
+  cta             String?
+  status          String    @default("idea") // idea | draft | approved | scheduled | published | archived
+  publishAt       DateTime?
+  publishedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  artistProfile ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+  release       Release?      @relation(fields: [releaseId], references: [id], onDelete: SetNull)
+
+  @@index([artistProfileId])
+  @@index([releaseId])
+  @@index([status])
+  @@index([publishAt])
+}
+
+/// Manual metrics snapshot for an artist on a given platform/date.
+/// User enters follower/views/streams/linkClicks etc. manually — this is
+/// a measurement tool, not a tracker.
+model MetricSnapshot {
+  id               String   @id @default(cuid())
+  artistProfileId  String
+  releaseId        String?
+  platform         String
+  date             DateTime
+  followers        Int?
+  views            Int?
+  likes            Int?
+  comments         Int?
+  shares           Int?
+  saves            Int?
+  streams          Int?
+  monthlyListeners Int?
+  profileVisits    Int?
+  linkClicks       Int?
+  notes            String?
+  createdAt        DateTime @default(now())
+
+  artistProfile ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+  release       Release?      @relation(fields: [releaseId], references: [id], onDelete: SetNull)
+
+  @@index([artistProfileId])
+  @@index([releaseId])
+  @@index([platform, date])
+}
+
+/// Mini CRM contact (curator, venue, press, influencer, label, artist, fan,
+/// sponsor). Tied to an artist profile optionally so a manager can keep a
+/// shared contact book.
+model Contact {
+  id              String   @id @default(cuid())
+  artistProfileId String?
+  name            String
+  type            String   @default("other") // curator | venue | press | influencer | label | artist | fan | sponsor | other
+  email           String?
+  instagram       String?
+  tiktok          String?
+  website         String?
+  city            String?
+  notes           String?
+  status          String   @default("new") // new | active | warm | cold | archived
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  artistProfile ArtistProfile? @relation(fields: [artistProfileId], references: [id], onDelete: SetNull)
+  outreach      Outreach[]
+
+  @@index([artistProfileId])
+  @@index([type])
+  @@index([status])
+}
+
+/// An outreach attempt — DM, email, phone — towards a contact. Tracks
+/// status and next-follow-up date so the user never forgets a follow-up.
+model Outreach {
+  id              String    @id @default(cuid())
+  artistProfileId String
+  releaseId       String?
+  contactId       String
+  channel         String    @default("email") // email | instagram | tiktok | whatsapp | phone | other
+  status          String    @default("to_contact") // to_contact | contacted | replied | interested | rejected | closed
+  message         String?
+  lastContactAt   DateTime?
+  nextFollowUpAt  DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  artistProfile ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+  release       Release?      @relation(fields: [releaseId], references: [id], onDelete: SetNull)
+  contact       Contact       @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@index([artistProfileId])
+  @@index([releaseId])
+  @@index([contactId])
+  @@index([status])
+  @@index([nextFollowUpAt])
+}
+
+/// Measurable goal — e.g. "100 fan emails in 30 days". Tracks current vs
+/// target value with deadline.
+model Goal {
+  id              String    @id @default(cuid())
+  artistProfileId String
+  releaseId       String?
+  title           String
+  metric          String    // e.g. "emails", "streams", "followers"
+  targetValue     Float
+  currentValue    Float     @default(0)
+  deadline        DateTime?
+  status          String    @default("active") // active | achieved | missed | archived
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  artistProfile ArtistProfile @relation(fields: [artistProfileId], references: [id], onDelete: Cascade)
+  release       Release?      @relation(fields: [releaseId], references: [id], onDelete: SetNull)
+
+  @@index([artistProfileId])
+  @@index([releaseId])
+  @@index([status])
 }

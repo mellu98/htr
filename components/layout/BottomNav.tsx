@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, MessageCircle, CheckSquare, CalendarClock, Users } from 'lucide-react';
+import { Home, MessageCircle, CheckSquare, Disc3, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const ITEMS = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/coach', label: 'Coach', icon: MessageCircle },
+  { href: '/releases', label: 'Releases', icon: Disc3 },
   { href: '/tasks', label: 'Tasks', icon: CheckSquare },
-  { href: '/call-prep', label: 'Call', icon: CalendarClock },
   { href: '/manager', label: 'Manager', icon: Users },
 ] as const;
 

@@ -5,14 +5,17 @@ import {
   CalendarClock,
   CheckCircle2,
   CircleDashed,
+  Disc3,
   Flame,
   ListChecks,
   MessageCircle,
+  Send,
   Sparkles,
   Target,
   TrendingUp,
   Trophy,
   Users,
+  Wand2,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -35,14 +38,59 @@ interface ActiveTask {
   expectedOutput: string | null;
 }
 
+interface ActiveReleaseInfo {
+  id: string;
+  title: string;
+  type: string;
+  status: string;
+  releaseDate: string | null;
+  mainGoal: string | null;
+  openMilestones: number;
+  totalMilestones: number;
+  nextMilestone: { id: string; title: string; dueDate: string | null } | null;
+}
+
+interface TodayContent {
+  id: string;
+  title: string;
+  platform: string;
+  format: string;
+  status: string;
+  publishAt: string | null;
+}
+
+interface OpenLoops {
+  overdueMilestones: number;
+  blockedTasks: number;
+  overdueOutreach: number;
+  staleGoals: number;
+}
+
+interface ActiveGoal {
+  id: string;
+  title: string;
+  currentValue: number;
+  targetValue: number;
+  metric: string;
+  deadline: string | null;
+}
+
 export default async function WaveUpDashboard({
   tasks,
   taskStats,
   recentLessons,
+  activeRelease,
+  todaysContent,
+  openLoops,
+  activeGoals,
 }: {
   tasks: ActiveTask[];
   taskStats: { total: number; todo: number; inProgress: number; done: number; blocked: number; overdue: number };
   recentLessons: { slug: string; title: string; percent: number; moduleTitle: string }[];
+  activeRelease: ActiveReleaseInfo | null;
+  todaysContent: TodayContent[];
+  openLoops: OpenLoops;
+  activeGoals: ActiveGoal[];
 }) {
   const [artist, courseOverview, statusesList] = await Promise.all([
     getActiveArtist(),
@@ -69,9 +117,7 @@ export default async function WaveUpDashboard({
     ? Math.round((courseProgress / courseTotal) * 100)
     : 0;
 
-  const nextAction = pickNextAction(openTasks, blockedTasks, artist);
-
-  const weeklyPlan = buildWeeklyPlan(openTasks, dueSoon);
+  const nextAction = pickNextAction(openTasks, blockedTasks, activeRelease, openLoops, artist.biggestBlock);
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -99,7 +145,15 @@ export default async function WaveUpDashboard({
                   Apri il Coach
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="gap-2">
+              {activeRelease && (
+                <Button asChild size="lg" variant="outline" className="gap-2">
+                  <Link href={`/releases/${activeRelease.id}`}>
+                    <Disc3 className="h-4 w-4" />
+                    {activeRelease.title}
+                  </Link>
+                </Button>
+              )}
+              <Button asChild size="lg" variant="ghost" className="gap-2">
                 <Link href="/tasks">
                   <ListChecks className="h-4 w-4" />
                   Tasks ({openTasks.length})
@@ -135,94 +189,31 @@ export default async function WaveUpDashboard({
         </div>
       </section>
 
-      {/* Metrics */}
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <MetricCard
-          label="Task aperti"
-          value={openTasks.length}
-          icon={CircleDashed}
-          tone="violet"
-          hint={`${taskStats.inProgress} in corso · ${taskStats.todo} da fare`}
+      {/* Operational grid: 4 sections, 5 priority order */}
+      <section className="grid gap-4 lg:grid-cols-2">
+        <NextActionSection
+          openTasks={openTasks}
+          blocked={blockedTasks}
+          activeRelease={activeRelease}
+          openLoops={openLoops}
         />
-        <MetricCard
-          label="Task bloccati"
-          value={taskStats.blocked}
-          icon={Flame}
-          tone={taskStats.blocked > 0 ? 'warning' : 'muted'}
-          hint={taskStats.overdue > 0 ? `${taskStats.overdue} in ritardo` : 'nessun ritardo'}
-        />
-        <MetricCard
-          label="Progresso corso"
-          value={`${courseProgress}/${courseTotal}`}
-          icon={Brain}
-          tone="blue"
-          hint={`${coursePercent}% applicato · ${courseOverview.videoProgressPercent}% video`}
-        />
-        <MetricCard
-          label="Coach disponibile"
-          value="24/7"
-          icon={MessageCircle}
-          tone="cyan"
-          hint="Nessuna API live · tutto locale"
+        <ActiveReleaseSection release={activeRelease} />
+        <TodayContentSection items={todaysContent} />
+        <CoachSuggestionSection
+          openLoops={openLoops}
+          activeRelease={activeRelease}
+          activeGoalsCount={activeGoals.length}
         />
       </section>
 
-      {/* Next action + weekly plan */}
-      <section className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      {/* Open loops — full width */}
+      <OpenLoopsSection loops={openLoops} />
+
+      {/* Goals + Metrics row */}
+      <section className="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+        <ActiveGoalsSection goals={activeGoals} />
         <Card className="overflow-hidden">
           <div className="h-1 bg-gradient-brand" />
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-base">
-              <Target className="h-4 w-4 text-accent" />
-              Prossima azione consigliata
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <NextActionCoach openTasks={openTasks} blocked={blockedTasks} />
-            {dueSoon.length > 0 && (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  In scadenza
-                </p>
-                <ul className="space-y-2">
-                  {dueSoon.map((t) => (
-                    <li
-                      key={t.id}
-                      className="flex items-center justify-between gap-2 rounded-lg border border-border/60 bg-background/40 p-3"
-                    >
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-medium">{t.title}</p>
-                        {t.expectedOutput && (
-                          <p className="truncate text-[11px] text-muted-foreground">
-                            Output: {t.expectedOutput}
-                          </p>
-                        )}
-                      </div>
-                      <div className="shrink-0 text-right">
-                        <Badge
-                          variant={
-                            t.priority === 'urgent'
-                              ? 'warning'
-                              : t.priority === 'high'
-                                ? 'cyan'
-                                : 'muted'
-                          }
-                        >
-                          {t.priority}
-                        </Badge>
-                        <p className="mt-0.5 font-mono text-[10px] text-muted-foreground">
-                          {t.dueDate && new Date(t.dueDate).toLocaleDateString('it-IT')}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
               <TrendingUp className="h-4 w-4 text-accent" />
@@ -233,20 +224,23 @@ export default async function WaveUpDashboard({
             </p>
           </CardHeader>
           <CardContent className="space-y-2.5">
-            {weeklyPlan.map((p, i) => (
-              <div
-                key={i}
-                className="flex items-start gap-3 rounded-lg border border-border/60 bg-background/40 p-2.5"
-              >
-                <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted/60 font-mono text-xs text-muted-foreground">
-                  {i + 1}
-                </span>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium">{p.title}</p>
-                  <p className="text-[11px] text-muted-foreground">{p.detail}</p>
+            {(function () {
+              const plan = buildWeeklyPlan(openTasks, dueSoon);
+              return plan.map((p, i) => (
+                <div
+                  key={i}
+                  className="flex items-start gap-3 rounded-lg border border-border/60 bg-background/40 p-2.5"
+                >
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted/60 font-mono text-xs text-muted-foreground">
+                    {i + 1}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium">{p.title}</p>
+                    <p className="text-[11px] text-muted-foreground">{p.detail}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ));
+            })()}
             <Button asChild size="sm" variant="outline" className="mt-3 w-full">
               <Link href="/coach">
                 Chiedi al Coach <ArrowRight className="h-3.5 w-3.5" />
@@ -256,7 +250,7 @@ export default async function WaveUpDashboard({
         </Card>
       </section>
 
-      {/* Course progress + recent lessons */}
+      {/* Course progress + recent lessons (kept from original) */}
       <section className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-1">
           <CardHeader>
@@ -381,103 +375,479 @@ function NextActionCallout({ text }: { text: string }) {
   );
 }
 
-function NextActionCoach({
+function NextActionSection({
   openTasks,
   blocked,
+  activeRelease,
+  openLoops,
 }: {
   openTasks: ActiveTask[];
   blocked: ActiveTask[];
+  activeRelease: ActiveReleaseInfo | null;
+  openLoops: OpenLoops;
 }) {
   if (blocked.length > 0) {
     return (
-      <div className="rounded-lg border border-amber-400/30 bg-amber-500/10 p-3 text-sm">
-        <p className="font-medium text-amber-200">Hai {blocked.length} task bloccato.</p>
-        <p className="mt-1 text-xs text-amber-100/80">
-          Un blocco che dura più di 5 giorni non è un blocco: è una decisione
-          che stai evitando. Affrontalo oggi.
-        </p>
-        <Button asChild size="sm" variant="outline" className="mt-2 border-amber-400/50">
-          <Link href="/tasks">Gestisci i task</Link>
-        </Button>
-      </div>
+      <Card className="overflow-hidden">
+        <div className="h-1 bg-amber-400" />
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Flame className="h-4 w-4 text-amber-400" />
+            Azione più importante di oggi
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm">
+            Hai <strong>{blocked.length} task bloccati</strong>. Un blocco che
+            dura più di 5 giorni non è un blocco: è una decisione che stai
+            evitando.
+          </p>
+          <p className="rounded-md border border-amber-400/30 bg-amber-500/10 p-2 text-xs">
+            <strong>{blocked[0].title}</strong> — è il primo da affrontare.
+          </p>
+          <Button asChild size="sm" variant="outline">
+            <Link href="/tasks">Gestisci i task</Link>
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
-  if (openTasks.length === 0) {
+  if (openLoops.overdueOutreach > 0) {
     return (
-      <div className="rounded-lg border border-emerald-400/30 bg-emerald-500/10 p-3 text-sm">
-        <p className="font-medium text-emerald-200">Nessun task aperto.</p>
-        <p className="mt-1 text-xs text-emerald-100/80">
-          Il coach è il tuo prossimo passo: chiedigli il piano della prossima
-          settimana.
+      <Card className="overflow-hidden">
+        <div className="h-1 bg-cyan-400" />
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Send className="h-4 w-4 text-cyan-400" />
+            Follow-up scaduti
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm">
+            Hai <strong>{openLoops.overdueOutreach} follow-up</strong> in
+            ritardo. Un follow-up saltato brucia 3 settimane di relazione.
+          </p>
+          <Button asChild size="sm" variant="outline">
+            <Link href="/contacts">Apri i contatti</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+  if (openLoops.overdueMilestones > 0 && activeRelease) {
+    return (
+      <Card className="overflow-hidden">
+        <div className="h-1 bg-red-400" />
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <CircleDashed className="h-4 w-4 text-red-400" />
+            Milestone in ritardo
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm">
+            <strong>{openLoops.overdueMilestones} milestone</strong> di{' '}
+            <em>{activeRelease.title}</em> sono oltre la data. Stanno
+            bloccando il piano.
+          </p>
+          <Button asChild size="sm" variant="outline">
+            <Link href={`/releases/${activeRelease.id}`}>Apri la release</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+  if (openTasks.length > 0) {
+    const top = [...openTasks].sort(
+      (a, b) => priorityRank(b.priority) - priorityRank(a.priority),
+    )[0];
+    return (
+      <Card className="overflow-hidden">
+        <div className="h-1 bg-gradient-brand" />
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Target className="h-4 w-4 text-accent" />
+            Task #1 adesso
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <p className="text-base font-medium">{top.title}</p>
+          {top.expectedOutput && (
+            <p className="text-xs text-muted-foreground">
+              Output atteso: {top.expectedOutput}
+            </p>
+          )}
+          <Button asChild size="sm" variant="gradient" className="mt-2">
+            <Link href="/tasks">
+              <ListChecks className="h-4 w-4" />
+              Vai al Kanban
+            </Link>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+  return (
+    <Card className="overflow-hidden">
+      <div className="h-1 bg-emerald-400" />
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+          Tutto chiuso per oggi
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm text-muted-foreground">
+          Nessun task aperto. È il momento perfetto per pianificare la
+          prossima release, scrivere un contenuto, o aprire il coach.
         </p>
-        <Button asChild size="sm" variant="outline" className="mt-2">
+        <Button asChild size="sm" variant="gradient">
           <Link href="/coach">Parla col Coach</Link>
         </Button>
-      </div>
-    );
-  }
-  const top = openTasks.sort((a, b) => priorityRank(b.priority) - priorityRank(a.priority))[0];
-  return (
-    <div className="rounded-lg border border-border/60 bg-background/40 p-3 text-sm">
-      <p className="text-xs uppercase tracking-wider text-muted-foreground">
-        Task #1 adesso
-      </p>
-      <p className="mt-1 font-medium">{top.title}</p>
-      {top.expectedOutput && (
-        <p className="mt-1 text-xs text-muted-foreground">
-          Output atteso: {top.expectedOutput}
-        </p>
-      )}
-      <Button asChild size="sm" variant="gradient" className="mt-3">
-        <Link href="/tasks">
-          <ListChecks className="h-4 w-4" />
-          Vai al Kanban
-        </Link>
-      </Button>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
-function MetricCard({
-  label,
-  value,
-  icon: Icon,
-  tone,
-  hint,
+function ActiveReleaseSection({ release }: { release: ActiveReleaseInfo | null }) {
+  if (!release) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Disc3 className="h-4 w-4 text-accent" />
+            Release attiva
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Nessuna release in preparazione. Il cuore del sistema è vuoto.
+          </p>
+          <Button asChild size="sm" variant="gradient">
+            <Link href="/releases">Pianifica la prima release</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+  return (
+    <Card className="overflow-hidden">
+      <div className="h-1 bg-gradient-brand" />
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Disc3 className="h-4 w-4 text-accent" />
+          Release attiva
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <Link
+            href={`/releases/${release.id}`}
+            className="truncate text-base font-semibold hover:text-accent"
+          >
+            {release.title}
+          </Link>
+          <Badge variant="outline" className="shrink-0 text-[10px]">
+            {release.status}
+          </Badge>
+        </div>
+        {release.mainGoal && (
+          <p className="line-clamp-2 text-xs text-muted-foreground">{release.mainGoal}</p>
+        )}
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-muted-foreground">
+            Milestone: {release.openMilestones}/{release.totalMilestones}
+          </span>
+          {release.releaseDate && (
+            <span className="font-mono text-muted-foreground">
+              {new Date(release.releaseDate).toLocaleDateString('it-IT')}
+            </span>
+          )}
+        </div>
+        {release.nextMilestone && (
+          <p className="rounded-md border border-border/60 bg-background/40 p-2 text-xs">
+            <strong>Prossimo:</strong> {release.nextMilestone.title}
+            {release.nextMilestone.dueDate && (
+              <span className="ml-1 font-mono text-muted-foreground">
+                · {new Date(release.nextMilestone.dueDate).toLocaleDateString('it-IT')}
+              </span>
+            )}
+          </p>
+        )}
+        <Button asChild size="sm" variant="outline" className="w-full">
+          <Link href={`/releases/${release.id}`}>
+            Apri la release <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function TodayContentSection({ items }: { items: TodayContent[] }) {
+  if (items.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <CalendarClock className="h-4 w-4 text-accent" />
+            Contenuti di oggi
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Niente in programma per oggi. Vai su Contenuti per pianificare.
+          </p>
+          <Button asChild size="sm" variant="outline">
+            <Link href="/content">Pianifica contenuti</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <CalendarClock className="h-4 w-4 text-accent" />
+          Contenuti di oggi
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        {items.slice(0, 4).map((c) => (
+          <div
+            key={c.id}
+            className="flex items-center justify-between gap-2 rounded-md border border-border/60 bg-background/40 p-2 text-xs"
+          >
+            <div className="min-w-0">
+              <p className="truncate font-medium">{c.title}</p>
+              <p className="text-muted-foreground">
+                {c.platform}/{c.format}
+              </p>
+            </div>
+            <Badge variant="outline" className="shrink-0 text-[10px]">
+              {c.status}
+            </Badge>
+          </div>
+        ))}
+        <Button asChild size="sm" variant="outline" className="w-full">
+          <Link href="/content">
+            Tutti i contenuti <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function CoachSuggestionSection({
+  openLoops,
+  activeRelease,
+  activeGoalsCount,
 }: {
-  label: string;
-  value: string | number;
-  icon: any;
-  tone: 'cyan' | 'violet' | 'blue' | 'warning' | 'muted';
-  hint?: string;
+  openLoops: OpenLoops;
+  activeRelease: ActiveReleaseInfo | null;
+  activeGoalsCount: number;
 }) {
-  const toneClass = {
-    cyan: 'from-cyan-500/10 to-cyan-500/0 text-cyan-400',
-    violet: 'from-violet-500/10 to-violet-500/0 text-violet-400',
-    blue: 'from-blue-500/10 to-blue-500/0 text-blue-400',
-    warning: 'from-amber-500/10 to-amber-500/0 text-amber-400',
-    muted: 'from-white/5 to-white/0 text-muted-foreground',
-  }[tone];
+  // Pick the most relevant prompt given current state.
+  let promptId: string = 'release-plan';
+  let label = 'Preparami il piano di lancio';
+  let why = 'Hai una release attiva: meglio partire da qui.';
+  if (openLoops.overdueOutreach > 3) {
+    promptId = 'outreach-plan';
+    label = 'Chi devo contattare?';
+    why = 'Hai follow-up in ritardo che stanno bruciando relazioni.';
+  } else if (activeGoalsCount === 0) {
+    promptId = 'goal-check';
+    label = 'Sto andando verso l\'obiettivo?';
+    why = 'Senza obiettivi misurabili non sai se stai crescendo.';
+  } else if (openLoops.staleGoals > 0) {
+    promptId = 'goal-check';
+    label = 'Sto andando verso l\'obiettivo?';
+    why = 'Alcuni goal sono scaduti. È ora di guardarli in faccia.';
+  } else {
+    promptId = 'content-week';
+    label = 'Cosa pubblico questa settimana?';
+    why = 'Senza contenuto non c\'è crescita. Genera la settimana.';
+  }
+  if (!activeRelease) {
+    promptId = 'goal-check';
+    label = 'Sto andando verso l\'obiettivo?';
+    why = 'Senza release, parti da un obiettivo chiaro.';
+  }
 
   return (
-    <Card className="relative overflow-hidden">
-      <div className={cn('pointer-events-none absolute inset-0 bg-gradient-to-br', toneClass.split(' ').slice(0, 2).join(' '))} />
-      <CardContent className="relative flex items-start justify-between gap-4 p-5">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Wand2 className="h-4 w-4 text-accent" />
+          Suggerimento del Coach
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="text-sm">{why}</p>
+        <Button asChild variant="gradient" size="sm" className="w-full">
+          <Link href={`/coach?promptId=${promptId}`}>
+            <MessageCircle className="h-3.5 w-3.5" />
             {label}
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function OpenLoopsSection({ loops }: { loops: OpenLoops }) {
+  const total = loops.overdueMilestones + loops.blockedTasks + loops.overdueOutreach + loops.staleGoals;
+  if (total === 0) {
+    return (
+      <Card className="border-emerald-400/30 bg-emerald-500/5">
+        <CardContent className="flex items-center gap-3 p-4 text-sm">
+          <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+          <p>
+            <strong>Nessun loop aperto.</strong> Tutto sotto controllo.
           </p>
-          <p className="mt-1 text-3xl font-semibold tracking-tight">{value}</p>
-          {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
-        </div>
-        <div
-          className={cn(
-            'flex h-10 w-10 items-center justify-center rounded-lg bg-muted/60 ring-1 ring-border',
-            toneClass.split(' ').slice(2).join(' '),
+        </CardContent>
+      </Card>
+    );
+  }
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Flame className="h-4 w-4 text-amber-400" />
+          Loop aperti
+        </CardTitle>
+        <p className="text-xs text-muted-foreground">
+          Cose che richiedono attenzione per non perdere il ritmo.
+        </p>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
+          {loops.overdueMilestones > 0 && (
+            <LoopPill
+              href={null}
+              count={loops.overdueMilestones}
+              label="Milestone in ritardo"
+              tone="red"
+            />
           )}
-        >
-          <Icon className="h-5 w-5" />
+          {loops.blockedTasks > 0 && (
+            <LoopPill
+              href="/tasks"
+              count={loops.blockedTasks}
+              label="Task bloccati"
+              tone="amber"
+            />
+          )}
+          {loops.overdueOutreach > 0 && (
+            <LoopPill
+              href="/contacts"
+              count={loops.overdueOutreach}
+              label="Follow-up scaduti"
+              tone="cyan"
+            />
+          )}
+          {loops.staleGoals > 0 && (
+            <LoopPill
+              href="/goals"
+              count={loops.staleGoals}
+              label="Goal oltre deadline"
+              tone="violet"
+            />
+          )}
         </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function LoopPill({
+  href,
+  count,
+  label,
+  tone,
+}: {
+  href: string | null;
+  count: number;
+  label: string;
+  tone: 'red' | 'amber' | 'cyan' | 'violet';
+}) {
+  const toneCls = {
+    red: 'border-red-400/40 bg-red-500/10 text-red-300',
+    amber: 'border-amber-400/40 bg-amber-500/10 text-amber-300',
+    cyan: 'border-cyan-400/40 bg-cyan-500/10 text-cyan-300',
+    violet: 'border-violet-400/40 bg-violet-500/10 text-violet-300',
+  }[tone];
+  const inner = (
+    <div className={cn('rounded-lg border p-3', toneCls)}>
+      <p className="font-mono text-2xl font-bold">{count}</p>
+      <p className="text-xs">{label}</p>
+    </div>
+  );
+  if (!href) return inner;
+  return <Link href={href}>{inner}</Link>;
+}
+
+function ActiveGoalsSection({ goals }: { goals: ActiveGoal[] }) {
+  if (goals.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-base">
+            <Target className="h-4 w-4 text-accent" />
+            Obiettivi attivi
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            Nessun goal. Senza numeri, stai andando a sensazione.
+          </p>
+          <Button asChild size="sm" variant="outline" className="mt-3">
+            <Link href="/goals">Definisci un obiettivo</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Target className="h-4 w-4 text-accent" />
+          Obiettivi attivi
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {goals.slice(0, 3).map((g) => {
+          const pct = g.targetValue > 0
+            ? Math.min(100, Math.round((g.currentValue / g.targetValue) * 100))
+            : 0;
+          return (
+            <div key={g.id}>
+              <div className="flex items-center justify-between text-sm">
+                <span className="truncate font-medium">{g.title}</span>
+                <span className="font-mono text-xs text-muted-foreground">
+                  {pct}%
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {g.currentValue}/{g.targetValue} {g.metric}
+                {g.deadline && (
+                  <> · entro {new Date(g.deadline).toLocaleDateString('it-IT')}</>
+                )}
+              </p>
+              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-muted/60">
+                <div className="h-full bg-gradient-brand" style={{ width: `${pct}%` }} />
+              </div>
+            </div>
+          );
+        })}
+        <Button asChild size="sm" variant="outline" className="mt-1 w-full">
+          <Link href="/goals">
+            Tutti gli obiettivi <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   );
@@ -510,17 +880,30 @@ function priorityRank(p: string): number {
 function pickNextAction(
   openTasks: ActiveTask[],
   blocked: ActiveTask[],
-  artist: { biggestBlock: string | null },
+  activeRelease: ActiveReleaseInfo | null,
+  openLoops: OpenLoops,
+  biggestBlock: string | null,
 ): string {
   if (blocked.length > 0) {
     return `Sblocca "${blocked[0].title}" — è la decisione che stai evitando.`;
   }
+  if (openLoops.overdueOutreach > 0) {
+    return `${openLoops.overdueOutreach} follow-up sono in ritardo. Aprine uno oggi.`;
+  }
+  if (openLoops.overdueMilestones > 0 && activeRelease) {
+    return `${openLoops.overdueMilestones} milestone di ${activeRelease.title} sono oltre la data.`;
+  }
   if (openTasks.length > 0) {
-    const top = [...openTasks].sort((a, b) => priorityRank(b.priority) - priorityRank(a.priority))[0];
+    const top = [...openTasks].sort(
+      (a, b) => priorityRank(b.priority) - priorityRank(a.priority),
+    )[0];
     return `Lavora su "${top.title}". Nient'altro finché non è fatto.`;
   }
-  if (artist.biggestBlock) {
-    return `Affronta il blocco: ${artist.biggestBlock}.`;
+  if (activeRelease) {
+    return `${activeRelease.title} — aggiungi la prossima milestone.`;
+  }
+  if (biggestBlock) {
+    return `Affronta il blocco: ${biggestBlock}.`;
   }
   return 'Apri il Coach e fatti guidare. La prossima mossa non è ovvia.';
 }

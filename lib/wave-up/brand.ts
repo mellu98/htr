@@ -25,16 +25,24 @@ export const NAV_LINKS = {
   main: [
     { href: '/', label: 'Home' },
     { href: '/coach', label: 'Coach' },
+    { href: '/releases', label: 'Releases' },
     { href: '/tasks', label: 'Tasks' },
-    { href: '/call-prep', label: 'Call Prep' },
     { href: '/manager', label: 'Manager' },
+  ],
+  growth: [
+    { href: '/releases', label: 'Prossime uscite' },
+    { href: '/content', label: 'Contenuti' },
+    { href: '/metrics', label: 'Numeri' },
+    { href: '/contacts', label: 'Contatti' },
+    { href: '/goals', label: 'Obiettivi' },
   ],
   content: [
     { href: '/artist-profile', label: 'Artist Profile' },
+    { href: '/call-prep', label: 'Call Prep' },
     { href: '/library', label: 'Video Library' },
     { href: '/review', label: 'Review' },
     { href: '/ai', label: 'AI Processing' },
-    { href: '/notes', label: 'Notes' },
+    { href: '/notes', label: 'Note' },
   ],
 } as const;
 
@@ -52,10 +60,20 @@ export const MOBILE_NAV_SECTIONS = [
     items: [
       { href: '/', label: 'Home' },
       { href: '/coach', label: 'Coach' },
+      { href: '/releases', label: 'Prossime uscite' },
       { href: '/tasks', label: 'Tasks' },
-      { href: '/call-prep', label: 'Call Prep' },
       { href: '/manager', label: 'Manager' },
       { href: '/artist-profile', label: 'Artist Profile' },
+      { href: '/call-prep', label: 'Call Prep' },
+    ],
+  },
+  {
+    title: 'Crescita',
+    items: [
+      { href: '/content', label: 'Contenuti' },
+      { href: '/metrics', label: 'Numeri' },
+      { href: '/contacts', label: 'Contatti' },
+      { href: '/goals', label: 'Obiettivi' },
     ],
   },
   {
@@ -65,7 +83,7 @@ export const MOBILE_NAV_SECTIONS = [
       { href: '/review', label: 'Review' },
       { href: '/ai', label: 'AI Processing' },
       { href: '/ai/tutor', label: 'AI Tutor' },
-      { href: '/notes', label: 'Notes' },
+      { href: '/notes', label: 'Note' },
     ],
   },
 ] as const;

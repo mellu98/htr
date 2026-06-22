@@ -2,16 +2,16 @@
 
 > **AI Coach 24/7 per artisti musicali e manager** — ancorato al metodo del corso **HTR Training**.
 
-Wave Up non è un course player. È un **artist growth OS**.
+Wave Up non è un course player. È un **Artist Growth OS**.
 
 Il valore principale non è guardare i video (anche se puoi farlo). Il valore
 è avere un coach AI che ragiona sempre sul **tuo** progetto, tra una call
 settimanale e l'altra — e ti spinge a fare, non solo a studiare.
 
 HTR Training resta **dentro** Wave Up come course engine: 28 lezioni,
-output AI generati, Review Center. Ma la home, la nav e il flusso
-quotidiano sono costruiti attorno a: **profilo artista → task → coach →
-call prep → prossima azione**.
+output AI generati, Review Center. Ma il cuore del prodotto è il **Release
+Growth System**: una release = un obiettivo chiaro, con milestone,
+contenuti, contatti, numeri e goal da guardare ogni giorno.
 
 ---
 
@@ -20,17 +20,28 @@ call prep → prossima azione**.
 | Area | Cosa fa |
 |------|---------|
 | **Artist Profile** (`/artist-profile`) | Single source of truth sull'artista: livello, obiettivo, blocco, call settimanale. Più è onesto, più il coach è utile. |
+| **Coach** (`/coach`) | 13 prompt rapidi (8 diagnostici + 5 growth). Cronologia persistente. |
+| **Releases** (`/releases`) | Release Growth System: lista release attive con milestone, contenuti, metriche, outreach e goal. Dettaglio con 7 tab per release. |
 | **Tasks** (`/tasks`) | Kanban `Da fare / In corso / Bloccato / Completato`. Ogni task è agganciato a un artista, opzionalmente a una lesson del corso. |
-| **Coach** (`/coach`) | 8 prompt rapidi (posizionamento, lesson→task, settimana, call prep, blocco, piano 7/30 giorni, applica al mio artista). Cronologia persistente. |
-| **Call Prep** (`/call-prep`) | Report Markdown pre-call: cosa fatto, task aperti, blocchi, domande, decisioni, piano prossima settimana. |
 | **Manager Mode** (`/manager`) | Roster demo: gestisci più artisti con progresso corso, task, prossima call. |
 
-A queste si aggiungono le 4 aree "content" (HTR Training come course engine):
+Le aree "growth" (sotto la release):
+
+| Area | Cosa fa |
+|------|---------|
+| **Prossime uscite** (`/releases`) | Lista release + dettaglio con 7 tab (Panoramica, Milestone, Calendario, Numeri, Contatti, Obiettivi, Brief Coach). |
+| **Contenuti** (`/content`) | Calendario editoriale: idee, bozze, programmati, pubblicati. Filtri per piattaforma e stato. |
+| **Numeri** (`/metrics`) | Snapshot manuali per piattaforma: follower, stream, views, link clicks. Confronto automatico ultimo vs precedente. |
+| **Contatti** (`/contacts`) | Mini CRM musicale: curator, venue, press, influencer, fan. Outreach integrato per ogni contatto. |
+| **Obiettivi** (`/goals`) | Goal misurabili con target, deadline e progresso %. |
+| **Call Prep** (`/call-prep`) | Report Markdown pre-call. Resta accessibile dal pulsante nella home. |
+
+A queste si aggiungono le aree "content" del course engine (HTR Training):
 
 | Area | Cosa fa |
 |------|---------|
 | **Video Library** (`/library`) | Catalogo lezioni con stato import / AI / progress. |
-| **Lesson Page** (`/lesson/[slug]`) | Player locale + 11 tab studio (Overview, Transcript, Visual Notes, Summary, Checklist, Action Plan, Quiz, Flashcards, Notes, Bookmarks, AI Analysis). |
+| **Lesson Page** (`/lesson/[slug]`) | Player locale + 11 tab studio. |
 | **Review Center** (`/review`) | Approva / modifica / scarta gli output AI. |
 | **AI Processing** (`/ai`) | Comandi CLI + log mock per generare i contenuti. |
 
@@ -43,8 +54,8 @@ A queste si aggiungono le 4 aree "content" (HTR Training come course engine):
 | Framework        | Next.js 14 (App Router)                        |
 | Linguaggio       | TypeScript (strict)                            |
 | UI               | Tailwind CSS + shadcn/ui pattern + lucide-react |
-| DB               | SQLite via Prisma                              |
-| AI               | Adapter `MiniMax-M3` (stub) + coach offline    |
+| DB               | PostgreSQL via Prisma                          |
+| AI               | OpenRouter (`minimax/minimax-m3` + Gemini Flash Lite per ASR) — env keys opzionali |
 | Storage AI       | File system: `/content/generated/<slug>/`      |
 | Video            | HTML5 `<video>` su file locali in `/public/videos/` |
 
@@ -111,35 +122,63 @@ A queste si aggiungono le 4 aree "content" (HTR Training come course engine):
 
 ---
 
-## Modelli Prisma (15 totali)
+## Modelli Prisma (22 totali)
 
 **HTR Training (course engine)** — invariati:
 `LessonProgress`, `Note`, `Bookmark`, `ChecklistProgress`, `FlashcardProgress`,
 `QuizAttempt`, `ReviewStatus`, `AppSettings`.
 
-**Wave Up (product layer)** — nuovi:
+**Wave Up (product layer)**:
 - `ArtistProfile` — identità artista (nome, genere, livello, goal, audience,
   piattaforme, blocco principale, brand keywords, reference artists, call
   settimanale).
-- `ManagerArtist` — entry del roster del manager (collegato a un
-  `ArtistProfile`). Tiene cache di progresso corso + task counters.
+- `ManagerArtist` — entry del roster del manager.
 - `Task` — unità atomica di lavoro (courseId, artistProfileId, lessonSlug?,
   title, description, priority, status, dueDate, expectedOutput,
   coachPromptId).
 - `CallPrepReport` — snapshot pre-call (6 sezioni + fullMarkdown).
-- `CoachConversation` — log di ogni turno del coach, con sources e
-  promptId, per memoria fra sessioni.
+- `CoachConversation` — log di ogni turno del coach.
+
+**Release Growth System** (nuovo):
+- `Release` — singolo, EP, album, videoclip, live o campagna. Stato
+  (planning / pre_release / released / post_release / archived), data di
+  uscita, obiettivo principale, budget, piattaforme.
+- `ReleaseMilestone` — tappe del lancio (kickoff, artwork, mixing, PR push,
+  release day). Status todo / in_progress / done / blocked. Priority
+  low / medium / high / urgent.
+- `ContentIdea` — calendario contenuti (instagram, tiktok, youtube, spotify,
+  newsletter, website, other). Hook, script, caption, CTA, publishAt.
+  Status idea / draft / approved / scheduled / published / archived.
+- `MetricSnapshot` — snapshot manuali per artista su una piattaforma in una
+  data: follower, views, likes, comments, shares, saves, streams,
+  monthlyListeners, profileVisits, linkClicks.
+- `Contact` — mini CRM (curator, venue, press, influencer, label, artist,
+  fan, sponsor, other). Email, instagram, tiktok, website, city, notes.
+  Status new / active / warm / cold / archived.
+- `Outreach` — contatto + canale (email, instagram, tiktok, whatsapp,
+  phone, other). Status to_contact / contacted / replied / interested /
+  rejected / closed. lastContactAt + nextFollowUpAt per i follow-up.
+- `Goal` — obiettivo misurabile (metric + targetValue + currentValue +
+  deadline). Status active / achieved / missed / archived.
 
 ---
 
 ## Avvio rapido
 
+Prerequisito: PostgreSQL 14+. Per dev locale il modo più rapido è Docker:
+
+```bash
+docker run --name waveup-pg -e POSTGRES_PASSWORD=dev -p 5432:5432 -d postgres:16
+```
+
+Poi:
+
 ```bash
 npm install
-cp .env.example .env
+cp .env.example .env             # aggiusta DATABASE_URL se necessario
 npm run db:generate
-npm run db:push
-npm run db:seed
+npm run db:push                  # applica schema Prisma su Postgres
+npm run db:seed                  # crea AppSettings + dataset demo (Luna Rossa / Notte Storta)
 
 npm run dev    # → http://localhost:3000
 ```
@@ -156,14 +195,20 @@ npm run build && npm start
 
 1. **Apri `/artist-profile`** → crea il tuo artista. Compila *almeno* main goal
    e biggest block (senza, il coach è generico).
-2. **Apri `/coach`** → parti da *"Aiutami a capire il mio posizionamento"*.
-   Segui le 5 domande. Scrivi le risposte in un doc.
-3. **Apri `/tasks`** → prendi i task suggeriti dal coach (1 click → Kanban)
+2. **Apri `/releases`** → crea la tua prima release (singolo, EP, album,
+   videoclip, campagna). Aggiungi 3 milestone, 5 contenuti, 1-2 goal.
+3. **Apri `/coach`** → parti da *"Preparami il piano di lancio"* per la
+   tua release attiva. Oppure chiedi *"Cosa pubblico questa settimana?"*
+   o *"Sto andando verso l'obiettivo?"*.
+4. **Apri `/tasks`** → prendi i task suggeriti dal coach (1 click → Kanban)
    oppure creane di tuoi.
-4. **Lavora la settimana** — il Kanban ti dice cosa è aperto.
-5. **Venerdì** → `/call-prep` → "Genera report" → portalo alla call umana.
-6. **Dopo la call** → aggiorna Artist Profile (goal / block / nextCallAt) e
-   ricomincia.
+5. **Apri `/content`** → pianifica i contenuti della settimana con hook,
+   formato e CTA per ciascuno.
+6. **Apri `/contacts`** → aggiungi 3-5 contatti chiave (curator, venue,
+   press). Traccia outreach e follow-up.
+7. **Venerdì** → `/call-prep` → "Genera report" → portalo alla call umana.
+8. **Dopo la call** → aggiorna Artist Profile (goal / block / nextCallAt),
+   misura i numeri su `/metrics`, ricomincia.
 
 ### Per i manager
 
@@ -219,20 +264,25 @@ resta mock finché non si cabla la funzione `callModel()` in
 
 ## Il Coach Wave Up in dettaglio
 
-`lib/wave-up/coach.ts` espone **8 prompt** organizzati in 4 categorie:
+`lib/wave-up/coach.ts` espone **13 prompt** organizzati in 5 categorie:
 
 - **Diagnostic** — *posizionamento*, *unblock* (analisi del blocco).
 - **Planning** — *this-week*, *plan-7*, *plan-30*.
 - **Execution** — *lesson-to-task*, *apply-to-artist*.
 - **Reflection** — *call-prep*.
+- **Growth** — *release-plan*, *content-week*, *metrics-review*,
+  *outreach-plan*, *goal-check* (leggono i dati nuovi del Release Growth
+  System).
 
 Ogni prompt produce:
 1. Una risposta strutturata in linguaggio naturale.
 2. Una lista di **task suggeriti** che il Kanban può importare con 1 click.
-3. Una lista di **fonti** (ArtistProfile, Task, lesson-analysis.json, …).
+3. Una lista di **fonti** (ArtistProfile, Task, Release, MetricSnapshot,
+   lesson-analysis.json, …).
 
-Il coach è **offline-first**: legge da profilo + tasks + file generati, non
-chiama mai un'API live dalla UI. Solo gli script CLI possono farlo.
+Il coach è **offline-first**: legge da profilo + tasks + release + metriche
++ file generati, non chiama mai un'API live dalla UI. Solo gli script CLI
+possono farlo.
 
 Quando collegherai MiniMax reale: modifica solo `callModel()` in
 `lib/ai/minimax.ts` e il sistema è pronto.
@@ -286,11 +336,13 @@ processare.
 
 ## Mobile
 
-- Bottom nav (Home / Coach / Tasks / Call / Manager).
+- Bottom nav (Home / Coach / Releases / Tasks / Manager). Call Prep e le
+  aree growth (Content, Numeri, Contatti, Obiettivi) si aprono dal drawer
+  TopBar.
 - Tabs lesson orizzontali scrollabili.
 - Player sempre full-width sopra i tab.
 - Navigator lezioni collassabile in `<details>` sotto i tab.
-- Coach/Tasks/Call Prep ottimizzati per una colonna su mobile.
+- Coach/Tasks/Releases/Goals ottimizzati per una colonna su mobile.
 
 ---
 
@@ -302,16 +354,17 @@ processare.
 |---|---|---|
 | **Artist Profile** CRUD | ✅ reale | persistenza Prisma, enum validation, auto-set active |
 | **Task Engine** Kanban CRUD | ✅ reale | todo/in_progress/done/blocked, priority, dueDate, lessonSlug, coachPromptId |
-| **Wave Up Coach** 8 prompt | ⚠️ **mock deterministico** | legge ArtistProfile + Task + lesson-analysis.json **locali**, **non chiama nessuna API**. Le risposte sono template contestuali. |
+| **Release Growth System** | ✅ reale | 7 modelli Prisma (Release, ReleaseMilestone, ContentIdea, MetricSnapshot, Contact, Outreach, Goal) + API REST + 6 pagine UI |
+| **Wave Up Coach** 13 prompt | ⚠️ **mock deterministico** | 8 prompt classici (ArtistProfile + Task + lesson-analysis.json locali) + 5 prompt growth (release/content/metrics/outreach/goal). **Non chiama nessuna API.** Le risposte sono template contestuali. |
 | **Call Prep** generazione | ⚠️ **mock deterministico** | aggrega task chiusi + aperti + blocchi + domande da profilo. Niente generazione AI. |
 | **Manager Mode** roster | ✅ reale | CRUD + counters cached su `ManagerArtist` (non auto-refresh, è un trade-off) |
 | **Video Library** | ✅ reale | legge `content/course.json`, mostra stato import/AI/progress |
 | **Lesson Page** 11 tab | ✅ reale | player HTML5 locale, autosave ogni 5s, mark complete @ 90% |
 | **AI Tutor** 7 prompt | ⚠️ **mock deterministico** | stessa filosofia del Coach: template dai file generati, nessuna API call |
 | **Review Center** | ✅ reale | CRUD ReviewStatus (pending/reviewed/needs_edits/approved) |
-| **AI Processing page** | ⚠️ **mock deterministico** | genera transcript/summary/checklist/quiz/flashcards/lesson-analysis via `lib/ai/minimax.ts` con seed deterministico. Per renderli "veri" collega `callModel()` con un vendor reale. |
+| **AI Processing page** | ✅ reale (via OpenRouter se MINIMAX_API_KEY presente) | `callModel()` chiama `minimax/minimax-m3` su OpenRouter (testo + immagine). Per il video end-to-end: `analyzeVideoWithMiniMax` estrae audio (ffmpeg → MP3) + 32 keyframe, trascrive con Gemini Flash Lite, analizza con M3. Senza key, fallback a mock deterministico. |
 | **Esportazione Markdown** | ✅ reale | download Blob client-side, niente server |
-| **Mobile bottom nav** | ✅ reale | 5 voci (Home/Coach/Tasks/Call/Manager) |
+| **Mobile bottom nav** | ✅ reale | 5 voci (Home/Coach/Releases/Tasks/Manager) + drawer per aree growth |
 | **Bottom-up / Hydration** | ✅ verificato | tutte le page serializzano Date → ISO; nessun `<button onClick>` in server component |
 
 **Cosa è mock chiaramente etichettato:**
