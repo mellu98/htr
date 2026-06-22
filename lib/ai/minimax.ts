@@ -1,30 +1,39 @@
 /**
  * MiniMax adapter.
  *
- * Wires the project to a real MiniMax chat-completions endpoint with an
- * OpenAI-compatible payload (works against api.minimax.io and any
- * OpenAI-compatible proxy the user might want to point at via
- * MINIMAX_BASE_URL).
+ * Wires the project to a real model via an OpenAI-compatible chat-completions
+ * endpoint. Defaults point at OpenRouter (`minimax/minimax-m3`) because the
+ * MiniMax-hosted M3 endpoint is text-only; OpenRouter exposes the multimodal
+ * M3 (text + image + video) and also gives us a one-stop shop for the ASR
+ * step via `google/gemini-2.5-flash-lite` (audio input).
  *
- * Behavior:
- *   - MINIMAX_API_KEY unset/empty → every function returns deterministic
- *     mock output. The script pipeline + AI Tutor keep working offline,
- *     which preserves the "open-source, vendor-agnostic, no-key-needed"
- *     default.
- *   - MINIMAX_API_KEY set → `callModel()` issues a real POST to
- *     `${MINIMAX_BASE_URL}/chat/completions` with Bearer auth, returns
- *     the model text. Any network / parse error is thrown so callers can
- *     decide whether to fall back to mock or surface the error.
- *   - analyzeVideoWithMiniMax() composes a single JSON request covering
- *     the full lesson artifact set (transcript, summary, checklist, quiz,
- *     flashcards, action plan, lesson analysis) and parses the response
- *     into RawModelOutput. JSON mode is requested via response_format.
- *     If the model call fails, we log + fall back to mock so the rest of
- *     the pipeline (file generation, review UI) keeps working.
+ * Pipeline for a real video:
+ *   1. ffmpeg locally extracts audio (MP3 32 kbps mono) + N keyframes (JPEG)
+ *      into /content/generated/<slug>/assets/. Cached — re-runs are no-ops.
+ *   2. transcribeAudio() sends the MP3 to the transcribe model (default
+ *      Gemini Flash Lite) and returns the verbatim Italian transcript.
+ *   3. analyzeVideoWithMiniMax() sends the transcript + keyframes + a
+ *      structured prompt to the M3 multimodal model and parses the JSON
+ *      response into the lesson artifact set the rest of the app expects.
+ *
+ * Behavior with no API key:
+ *   - All functions return deterministic mock output. The script pipeline
+ *     and AI Tutor keep working offline. The "open-source, no-key-needed"
+ *     default is preserved.
+ *
+ * Required env vars (with defaults):
+ *   MINIMAX_API_KEY         — required for any real call
+ *   MINIMAX_BASE_URL        — default: https://openrouter.ai/api/v1
+ *   MINIMAX_MODEL           — default: minimax/minimax-m3
+ *   MINIMAX_TRANSCRIBE_MODEL — default: google/gemini-2.5-flash-lite
  */
 
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
+import http from 'node:http';
+import https from 'node:https';
 import path from 'node:path';
+import { URL } from 'node:url';
 import courseJson from '@/content/course.json';
 import type {
   ChecklistItem,
@@ -37,14 +46,20 @@ import type {
 
 const course = courseJson as typeof courseJson;
 
+const FFMPEG =
+  process.env.FFMPEG_PATH ??
+  'C:/Users/Erica/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-124716-g054dffd133-win64-gpl/bin/ffmpeg.exe';
+
 export interface MiniMaxConfig {
   apiKey: string | null;
   model: string;
   baseUrl: string;
+  transcribeModel: string;
 }
 
-const DEFAULT_BASE_URL = 'https://api.minimax.io/v1';
-const DEFAULT_MODEL = 'MiniMax-M3';
+const DEFAULT_BASE_URL = 'https://openrouter.ai/api/v1';
+const DEFAULT_MODEL = 'minimax/minimax-m3';
+const DEFAULT_TRANSCRIBE_MODEL = 'google/gemini-2.5-flash-lite';
 
 export function getMiniMaxConfig(): MiniMaxConfig {
   return {
@@ -54,6 +69,8 @@ export function getMiniMaxConfig(): MiniMaxConfig {
       /\/+$/,
       '',
     ),
+    transcribeModel:
+      process.env.MINIMAX_TRANSCRIBE_MODEL?.trim() || DEFAULT_TRANSCRIBE_MODEL,
   };
 }
 
@@ -79,9 +96,7 @@ function maskKey(k: string | null): string {
  */
 export function stripThinkingAndFences(text: string): string {
   let out = text;
-  // Remove all <think>...</think> blocks (greedy across newlines).
   out = out.replace(/<think>[\s\S]*?<\/think>/gi, '');
-  // Strip a leading/trailing markdown JSON fence if present.
   const fence = /^\s*```(?:json)?\s*([\s\S]*?)\s*```\s*$/i.exec(out);
   if (fence) out = fence[1];
   return out.trim();
@@ -98,85 +113,433 @@ export class MiniMaxApiError extends Error {
   }
 }
 
-/**
- * Issue a real chat-completions call against the configured MiniMax
- * endpoint. Returns the assistant message text, or null when no key is
- * configured (callers can then fall back to mock).
- *
- * Throws MiniMaxApiError on non-2xx responses so callers can decide
- * whether to retry, surface the error, or fall back to mock.
- */
-export async function callModel(
-  prompt: string,
-  opts?: { json?: boolean; system?: string; temperature?: number },
-): Promise<string | null> {
-  if (!isMiniMaxConfigured()) return null;
+// ---------------------------------------------------------------------------
+// Core chat-completions call (text-only and multimodal content arrays).
+// ---------------------------------------------------------------------------
 
+interface ChatMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string | Array<Record<string, unknown>>;
+}
+
+/** Escape characters that are unsafe inside a data URL. */
+function fsSafeBase64(buf: Buffer): string {
+  return buf.toString('base64');
+}
+
+/** Read a file as a base64 data URL with the right MIME type. */
+function dataUrlFromFile(filePath: string, mime: string): string {
+  const buf = fs.readFileSync(filePath);
+  return `data:${mime};base64,${fsSafeBase64(buf)}`;
+}
+
+/**
+ * Low-level POST to `${baseUrl}/chat/completions`. Returns the assistant
+ * message text. Throws MiniMaxApiError on non-2xx.
+ */
+export async function postChat(
+  messages: ChatMessage[],
+  opts?: {
+    model?: string;
+    json?: boolean;
+    temperature?: number;
+    maxTokens?: number;
+    extraBody?: Record<string, unknown>;
+  },
+): Promise<string> {
   const config = getMiniMaxConfig();
+  if (!config.apiKey) {
+    throw new Error('[minimax] no API key configured');
+  }
   const url = `${config.baseUrl}/chat/completions`;
 
-  const messages: Array<{ role: 'system' | 'user'; content: string }> = [];
-  if (opts?.system) messages.push({ role: 'system', content: opts.system });
-  messages.push({ role: 'user', content: prompt });
-
   const body: Record<string, unknown> = {
-    model: config.model,
+    model: opts?.model ?? config.model,
     messages,
     temperature: opts?.temperature ?? 0.7,
   };
-  if (opts?.json) {
-    body.response_format = { type: 'json_object' };
+  if (opts?.json) body.response_format = { type: 'json_object' };
+  if (opts?.maxTokens != null) body.max_tokens = opts.maxTokens;
+  if (opts?.extraBody) Object.assign(body, opts.extraBody);
+
+  // Use Node's http/https modules directly. Node 24's native fetch (undici)
+  // is unreliable for very large JSON bodies (audio base64 ≈ 12 MB+) — the
+  // underlying socket dies with a bare "fetch failed" error. The legacy
+  // request path works fine and is well-tested.
+  const parsedUrl = new URL(url);
+  const isHttps = parsedUrl.protocol === 'https:';
+  const lib = isHttps ? https : http;
+  const bodyStr = JSON.stringify(body);
+
+  const result = await new Promise<{ status: number; statusText: string; text: string }>(
+    (resolve, reject) => {
+      const req = lib.request(
+        {
+          method: 'POST',
+          protocol: parsedUrl.protocol,
+          hostname: parsedUrl.hostname,
+          port: parsedUrl.port || (isHttps ? 443 : 80),
+          path: parsedUrl.pathname + parsedUrl.search,
+          headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(bodyStr, 'utf8'),
+            Authorization: `Bearer ${config.apiKey}`,
+          },
+          timeout: 10 * 60 * 1000, // 10 minutes — covers long transcriptions
+        },
+        (res) => {
+          const chunks: Buffer[] = [];
+          res.on('data', (c) => chunks.push(c));
+          res.on('end', () => {
+            const text = Buffer.concat(chunks).toString('utf8');
+            resolve({ status: res.statusCode ?? 0, statusText: res.statusMessage ?? '', text });
+          });
+          res.on('error', reject);
+        },
+      );
+      req.on('error', reject);
+      req.on('timeout', () => {
+        req.destroy(new Error('[minimax] request timed out after 10 minutes'));
+      });
+      req.write(bodyStr);
+      req.end();
+    },
+  );
+
+  if (result.status < 200 || result.status >= 300) {
+    throw new MiniMaxApiError(result.status, result.statusText, result.text);
   }
 
-  let res: Response;
+  let data: { choices?: Array<{ message?: { content?: unknown } }> };
   try {
-    res = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${config.apiKey}`,
-      },
-      body: JSON.stringify(body),
-    });
+    data = JSON.parse(result.text);
   } catch (err) {
     throw new Error(
-      `[minimax] network error calling ${url} (key=${maskKey(config.apiKey)}): ${
-        (err as Error).message
-      }`,
+      `[minimax] non-JSON response (status ${result.status}): ${result.text.slice(0, 500)}`,
     );
   }
-
-  if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    throw new MiniMaxApiError(res.status, res.statusText, errText);
-  }
-
-  const data = (await res.json()) as {
-    choices?: Array<{ message?: { content?: unknown } }>;
-  };
   const content = data?.choices?.[0]?.message?.content;
   if (typeof content !== 'string') {
     throw new Error(
-      `[minimax] unexpected response shape (no choices[0].message.content string): ${JSON.stringify(
-        data,
-      ).slice(0, 500)}`,
+      `[minimax] unexpected response shape: ${JSON.stringify(data).slice(0, 500)}`,
     );
   }
   return stripThinkingAndFences(content);
 }
 
+/**
+ * Text-only chat call. Returns null when no key is configured (so callers
+ * can fall back to mock without a try/catch). Throws on any other error.
+ */
+export async function callModel(
+  prompt: string,
+  opts?: { json?: boolean; system?: string; temperature?: number; maxTokens?: number },
+): Promise<string | null> {
+  if (!isMiniMaxConfigured()) return null;
+  const messages: ChatMessage[] = [];
+  if (opts?.system) messages.push({ role: 'system', content: opts.system });
+  messages.push({ role: 'user', content: prompt });
+  return postChat(messages, {
+    json: opts?.json,
+    temperature: opts?.temperature,
+    maxTokens: opts?.maxTokens,
+  });
+}
+
+/**
+ * Multimodal chat call. `content` is an array of content parts:
+ *   { type: 'text', text: '...' }
+ *   { type: 'image_url', image_url: { url: 'data:image/...' | 'https://...' } }
+ *   { type: 'file', file: { filename, file_data: 'data:...' } }   ← Gemini-style
+ *
+ * Returns null when no key is configured.
+ */
+export async function callModelMultimodal(
+  content: Array<Record<string, unknown>>,
+  opts?: {
+    model?: string;
+    json?: boolean;
+    system?: string;
+    temperature?: number;
+    maxTokens?: number;
+  },
+): Promise<string | null> {
+  if (!isMiniMaxConfigured()) return null;
+  const messages: ChatMessage[] = [];
+  if (opts?.system) messages.push({ role: 'system', content: opts.system });
+  messages.push({ role: 'user', content });
+  return postChat(messages, {
+    model: opts?.model,
+    json: opts?.json,
+    temperature: opts?.temperature,
+    maxTokens: opts?.maxTokens,
+  });
+}
+
 // ---------------------------------------------------------------------------
-// Public adapter functions (consumed by scripts/analyze-video.ts)
+// Audio transcription (defaults to Gemini Flash Lite via OpenRouter).
 // ---------------------------------------------------------------------------
 
+export interface TranscriptionResult {
+  text: string;
+  raw: unknown;
+}
+
+/**
+ * Transcribe an audio file (MP3/WAV/M4A) using the configured transcribe
+ * model. We send the audio as a `file` content part (Gemini-style), which
+ * OpenRouter accepts. We ask for a verbatim transcript in Italian with
+ * `[MM:SS]` segment markers.
+ *
+ * Returns null when no key is configured.
+ */
+export async function transcribeAudio(
+  audioPath: string,
+  opts?: { language?: string; model?: string },
+): Promise<TranscriptionResult | null> {
+  if (!isMiniMaxConfigured()) return null;
+  if (!fs.existsSync(audioPath)) {
+    throw new Error(`[transcribe] audio file not found: ${audioPath}`);
+  }
+
+  const config = getMiniMaxConfig();
+  const ext = path.extname(audioPath).slice(1).toLowerCase() || 'mp3';
+  const mime = ext === 'mp3' ? 'audio/mpeg' : ext === 'wav' ? 'audio/wav' : `audio/${ext}`;
+  const dataUrl = dataUrlFromFile(audioPath, mime);
+  const language = opts?.language ?? 'it';
+
+  const instruction =
+    `Trascrivi il file audio in italiano (it-IT) in modo VERBATIM parola per parola. ` +
+    `Se il file è in un'altra lingua, trascrivi in quella lingua ma rispondi in italiano solo per i metadati. ` +
+    `Restituisci ESCLUSIVAMENTE un JSON valido:\n` +
+    `{\n` +
+    `  "language": "<ISO 639-1 della lingua parlata nell'audio>",\n` +
+    `  "durationSeconds": <numero intero stimato>,\n` +
+    `  "segments": [{ "start": "MM:SS", "end": "MM:SS", "text": "trascrizione del segmento" }],\n` +
+    `  "fullText": "trascrizione completa unita, con [MM:SS] markers prima di ogni cambio di argomento principale"\n` +
+    `}\n` +
+    `Nessun testo fuori dal JSON. Nessun commento.`;
+
+  const content = [
+    { type: 'text', text: instruction },
+    {
+      type: 'file',
+      file: { filename: path.basename(audioPath), file_data: dataUrl },
+    },
+  ];
+
+  const raw = await postChat(
+    [{ role: 'user', content }],
+    {
+      model: opts?.model ?? config.transcribeModel,
+      json: true,
+      temperature: 0.1,
+      maxTokens: 16000,
+    },
+  );
+
+  let parsed: {
+    language?: string;
+    durationSeconds?: number;
+    segments?: Array<{ start?: string; end?: string; text?: string }>;
+    fullText?: string;
+  };
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    // Some providers don't honor json_object strictly; fall back to raw.
+    return { text: raw, raw };
+  }
+
+  // Build a markdown transcript with [MM:SS] markers.
+  let md = '';
+  if (Array.isArray(parsed.segments)) {
+    for (const seg of parsed.segments) {
+      const start = seg.start ?? '00:00';
+      const text = seg.text ?? '';
+      md += `[${start}] ${text}\n\n`;
+    }
+  } else if (parsed.fullText) {
+    md = parsed.fullText;
+  } else {
+    md = raw;
+  }
+  return { text: md.trim(), raw: parsed };
+}
+
+// ---------------------------------------------------------------------------
+// ffmpeg helpers (audio + keyframes extraction with caching).
+// ---------------------------------------------------------------------------
+
+interface MediaAssets {
+  audioPath: string;
+  framesDir: string;
+  framePaths: string[];
+}
+
+function runFfmpeg(args: string[]): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const proc = spawn(FFMPEG, ['-y', '-loglevel', 'error', ...args], {
+      stdio: ['ignore', 'inherit', 'inherit'],
+    });
+    proc.on('error', reject);
+    proc.on('exit', (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`ffmpeg exited with code ${code}`));
+    });
+  });
+}
+
+function runFfprobeDuration(videoPath: string): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const FFPROBE = FFMPEG.replace(/ffmpeg\.exe$/, 'ffprobe.exe');
+    const proc = spawn(
+      FFPROBE,
+      [
+        '-v', 'error',
+        '-show_entries', 'format=duration',
+        '-of', 'default=noprint_wrappers=1:nokey=1',
+        videoPath,
+      ],
+      { stdio: ['ignore', 'pipe', 'pipe'] },
+    );
+    let out = '';
+    proc.stdout.on('data', (c) => (out += c.toString()));
+    proc.on('error', reject);
+    proc.on('exit', (code) => {
+      if (code !== 0) return reject(new Error(`ffprobe exited ${code}`));
+      const sec = Number(out.trim());
+      if (!Number.isFinite(sec)) return reject(new Error(`bad ffprobe output: ${out}`));
+      resolve(sec);
+    });
+  });
+}
+
+export interface ExtractOpts {
+  intervalSec?: number; // default 30
+  maxFrames?: number; // default 32
+  maxEdgePx?: number; // default 800
+  force?: boolean;
+}
+
+/**
+ * Ensure /content/generated/<slug>/assets/audio.mp3 and frames/ exist.
+ * Returns the absolute paths. Re-runs are no-ops if the assets are newer
+ * than the source video.
+ */
+export async function extractMediaAssets(
+  videoPath: string,
+  slug: string,
+  opts: ExtractOpts = {},
+): Promise<MediaAssets> {
+  const absVideo = path.isAbsolute(videoPath)
+    ? videoPath
+    : path.join(process.cwd(), videoPath);
+  if (!fs.existsSync(absVideo)) {
+    throw new Error(`[extract] video not found: ${absVideo}`);
+  }
+  const interval = opts.intervalSec ?? 30;
+  const maxFrames = opts.maxFrames ?? 32;
+  const maxEdge = opts.maxEdgePx ?? 800;
+  const force = opts.force ?? false;
+
+  const outDir = path.join(process.cwd(), 'content', 'generated', slug, 'assets');
+  const audioPath = path.join(outDir, 'audio.mp3');
+  const framesDir = path.join(outDir, 'frames');
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.mkdirSync(framesDir, { recursive: true });
+
+  const videoMtime = fs.statSync(absVideo).mtimeMs;
+  const audioMtime = fs.existsSync(audioPath) ? fs.statSync(audioPath).mtimeMs : 0;
+
+  // 1. Audio (only if stale or forced).
+  if (force || audioMtime < videoMtime) {
+    console.log(`[extract] → audio ${audioPath}`);
+    await runFfmpeg([
+      '-i', absVideo,
+      '-vn', '-ac', '1', '-ar', '16000',
+      '-codec:a', 'libmp3lame', '-b:a', '32k',
+      audioPath,
+    ]);
+  } else {
+    console.log(`[extract] audio cached (${(fs.statSync(audioPath).size / 1024 / 1024).toFixed(1)} MB)`);
+  }
+
+  // 2. Frames (only if stale or forced).
+  const existing = fs
+    .readdirSync(framesDir)
+    .filter((f) => f.endsWith('.jpg'))
+    .sort();
+  const firstFrame = path.join(framesDir, existing[0] ?? 'frame_000.jpg');
+  const framesStale =
+    force ||
+    existing.length === 0 ||
+    (fs.existsSync(firstFrame) && fs.statSync(firstFrame).mtimeMs < videoMtime);
+
+  if (framesStale) {
+    console.log(`[extract] → frames (1/${interval}s, max ${maxFrames}) ${framesDir}`);
+    for (const f of existing) fs.unlinkSync(path.join(framesDir, f));
+
+    let effectiveInterval = interval;
+    try {
+      const dur = await runFfprobeDuration(absVideo);
+      const needed = Math.ceil(dur / maxFrames);
+      if (needed > interval) effectiveInterval = needed;
+    } catch {
+      // ignore — fall back to requested interval
+    }
+
+    await runFfmpeg([
+      '-i', absVideo,
+      '-vf',
+      `fps=1/${effectiveInterval},scale='if(gt(iw,ih),${maxEdge},-2)':'if(gt(iw,ih),-2,${maxEdge})'`,
+      '-q:v', '4',
+      framesDir + path.sep + 'frame_%03d.jpg',
+    ]);
+  } else {
+    console.log(`[extract] frames cached (${existing.length} frames)`);
+  }
+
+  const framePaths = fs
+    .readdirSync(framesDir)
+    .filter((f) => f.endsWith('.jpg'))
+    .sort()
+    .map((f) => path.join(framesDir, f));
+
+  return { audioPath, framesDir, framePaths };
+}
+
+// ---------------------------------------------------------------------------
+// Public adapter functions.
+// ---------------------------------------------------------------------------
+
+/**
+ * Backwards-compatible "upload" hook. Now it's a local no-op: media
+ * extraction happens on disk, then we send to the model as base64. Kept
+ * so existing callers (scripts/analyze-video.ts, scripts/analyze-all.ts)
+ * still compile.
+ */
 export async function uploadVideoToMiniMax(videoPath: string): Promise<string> {
-  // In a real impl: upload the file, return a remote id (s3 / provider asset id).
-  // We log and return a stable synthetic id so the rest of the pipeline is testable.
-  const id = `mock-${path.basename(videoPath)}-${Date.now()}`;
-  console.log(`[minimax] (mock) would upload ${videoPath} → asset id ${id}`);
+  const id = `local-${path.basename(videoPath)}`;
+  console.log(`[minimax] (local) assets extracted for ${videoPath} → ${id}`);
   return id;
 }
 
+/**
+ * The real "top" pipeline.
+ *
+ * 1. Ensure audio + keyframes exist (ffmpeg, cached).
+ * 2. Transcribe audio verbatim in Italian (Gemini Flash Lite).
+ * 3. Build a multimodal prompt (text + 32 keyframes) for M3 with the
+ *    transcript as context. M3 returns structured JSON for the lesson.
+ * 4. Normalize into the artifact set the rest of the app expects.
+ *
+ * Falls back to the deterministic mock ONLY if no API key is configured
+ * (so the dev experience without a key still works). On any real error
+ * during a real call, the error is thrown — the user explicitly wants
+ * the model to actually see the video, so silent degradation is worse
+ * than a loud failure.
+ */
 export async function analyzeVideoWithMiniMax(
   videoPath: string,
 ): Promise<RawModelOutput> {
@@ -187,109 +550,139 @@ export async function analyzeVideoWithMiniMax(
     return buildMockOutputFromVideo(videoPath);
   }
 
-  const config = getMiniMaxConfig();
   const filename = path.basename(videoPath);
   const lesson = course.lessons.find((l) => l.videoPath.endsWith(filename));
+  const slug = lesson?.slug ?? 'unknown';
   const lessonTitle = lesson?.title ?? filename;
   const moduleTitle = lesson
     ? (course.modules.find((m) => m.id === lesson.moduleId)?.title ?? '')
     : '';
 
-  // Build a single JSON request covering all the lesson artifacts the rest
-  // of the app expects. The model is asked to estimate the transcript from
-  // the lesson title + module context — we don't have an ASR step here yet,
-  // so the transcript is best-effort rather than verbatim. If we later wire
-  // Whisper / Deepgram, this prompt gets a real transcript instead of the
-  // "(stima dal titolo)" placeholder section.
-  const prompt = `Sei un coach didattico per il corso HTR Training (music business per artisti italiani).
-Devi produrre un pacchetto didattico completo in italiano per la seguente lezione:
+  // 1. Ensure media assets (ffmpeg). The caller may pass either an
+  // absolute filesystem path or a public-URL-relative path
+  // (e.g. `/videos/foo.mp4` from `course.json`).
+  const absVideo = fs.existsSync(videoPath)
+    ? videoPath
+    : path.join(process.cwd(), 'public', videoPath.replace(/^\/+/, ''));
+  const assets = await extractMediaAssets(absVideo, slug);
 
-- Titolo lezione: ${lessonTitle}
-- Modulo: ${moduleTitle}
-- File video: ${filename}
+  // 2. Transcribe audio.
+  console.log(`[minimax] transcribing audio for ${slug}…`);
+  const transcription = await transcribeAudio(assets.audioPath);
+  if (!transcription) {
+    // No key — handled at the top, but TS narrowing.
+    return buildMockOutputFromVideo(videoPath);
+  }
+  console.log(
+    `[minimax] transcript ready: ${transcription.text.length} chars`,
+  );
 
-Rispondi ESCLUSIVAMENTE con un JSON valido (nessun testo prima o dopo) che rispetti esattamente questo schema:
+  // 3. Build multimodal prompt and call M3.
+  const config = getMiniMaxConfig();
+  console.log(
+    `[minimax] calling ${config.model} with transcript + ${assets.framePaths.length} frames…`,
+  );
+
+  const textPrompt = buildAnalysisPrompt(slug, lessonTitle, moduleTitle, transcription.text);
+
+  // Build the content array: text first, then keyframes as image_url data URLs.
+  const contentParts: Array<Record<string, unknown>> = [
+    { type: 'text', text: textPrompt },
+  ];
+  for (const fp of assets.framePaths) {
+    const dataUrl = dataUrlFromFile(fp, 'image/jpeg');
+    contentParts.push({
+      type: 'image_url',
+      image_url: { url: dataUrl },
+    });
+  }
+
+  const raw = await callModelMultimodal(contentParts, {
+    json: true,
+    temperature: 0.4,
+    maxTokens: 8000,
+    system:
+      'Sei un coach didattico per il corso HTR Training. Rispondi solo con JSON valido che rispetti lo schema richiesto. ' +
+      'Non inventare contenuti: usa solo ciò che vedi nei frame e ciò che leggi nel transcript forniti.',
+  });
+  if (!raw) {
+    return buildMockOutputFromVideo(videoPath);
+  }
+
+  let parsed: RawModelOutput;
+  try {
+    parsed = JSON.parse(stripThinkingAndFences(raw));
+  } catch (err) {
+    throw new Error(
+      `[minimax] M3 returned non-JSON for ${slug}: ${(err as Error).message}\n--- body ---\n${raw.slice(0, 800)}`,
+    );
+  }
+
+  // Force the transcript from ASR (it's verbatim) regardless of what the
+  // model said — the transcript is the source of truth.
+  parsed.transcript = transcription.text;
+  if (!parsed.analysis) {
+    parsed.analysis = {
+      lessonSlug: slug,
+      mainTopics: [],
+      visualElements: [],
+      importantMoments: [],
+      practicalOutput: '',
+      difficulty: 'intermediate',
+      recommendedNextAction: '',
+      managerNotes: '',
+    };
+  }
+  return parsed;
+}
+
+function buildAnalysisPrompt(
+  slug: string,
+  lessonTitle: string,
+  moduleTitle: string,
+  transcript: string,
+): string {
+  return `Sei un coach didattico per il corso HTR Training (music business per artisti italiani).
+
+Stai analizzando la lezione intitolata "${lessonTitle}" del modulo "${moduleTitle}".
+
+Qui sotto trovi:
+1. Il transcript VERBATIM dell'audio (fonte primaria di verità).
+2. ${'{N}'} keyframe del video in ordine temporale (le immagini dopo questo prompt).
+3. Lo schema JSON esatto che devi restituire.
+
+TRANSCRIPT:
+\`\`\`
+${transcript.slice(0, 24000)}${transcript.length > 24000 ? '\n[...truncated...]' : ''}
+\`\`\`
+
+Devi produrre ESCLUSIVAMENTE un JSON valido (nessun testo prima o dopo) con questo schema:
 
 {
-  "transcript": "stringa markdown con trascrizione stimata (sezioni [MM:SS] + testo parlato)",
-  "visualNotes": "stringa markdown che descrive cosa si vede nel video (slide, whiteboard, schermo, foto, grafici)",
-  "summary": "stringa markdown con sezione 'Key takeaways' (5 bullet), 'Why it matters', 'What to do next'",
-  "actionPlan": "stringa markdown con sezioni 'Entro 24 ore', 'Entro la settimana', 'Entro il mese', ciascuna con 2-3 bullet",
-  "checklist": [
-    { "id": "check-1", "title": "titolo breve azionabile", "description": "descrizione più dettagliata", "completed": false }
-  ] (3-5 elementi),
-  "quiz": [
-    { "id": "q1", "question": "domanda", "options": ["a", "b", "c", "d"], "correctAnswer": "una delle opzioni esattamente", "explanation": "perché" }
-  ] (3 domande),
-  "flashcards": [
-    { "id": "f1", "front": "domanda/concetto", "back": "risposta", "difficulty": "easy|medium|hard" }
-  ] (4 elementi),
+  "transcript": "(stringa markdown con trascrizione verbatim, già presente sopra — lasciala IDENTICA)",
+  "visualNotes": "(stringa markdown che descrive cosa si vede nei frame: slide, whiteboard, schermo, foto, grafici, performance)",
+  "summary": "(stringa markdown con 'Key takeaways' (5 bullet), 'Why it matters', 'What to do next')",
+  "actionPlan": "(stringa markdown con sezioni 'Entro 24 ore', 'Entro la settimana', 'Entro il mese', 2-3 bullet ciascuna)",
+  "checklist": [{ "id": "check-1", "title": "...", "description": "...", "completed": false }] (3-5 elementi),
+  "quiz": [{ "id": "q1", "question": "...", "options": ["a","b","c","d"], "correctAnswer": "una delle options esatta", "explanation": "..." }] (3 domande),
+  "flashcards": [{ "id": "f1", "front": "...", "back": "...", "difficulty": "easy|medium|hard" }] (4 elementi),
   "analysis": {
-    "lessonSlug": "${lesson?.slug ?? 'unknown'}",
-    "mainTopics": ["topic1", "topic2", "topic3", "topic4"],
-    "visualElements": [{ "type": "slide|whiteboard|photo|diagram|screen", "description": "..." }],
+    "lessonSlug": "${slug}",
+    "mainTopics": ["..."],
+    "visualElements": [{ "type": "slide|whiteboard|photo|diagram|screen|performance", "description": "..." }],
     "importantMoments": [{ "timestamp": "MM:SS", "title": "...", "why": "..." }],
-    "practicalOutput": "deliverable concreto che lo studente produce dopo la lezione",
+    "practicalOutput": "deliverable concreto che lo studente produce",
     "difficulty": "beginner|intermediate|advanced",
     "recommendedNextAction": "azione specifica per la prossima settimana",
-    "managerNotes": "cosa deve verificare un manager per assicurarsi che l'articolo abbia capito"
+    "managerNotes": "cosa deve verificare un manager"
   }
 }
 
 Vincoli:
-- Tutti i testi in italiano, tono professionale ma diretto.
-- Le domande del quiz devono avere UNA sola risposta corretta, presente testualmente nelle options.
-- Le flashcard devono essere auto-esplicative (front e back leggibili da soli).
-- I timestamp di importantMoments in formato MM:SS.
-- Nessun campo può essere null o vuoto. Se non sai un campo, inferiscilo dal titolo della lezione.`;
-
-  try {
-    const raw = await callModel(prompt, {
-      json: true,
-      temperature: 0.6,
-      system:
-        'Sei un coach didattico per il corso HTR Training. Rispondi solo con JSON valido.',
-    });
-    if (!raw) return buildMockOutputFromVideo(videoPath);
-
-    const parsed = JSON.parse(stripThinkingAndFences(raw)) as RawModelOutput;
-    if (!parsed.analysis) {
-      parsed.analysis = {
-        lessonSlug: lesson?.slug ?? 'unknown',
-        mainTopics: [],
-        visualElements: [],
-        importantMoments: [],
-        practicalOutput: '',
-        difficulty: 'intermediate',
-        recommendedNextAction: '',
-        managerNotes: '',
-      };
-    }
-    return parsed;
-  } catch (err) {
-    console.error(
-      `[minimax] analyzeVideo failed for ${videoPath} — falling back to mock.`,
-      (err as Error).message,
-    );
-    return buildMockOutputFromVideo(videoPath);
-  }
-}
-
-/**
- * Normalize whatever the model produced (mock or real) into the shape
- * the rest of the app expects.
- */
-export function normalizeMiniMaxOutput(raw: RawModelOutput): NormalizedLessonOutput {
-  return {
-    transcript: raw.transcript?.trim() || '',
-    visualNotes: raw.visualNotes?.trim() || '',
-    summary: raw.summary?.trim() || '',
-    actionPlan: raw.actionPlan?.trim() || '',
-    checklist: Array.isArray(raw.checklist) ? raw.checklist : [],
-    quiz: Array.isArray(raw.quiz) ? raw.quiz : [],
-    flashcards: Array.isArray(raw.flashcards) ? raw.flashcards : [],
-    analysis: raw.analysis ?? null,
-  };
+- Tutti i testi in italiano, tono professionale e diretto.
+- Le domande del quiz devono avere UNA sola risposta corretta presente testualmente nelle options.
+- I timestamp di importantMoments in formato MM:SS, basati sui segmenti del transcript.
+- Basa le risposte SOLO sul transcript e sui frame forniti. Non inventare.`;
 }
 
 // ---------------------------------------------------------------------------
@@ -318,15 +711,26 @@ export interface NormalizedLessonOutput {
   analysis: LessonAnalysis | null;
 }
 
+export function normalizeMiniMaxOutput(raw: RawModelOutput): NormalizedLessonOutput {
+  return {
+    transcript: raw.transcript?.trim() || '',
+    visualNotes: raw.visualNotes?.trim() || '',
+    summary: raw.summary?.trim() || '',
+    actionPlan: raw.actionPlan?.trim() || '',
+    checklist: Array.isArray(raw.checklist) ? raw.checklist : [],
+    quiz: Array.isArray(raw.quiz) ? raw.quiz : [],
+    flashcards: Array.isArray(raw.flashcards) ? raw.flashcards : [],
+    analysis: raw.analysis ?? null,
+  };
+}
+
 // ---------------------------------------------------------------------------
-// Mock generation — deterministic per lesson so re-running stays stable.
+// Mock generation (only used when no API key is set).
 // ---------------------------------------------------------------------------
 
 function deterministicSeed(input: string): number {
   let h = 0;
-  for (let i = 0; i < input.length; i++) {
-    h = (h * 31 + input.charCodeAt(i)) | 0;
-  }
+  for (let i = 0; i < input.length; i++) h = (h * 31 + input.charCodeAt(i)) | 0;
   return Math.abs(h);
 }
 
@@ -345,208 +749,45 @@ function buildMockOutputFromVideo(videoPath: string): RawModelOutput {
   const title = lesson?.title ?? 'Untitled lesson';
   const seed = deterministicSeed(slug);
 
-  const transcript = `# Transcript — ${title}
-
-> Mock transcript generated locally. The real implementation will call
-> MiniMax video understanding and replace this file.
-
-[00:00] Opening: welcome and overview of the lesson.
-[02:30] Topic 1: introduction of the core concept.
-[08:10] Topic 2: deep dive with practical examples.
-[14:45] Topic 3: common mistakes and how to avoid them.
-[21:30] Topic 4: actionable framework.
-[27:55] Closing summary and next steps.
-`;
-
-  const visualNotes = `# Visual Notes — ${title}
-
-Mock description of the visual content for this lesson.
-
-- Slide deck with branded title card and module badge.
-- Whiteboard section showing a positioning matrix (axes: clarity vs originality).
-- Frame from the video used as case study — ${pick(['a logo lockup', 'a release cover', 'a live performance'], seed)}.
-- Recap card with three key takeaways.
-`;
-
-  const summary = `# Summary — ${title}
-
-This lesson focuses on the core principle behind ${title.toLowerCase()}.
-
-## Key takeaways
-
-${bullet('Define a clear positioning statement before touching visuals.')}
-${bullet('Identify the three audiences you serve: core fans, curious newcomers, industry.')}
-${bullet('Translate positioning into repeatable visual and verbal cues.')}
-${bullet('Audit your current assets against the positioning — keep, refine, or kill.')}
-${bullet('Document the framework so the team can apply it without you.')}
-
-## Why it matters
-A consistent positioning compounds: every release reinforces the same idea in the audience's mind.
-
-## What to do next
-Pick one asset this week and run it through the positioning audit.
-`;
-
+  const transcript = `# Transcript — ${title}\n\n[00:00] (mock) Welcome and overview.\n[02:30] (mock) Topic 1.\n[08:10] (mock) Topic 2.\n[14:45] (mock) Topic 3.\n[21:30] (mock) Topic 4.\n[27:55] (mock) Closing.\n`;
+  const visualNotes = `# Visual Notes — ${title}\n\n- Slide deck with branded title card.\n- Whiteboard section.\n- Case study frame.\n- Recap card with takeaways.\n`;
+  const summary = `# Summary — ${title}\n\n## Key takeaways\n${bullet('Takeaway 1.')}\n${bullet('Takeaway 2.')}\n${bullet('Takeaway 3.')}\n\n## Why it matters\nMock.\n\n## What to do next\nPick one action this week.\n`;
   const checklist: ChecklistItem[] = [
-    {
-      id: 'check-1',
-      title: 'Definisci il posizionamento dell’artista',
-      description:
-        'Scrivi una dichiarazione di posizionamento in una frase. Deve essere chiara, originale e rilevante per il pubblico target.',
-      completed: false,
-    },
-    {
-      id: 'check-2',
-      title: 'Identifica i tre segmenti di pubblico',
-      description:
-        'Core fan, nuovi ascoltatori curiosi, e pubblico industry. Per ciascuno scrivi una nota su cosa si aspettano e come li raggiungi.',
-      completed: false,
-    },
-    {
-      id: 'check-3',
-      title: 'Fai l’audit degli asset esistenti',
-      description:
-        'Logo, copertine, bio, foto, video. Per ognuno decidi: tieni, raffina, elimina.',
-      completed: false,
-    },
-    {
-      id: 'check-4',
-      title: 'Crea un asset di prova',
-      description:
-        'Applica il posizionamento a un singolo asset reale (una cover, una bio, un post) e misura la reazione.',
-      completed: false,
-    },
+    { id: 'check-1', title: 'Definisci il posizionamento', description: 'Scrivi una dichiarazione in una frase.', completed: false },
+    { id: 'check-2', title: 'Identifica i segmenti di pubblico', description: 'Core fan, nuovi, industry.', completed: false },
+    { id: 'check-3', title: 'Fai l\'audit degli asset', description: 'Keep / refine / kill.', completed: false },
   ];
-
   const quiz: QuizQuestion[] = [
     {
       id: 'q1',
-      question: `Qual è il primo passo del framework trattato in "${title}"?`,
-      options: [
-        'Cambiare il logo',
-        'Definire il posizionamento',
-        'Aumentare i follower',
-        'Pubblicare più spesso',
-      ],
+      question: `Qual è il primo passo in "${title}"?`,
+      options: ['Cambiare il logo', 'Definire il posizionamento', 'Aumentare i follower', 'Pubblicare di più'],
       correctAnswer: 'Definire il posizionamento',
-      explanation:
-        'Tutti gli altri passaggi derivano da un posizionamento chiaro. Senza, le decisioni estetiche diventano casuali.',
-    },
-    {
-      id: 'q2',
-      question: 'Quale di questi NON è uno dei tre segmenti di pubblico citati?',
-      options: [
-        'Core fan',
-        'Industry',
-        'Mass market casuale',
-        'Curious newcomers',
-      ],
-      correctAnswer: 'Mass market casuale',
-      explanation:
-        'I tre segmenti sono: core fan, nuovi curiosi, industry. Il mass market non è un target gestibile in fase early.',
-    },
-    {
-      id: 'q3',
-      question: 'Cosa significa "compounding positioning"?',
-      options: [
-        'Ogni release rinforza la stessa idea nella mente del pubblico',
-        'Cambiare posizionamento ad ogni release',
-        'Avere più brand contemporaneamente',
-        'Acquistare follower a pagamento',
-      ],
-      correctAnswer:
-        'Ogni release rinforza la stessa idea nella mente del pubblico',
-      explanation:
-        'Coerenza e ripetizione sono ciò che rende un posizionamento memorabile.',
+      explanation: 'Mock explanation.',
     },
   ];
-
   const flashcards: Flashcard[] = [
-    {
-      id: 'f1',
-      front: 'Cos’è il posizionamento?',
-      back: 'La frase che spiega perché esisti e per chi — prima di tutto il resto.',
-      difficulty: 'easy',
-    },
-    {
-      id: 'f2',
-      front: 'Tre segmenti di pubblico',
-      back: 'Core fan, curious newcomers, industry.',
-      difficulty: 'easy',
-    },
-    {
-      id: 'f3',
-      front: 'Cosa fa un audit degli asset?',
-      back: 'Keep / refine / kill su ogni asset esistente in base al posizionamento.',
-      difficulty: 'medium',
-    },
-    {
-      id: 'f4',
-      front: 'Output pratico minimo della lezione',
-      back: 'Una dichiarazione di posizionamento scritta, approvata, condivisa col team.',
-      difficulty: 'medium',
-    },
+    { id: 'f1', front: 'Cos\'è il posizionamento?', back: 'La frase che spiega perché esisti.', difficulty: 'easy' },
+    { id: 'f2', front: 'Tre segmenti', back: 'Core fan, nuovi, industry.', difficulty: 'easy' },
   ];
-
   const visualElements: VisualElement[] = [
-    { type: 'slide', description: 'Title card with module badge and artist branding.' },
-    { type: 'whiteboard', description: 'Positioning matrix: clarity vs originality.' },
-    { type: 'photo', description: 'Case study asset used as example.' },
-    { type: 'diagram', description: 'Three-segment audience map.' },
+    { type: 'slide', description: 'Title card.' },
+    { type: 'whiteboard', description: 'Positioning matrix.' },
   ];
-
   const importantMoments: ImportantMoment[] = [
-    {
-      timestamp: '02:30',
-      title: 'Definizione operativa di posizionamento',
-      why: 'Ancora il vocabolario usato nel resto della lezione.',
-    },
-    {
-      timestamp: '14:45',
-      title: 'Audit degli asset esistenti',
-      why: 'Esempio concreto di applicazione.',
-    },
-    {
-      timestamp: '27:55',
-      title: 'Sintesi finale e prossimo passo',
-      why: 'Assegnazione operativa.',
-    },
+    { timestamp: '02:30', title: 'Definizione operativa', why: 'Ancora il vocabolario.' },
   ];
-
   const analysis: LessonAnalysis = {
     lessonSlug: slug,
-    mainTopics: [
-      'Definizione di posizionamento',
-      'Segmentazione del pubblico',
-      'Audit degli asset',
-      'Framework di applicazione',
-    ],
+    mainTopics: ['Posizionamento', 'Segmentazione', 'Audit', 'Framework'],
     visualElements,
     importantMoments,
-    practicalOutput:
-      'Una dichiarazione di posizionamento scritta, una mappa dei tre segmenti, e un audit con decisione keep/refine/kill per ogni asset chiave.',
+    practicalOutput: 'Una dichiarazione scritta e un audit.',
     difficulty: 'intermediate',
-    recommendedNextAction:
-      'Scrivere oggi la bozza di posizionamento e condividerla con una persona fidata per feedback.',
-    managerNotes:
-      'Verificare che la dichiarazione di posizionamento sia davvero azionabile: deve poter guidare le decisioni di design, comunicazione e release.',
+    recommendedNextAction: 'Scrivi oggi la bozza.',
+    managerNotes: 'Verifica azionabilità.',
   };
-
-  const actionPlan = `# Action Plan — ${title}
-
-## Entro 24 ore
-${bullet('Scrivi una bozza di posizionamento (1 frase).')}
-${bullet('Elenca i tuoi tre segmenti di pubblico principali.')}
-
-## Entro la settimana
-${bullet('Esegui un audit rapido degli asset esistenti (cover, bio, foto).')}
-${bullet('Decidi un asset da rifare applicando il posizionamento.')}
-${bullet('Condividi la bozza con un mentore o partner.')}
-
-## Entro il mese
-${bullet('Documenta il framework in 1 pagina.')}
-${bullet('Allinea il team (se presente) sul posizionamento approvato.')}
-`;
+  const actionPlan = `# Action Plan — ${title}\n\n## Entro 24 ore\n${bullet('Scrivi la bozza.')}\n\n## Entro la settimana\n${bullet('Audit degli asset.')}\n\n## Entro il mese\n${bullet('Documenta il framework.')}\n`;
 
   return {
     transcript,
@@ -570,15 +811,12 @@ export async function generateLessonFiles(
 ): Promise<string[]> {
   const lessonDir = path.join(process.cwd(), 'content', 'generated', slug);
   fs.mkdirSync(lessonDir, { recursive: true });
-
   const written: string[] = [];
-
   function writeFile(filename: string, content: string) {
     const fullPath = path.join(lessonDir, filename);
     fs.writeFileSync(fullPath, content, 'utf8');
     written.push(path.relative(process.cwd(), fullPath));
   }
-
   writeFile('transcript.md', output.transcript);
   writeFile('visual-notes.md', output.visualNotes);
   writeFile('summary.md', output.summary);
@@ -586,10 +824,6 @@ export async function generateLessonFiles(
   writeFile('checklist.json', JSON.stringify(output.checklist, null, 2));
   writeFile('quiz.json', JSON.stringify(output.quiz, null, 2));
   writeFile('flashcards.json', JSON.stringify(output.flashcards, null, 2));
-  writeFile(
-    'lesson-analysis.json',
-    JSON.stringify(output.analysis, null, 2),
-  );
-
+  writeFile('lesson-analysis.json', JSON.stringify(output.analysis, null, 2));
   return written;
 }
