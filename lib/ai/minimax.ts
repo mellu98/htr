@@ -1,17 +1,26 @@
 /**
  * MiniMax adapter.
  *
- * Wires the project to a real model via an OpenAI-compatible chat-completions
- * endpoint. Defaults point at OpenRouter (`minimax/minimax-m3`) because the
- * MiniMax-hosted M3 endpoint is text-only; OpenRouter exposes the multimodal
- * M3 (text + image + video) and also gives us a one-stop shop for the ASR
- * step via `google/gemini-2.5-flash-lite` (audio input).
+ * Wires the project to a real model. Two provider modes are supported,
+ * picked automatically from env:
+ *
+ *   - OpenAI-compatible chat-completions (default). Uses `MINIMAX_API_KEY`
+ *     against `https://openrouter.ai/api/v1` (OpenRouter hosts the
+ *     multimodal M3 and also lets us hit Gemini for ASR via OpenRouter).
+ *
+ *   - Anthropic-compatible messages API (fallback). When `MINIMAX_API_KEY`
+ *     is unset but `ANTHROPIC_AUTH_TOKEN` is present, we POST to
+ *     `${ANTHROPIC_BASE_URL}/v1/messages` with the Anthropic body shape
+ *     (top-level `system`, `x-api-key` header, `anthropic-version` header).
+ *     This lets the chat route talk to a hosted M3 endpoint that speaks the
+ *     Anthropic API without changing callers.
  *
  * Pipeline for a real video:
  *   1. ffmpeg locally extracts audio (MP3 32 kbps mono) + N keyframes (JPEG)
  *      into /content/generated/<slug>/assets/. Cached — re-runs are no-ops.
  *   2. transcribeAudio() sends the MP3 to the transcribe model (default
- *      Gemini Flash Lite) and returns the verbatim Italian transcript.
+ *      Gemini Flash Lite, OpenRouter-only) and returns the verbatim Italian
+ *      transcript.
  *   3. analyzeVideoWithMiniMax() sends the transcript + keyframes + a
  *      structured prompt to the M3 multimodal model and parses the JSON
  *      response into the lesson artifact set the rest of the app expects.
@@ -22,10 +31,17 @@
  *     default is preserved.
  *
  * Required env vars (with defaults):
- *   MINIMAX_API_KEY         — required for any real call
- *   MINIMAX_BASE_URL        — default: https://openrouter.ai/api/v1
- *   MINIMAX_MODEL           — default: minimax/minimax-m3
- *   MINIMAX_TRANSCRIBE_MODEL — default: google/gemini-2.5-flash-lite
+ *   Provider: openai-compatible (preferred)
+ *     MINIMAX_API_KEY          — required for any real call
+ *     MINIMAX_BASE_URL         — default: https://openrouter.ai/api/v1
+ *     MINIMAX_MODEL            — default: minimax/minimax-m3
+ *     MINIMAX_TRANSCRIBE_MODEL — default: google/gemini-2.5-flash-lite
+ *
+ *   Provider: anthropic (fallback when MINIMAX_API_KEY is unset)
+ *     ANTHROPIC_AUTH_TOKEN              — required
+ *     ANTHROPIC_BASE_URL                — default: https://api.minimax.io/anthropic
+ *     ANTHROPIC_MODEL                   — default: ANTHROPIC_DEFAULT_SONNET_MODEL or "MiniMax-M3"
+ *     ANTHROPIC_DEFAULT_SONNET_MODEL    — used as fallback for ANTHROPIC_MODEL
  */
 
 import { spawn } from 'node:child_process';
@@ -51,26 +67,64 @@ const FFMPEG =
   'C:/Users/Erica/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-124716-g054dffd133-win64-gpl/bin/ffmpeg.exe';
 
 export interface MiniMaxConfig {
+  provider: 'openai' | 'anthropic';
   apiKey: string | null;
   model: string;
   baseUrl: string;
   transcribeModel: string;
 }
 
-const DEFAULT_BASE_URL = 'https://openrouter.ai/api/v1';
-const DEFAULT_MODEL = 'minimax/minimax-m3';
+const DEFAULT_OPENAI_BASE_URL = 'https://openrouter.ai/api/v1';
+const DEFAULT_OPENAI_MODEL = 'minimax/minimax-m3';
 const DEFAULT_TRANSCRIBE_MODEL = 'google/gemini-2.5-flash-lite';
 
+const DEFAULT_ANTHROPIC_BASE_URL =
+  process.env.ANTHROPIC_BASE_URL?.trim() || 'https://api.minimax.io/anthropic';
+const DEFAULT_ANTHROPIC_MODEL =
+  process.env.ANTHROPIC_MODEL?.trim() ||
+  process.env.ANTHROPIC_DEFAULT_SONNET_MODEL?.trim() ||
+  'MiniMax-M3';
+const ANTHROPIC_API_VERSION =
+  process.env.ANTHROPIC_VERSION?.trim() || '2023-06-01';
+
 export function getMiniMaxConfig(): MiniMaxConfig {
+  const openaiKey = process.env.MINIMAX_API_KEY?.trim();
+  const anthropicKey = process.env.ANTHROPIC_AUTH_TOKEN?.trim();
+
+  if (openaiKey) {
+    return {
+      provider: 'openai',
+      apiKey: openaiKey,
+      model: process.env.MINIMAX_MODEL?.trim() || DEFAULT_OPENAI_MODEL,
+      baseUrl: (
+        process.env.MINIMAX_BASE_URL?.trim() || DEFAULT_OPENAI_BASE_URL
+      ).replace(/\/+$/, ''),
+      transcribeModel:
+        process.env.MINIMAX_TRANSCRIBE_MODEL?.trim() ||
+        DEFAULT_TRANSCRIBE_MODEL,
+    };
+  }
+
+  if (anthropicKey) {
+    return {
+      provider: 'anthropic',
+      apiKey: anthropicKey,
+      model: DEFAULT_ANTHROPIC_MODEL,
+      baseUrl: DEFAULT_ANTHROPIC_BASE_URL.replace(/\/+$/, ''),
+      // Transcribe model is OpenRouter-only; keep a sensible default but
+      // transcribeAudio() will fail loudly on the Anthropic provider.
+      transcribeModel:
+        process.env.MINIMAX_TRANSCRIBE_MODEL?.trim() ||
+        DEFAULT_TRANSCRIBE_MODEL,
+    };
+  }
+
   return {
-    apiKey: process.env.MINIMAX_API_KEY?.trim() || null,
-    model: process.env.MINIMAX_MODEL?.trim() || DEFAULT_MODEL,
-    baseUrl: (process.env.MINIMAX_BASE_URL?.trim() || DEFAULT_BASE_URL).replace(
-      /\/+$/,
-      '',
-    ),
-    transcribeModel:
-      process.env.MINIMAX_TRANSCRIBE_MODEL?.trim() || DEFAULT_TRANSCRIBE_MODEL,
+    provider: 'openai',
+    apiKey: null,
+    model: DEFAULT_OPENAI_MODEL,
+    baseUrl: DEFAULT_OPENAI_BASE_URL.replace(/\/+$/, ''),
+    transcribeModel: DEFAULT_TRANSCRIBE_MODEL,
   };
 }
 
@@ -134,8 +188,9 @@ function dataUrlFromFile(filePath: string, mime: string): string {
 }
 
 /**
- * Low-level POST to `${baseUrl}/chat/completions`. Returns the assistant
- * message text. Throws MiniMaxApiError on non-2xx.
+ * Low-level POST. Dispatches to the right provider based on the resolved
+ * config. Returns the assistant message text. Throws MiniMaxApiError on
+ * non-2xx, or a plain Error on shape mismatches.
  */
 export async function postChat(
   messages: ChatMessage[],
@@ -151,8 +206,39 @@ export async function postChat(
   if (!config.apiKey) {
     throw new Error('[minimax] no API key configured');
   }
-  const url = `${config.baseUrl}/chat/completions`;
+  // The Anthropic messages API does not support OpenAI's
+  // `response_format: { type: 'json_object' }` contract. JSON forcing on
+  // Anthropic is supposed to be done via prompt engineering or tool use.
+  // We fail loudly here instead of silently returning free-form text that
+  // would break callers expecting parseable JSON (e.g. analyzeVideoWithMiniMax).
+  if (opts?.json && config.provider === 'anthropic') {
+    throw new Error(
+      "[minimax] opts.json=true is not supported on the Anthropic provider. " +
+        'Use OpenRouter (set MINIMAX_API_KEY) or remove the json flag.',
+    );
+  }
+  if (config.provider === 'anthropic') {
+    return postChatAnthropic(messages, opts, config);
+  }
+  return postChatOpenAI(messages, opts, config);
+}
 
+/**
+ * OpenAI-compatible chat-completions POST. Used for OpenRouter (default)
+ * and any other `messages[].role/content` endpoint.
+ */
+async function postChatOpenAI(
+  messages: ChatMessage[],
+  opts: {
+    model?: string;
+    json?: boolean;
+    temperature?: number;
+    maxTokens?: number;
+    extraBody?: Record<string, unknown>;
+  } | undefined,
+  config: MiniMaxConfig,
+): Promise<string> {
+  const url = `${config.baseUrl}/chat/completions`;
   const body: Record<string, unknown> = {
     model: opts?.model ?? config.model,
     messages,
@@ -166,45 +252,9 @@ export async function postChat(
   // is unreliable for very large JSON bodies (audio base64 ≈ 12 MB+) — the
   // underlying socket dies with a bare "fetch failed" error. The legacy
   // request path works fine and is well-tested.
-  const parsedUrl = new URL(url);
-  const isHttps = parsedUrl.protocol === 'https:';
-  const lib = isHttps ? https : http;
-  const bodyStr = JSON.stringify(body);
-
-  const result = await new Promise<{ status: number; statusText: string; text: string }>(
-    (resolve, reject) => {
-      const req = lib.request(
-        {
-          method: 'POST',
-          protocol: parsedUrl.protocol,
-          hostname: parsedUrl.hostname,
-          port: parsedUrl.port || (isHttps ? 443 : 80),
-          path: parsedUrl.pathname + parsedUrl.search,
-          headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(bodyStr, 'utf8'),
-            Authorization: `Bearer ${config.apiKey}`,
-          },
-          timeout: 10 * 60 * 1000, // 10 minutes — covers long transcriptions
-        },
-        (res) => {
-          const chunks: Buffer[] = [];
-          res.on('data', (c) => chunks.push(c));
-          res.on('end', () => {
-            const text = Buffer.concat(chunks).toString('utf8');
-            resolve({ status: res.statusCode ?? 0, statusText: res.statusMessage ?? '', text });
-          });
-          res.on('error', reject);
-        },
-      );
-      req.on('error', reject);
-      req.on('timeout', () => {
-        req.destroy(new Error('[minimax] request timed out after 10 minutes'));
-      });
-      req.write(bodyStr);
-      req.end();
-    },
-  );
+  const result = await httpPostJson(url, body, {
+    Authorization: `Bearer ${config.apiKey}`,
+  });
 
   if (result.status < 200 || result.status >= 300) {
     throw new MiniMaxApiError(result.status, result.statusText, result.text);
@@ -225,6 +275,142 @@ export async function postChat(
     );
   }
   return stripThinkingAndFences(content);
+}
+
+/**
+ * Anthropic-compatible messages POST.
+ *
+ * - `system` is hoisted out of `messages` into a top-level field (Anthropic
+ *   requires it; multiple system messages are joined with two newlines).
+ * - Auth header is `x-api-key` plus `anthropic-version`.
+ * - `max_tokens` is required by the Anthropic API; if the caller didn't
+ *   specify one, we default to 4096 for text replies and 8000 for the
+ *   multimodal video analysis path (which uses callModelMultimodal).
+ * - Response body uses `content: [{type: 'text', text: '...'}]`. Non-text
+ *   blocks (e.g. `tool_use`, `thinking`) are skipped.
+ */
+async function postChatAnthropic(
+  messages: ChatMessage[],
+  opts: {
+    model?: string;
+    json?: boolean;
+    temperature?: number;
+    maxTokens?: number;
+    extraBody?: Record<string, unknown>;
+  } | undefined,
+  config: MiniMaxConfig,
+): Promise<string> {
+  const url = `${config.baseUrl}/v1/messages`;
+
+  let systemText = '';
+  const userTurns: Array<{ role: 'user' | 'assistant'; content: unknown }> = [];
+  for (const m of messages) {
+    if (m.role === 'system') {
+      systemText += (systemText ? '\n\n' : '') + String(m.content);
+      continue;
+    }
+    if (typeof m.content === 'string') {
+      userTurns.push({ role: m.role, content: m.content });
+    } else {
+      userTurns.push({ role: m.role, content: m.content });
+    }
+  }
+
+  const body: Record<string, unknown> = {
+    model: opts?.model ?? config.model,
+    messages: userTurns,
+    max_tokens: opts?.maxTokens ?? 4096,
+  };
+  if (systemText) body.system = systemText;
+  if (opts?.temperature != null) body.temperature = opts.temperature;
+  if (opts?.extraBody) Object.assign(body, opts.extraBody);
+
+  const result = await httpPostJson(url, body, {
+    'x-api-key': config.apiKey ?? '',
+    'anthropic-version': ANTHROPIC_API_VERSION,
+  });
+
+  if (result.status < 200 || result.status >= 300) {
+    throw new MiniMaxApiError(result.status, result.statusText, result.text);
+  }
+
+  let data: {
+    content?: Array<{ type?: string; text?: string }>;
+    error?: { message?: string };
+  };
+  try {
+    data = JSON.parse(result.text);
+  } catch {
+    throw new Error(
+      `[minimax] non-JSON response (status ${result.status}): ${result.text.slice(0, 500)}`,
+    );
+  }
+  if (data.error?.message) {
+    throw new Error(`[minimax] ${data.error.message}`);
+  }
+  const text = (data.content ?? [])
+    .filter((b) => b.type === 'text' && typeof b.text === 'string')
+    .map((b) => b.text as string)
+    .join('');
+  if (!text) {
+    throw new Error(
+      `[minimax] unexpected Anthropic response shape: ${result.text.slice(0, 500)}`,
+    );
+  }
+  return stripThinkingAndFences(text);
+}
+
+/**
+ * Shared HTTP POST helper used by both provider branches. Uses Node's
+ * http/https modules directly because Node 24's native fetch (undici) is
+ * unreliable for very large JSON bodies (audio base64 ≈ 12 MB+).
+ */
+async function httpPostJson(
+  url: string,
+  body: Record<string, unknown>,
+  extraHeaders: Record<string, string>,
+): Promise<{ status: number; statusText: string; text: string }> {
+  const parsedUrl = new URL(url);
+  const isHttps = parsedUrl.protocol === 'https:';
+  const lib = isHttps ? https : http;
+  const bodyStr = JSON.stringify(body);
+
+  return new Promise((resolve, reject) => {
+    const req = lib.request(
+      {
+        method: 'POST',
+        protocol: parsedUrl.protocol,
+        hostname: parsedUrl.hostname,
+        port: parsedUrl.port || (isHttps ? 443 : 80),
+        path: parsedUrl.pathname + parsedUrl.search,
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(bodyStr, 'utf8'),
+          ...extraHeaders,
+        },
+        timeout: 10 * 60 * 1000, // 10 minutes — covers long transcriptions
+      },
+      (res) => {
+        const chunks: Buffer[] = [];
+        res.on('data', (c) => chunks.push(c));
+        res.on('end', () => {
+          const text = Buffer.concat(chunks).toString('utf8');
+          resolve({
+            status: res.statusCode ?? 0,
+            statusText: res.statusMessage ?? '',
+            text,
+          });
+        });
+        res.on('error', reject);
+      },
+    );
+    req.on('error', reject);
+    req.on('timeout', () => {
+      req.destroy(new Error('[minimax] request timed out after 10 minutes'));
+    });
+    req.write(bodyStr);
+    req.end();
+  });
 }
 
 /**

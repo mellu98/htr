@@ -93,3 +93,5 @@ run().catch((err) => {
   console.error('[test-chat] fatal:', err);
   process.exit(1);
 });
+
+export {};

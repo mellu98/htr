@@ -44,6 +44,8 @@ export interface MetricFilters {
   artistProfileId?: string;
   releaseId?: string;
   platform?: string;
+  /** Hard cap on rows returned (defaults to unbounded). */
+  take?: number;
 }
 
 export async function listMetricSnapshots(filters: MetricFilters = {}) {
@@ -54,6 +56,7 @@ export async function listMetricSnapshots(filters: MetricFilters = {}) {
   return prisma.metricSnapshot.findMany({
     where,
     orderBy: [{ date: 'desc' }],
+    ...(filters.take != null ? { take: filters.take } : {}),
   });
 }
 

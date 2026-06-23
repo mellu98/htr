@@ -21,7 +21,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-import sharp from 'sharp';
+import sharp, { type Sharp } from 'sharp';
 
 const ROOT = path.resolve(__dirname, '..');
 const SOURCE = path.join(ROOT, 'icona.png');
@@ -60,7 +60,7 @@ async function loadSource(): Promise<Buffer> {
 
 async function makeVariant(source: Buffer, v: Variant): Promise<void> {
   const target = path.join(OUT_DIR, v.file);
-  let pipeline: sharp.Sharp;
+  let pipeline: Sharp;
 
   if (v.paddingPct === 0) {
     pipeline = sharp(source).resize(v.size, v.size, {
