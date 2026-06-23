@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Filter, Lock, Play, Search, Sparkles, ListChecks, FileText, Brain, HelpCircle, Layers, Lightbulb, Clock } from 'lucide-react';
+import { Filter, Play, Search, Sparkles, ListChecks, FileText, Brain, HelpCircle, Layers, Lightbulb, Clock, FileVideo } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -44,7 +44,7 @@ export function VideoLibrary({ lessons, statuses, summary }: VideoLibraryProps) 
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return lessons.filter((l) => {
+    const list = lessons.filter((l) => {
       const s = statuses[l.slug];
       if (moduleFilter !== 'all' && l.moduleId !== moduleFilter) return false;
       if (presenceFilter === 'imported' && !(s?.videoPresent ?? false)) return false;
@@ -56,6 +56,23 @@ export function VideoLibrary({ lessons, statuses, summary }: VideoLibraryProps) 
       }
       return true;
     });
+    // AI-first sort: lessons with generated transcripts/analysis surface
+    // first so the user lands on what the coach actually reasons about.
+    // Ties broken by lesson order.
+    const aiRank = (s: LessonRuntimeStatus | undefined): number => {
+      if (!s) return 4;
+      if (s.aiStatus === 'approved') return 0;
+      if (s.aiStatus === 'reviewed') return 1;
+      if (s.aiStatus === 'generated') return 2;
+      if (s.generated.transcript || s.generated.analysis) return 3;
+      return 4;
+    };
+    return [...list].sort((a, b) => {
+      const ra = aiRank(statuses[a.slug]);
+      const rb = aiRank(statuses[b.slug]);
+      if (ra !== rb) return ra - rb;
+      return a.order - b.order;
+    });
   }, [lessons, statuses, query, moduleFilter, presenceFilter, aiFilter]);
 
   return (
@@ -63,10 +80,20 @@ export function VideoLibrary({ lessons, statuses, summary }: VideoLibraryProps) 
       <header className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            <span className="gradient-text">Video Library</span>
+            <span className="gradient-text">Library</span>
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {summary.totalLessons} lezioni · {summary.videoImportedCount}/{summary.totalLessons} video presenti · {summary.aiGeneratedCount}/{summary.totalLessons} analizzate · {summary.missingVideosCount} da importare
+            {summary.totalLessons} lezioni ·{' '}
+            <span className="font-medium text-foreground">
+              {summary.aiGeneratedCount}/{summary.totalLessons}
+            </span>{' '}
+            analizzate dall&apos;AI ·{' '}
+            <span className="text-muted-foreground/70">
+              {summary.videoImportedCount}/{summary.totalLessons} video in archivio
+            </span>
+          </p>
+          <p className="mt-0.5 text-xs text-muted-foreground/70">
+            La conoscenza vive nelle trascrizioni e nelle analisi — i video sono solo il supporto originale.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -205,10 +232,9 @@ function VideoCard({
           </span>
         </div>
         {!present && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-muted/70 px-2 py-1 text-xs">
-              <Lock className="h-3.5 w-3.5" /> Video mancante
-            </span>
+          <div className="absolute right-3 bottom-3 flex items-center gap-1 rounded-md bg-black/60 px-2 py-1 font-mono text-[10px] text-white/80 backdrop-blur">
+            <FileVideo className="h-3 w-3" />
+            Video non importato
           </div>
         )}
         {present && (
@@ -259,7 +285,17 @@ function VideoCard({
         {/* Overall */}
         <div className="flex items-center justify-between pt-1 text-[11px]">
           <span className="text-muted-foreground">Overall</span>
-          <span className="font-mono gradient-text">{overall}%</span>
+          <span className="flex items-center gap-1.5">
+            {!present && (status?.generated.transcript || status?.generated.analysis) && (
+              <span
+                className="rounded bg-accent/15 px-1.5 py-0.5 text-[10px] font-medium text-accent ring-1 ring-inset ring-accent/30"
+                title="Lezione analizzata dall'AI — conoscenza disponibile anche senza il video"
+              >
+                Con AI
+              </span>
+            )}
+            <span className="font-mono gradient-text">{overall}%</span>
+          </span>
         </div>
       </div>
     </Link>
