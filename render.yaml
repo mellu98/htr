@@ -28,7 +28,9 @@ services:
     # Prisma's create-only migration model doesn't drop data. For a real prod
     # migration flow, swap to `npx prisma migrate deploy` + proper migration
     # files.
-    startCommand: npm run db:push && npm start
+    # db:seed is idempotent: it creates the admin user from ADMIN_SEED only if
+    # no users exist, and seeds the demo dataset only if no artists exist.
+    startCommand: npm run db:push && npm run db:seed && npm start
     healthCheckPath: /
     autoDeploy: true
     envVars:
