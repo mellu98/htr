@@ -10,7 +10,7 @@
 # Or programmatically via POST https://api.render.com/v1/blueprints.
 
 services:
-  - type: pserv
+  - type: postgres
     name: wave-up-db
     plan: starter
     databaseName: waveup
@@ -36,6 +36,8 @@ services:
         fromDatabase:
           name: wave-up-db
           property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
       - key: NODE_ENV
         value: production
       - key: NEXT_TELEMETRY_DISABLED
