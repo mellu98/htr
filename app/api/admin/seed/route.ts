@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { ensureAdminUser } from '@/lib/auth/user';
 
 /**
  * Admin seed endpoint.
@@ -68,6 +69,10 @@ export async function POST(request: NextRequest) {
   } else {
     log.push('AppSettings singleton already present');
   }
+
+  // ── Admin user (idempotent) ──────────────────────────────────────────────
+  const adminResult = await ensureAdminUser();
+  log.push(adminResult.message);
 
   // ── Demo dataset (idempotent on artist count) ────────────────────────────
   const existingArtists = await prisma.artistProfile.count();

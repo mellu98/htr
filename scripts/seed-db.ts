@@ -9,10 +9,15 @@
  */
 
 import { PrismaClient } from '@prisma/client';
+import { ensureAdminUser } from '@/lib/auth/user';
 
 const prisma = new PrismaClient();
 
 async function main() {
+  // ── Admin user (idempotent) ──────────────────────────────────────────────
+  const adminResult = await ensureAdminUser();
+  console.log(`✓ ${adminResult.message}`);
+
   // ── Singleton AppSettings ────────────────────────────────────────────────
   const existingSettings = await prisma.appSettings.findUnique({
     where: { id: 'singleton' },

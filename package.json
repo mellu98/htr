@@ -40,10 +40,12 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
+    "bcryptjs": "^3.0.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.18",
+    "jose": "^6.2.3",
     "lucide-react": "^0.460.0",
     "next": "14.2.18",
     "pngjs": "^7.0.0",
@@ -60,5 +62,8 @@
   },
   "engines": {
     "node": "20.x"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6"
   }
 }
