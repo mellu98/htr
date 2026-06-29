@@ -92,7 +92,7 @@ export function TopBar() {
                 </Link>
               );
             })}
-            <ContentDropdown pathname={pathname ?? '/'} />
+            <ContentDropdown pathname={pathname ?? '/'} user={user} />
           </nav>
 
           <div className="flex items-center gap-2">
@@ -103,7 +103,7 @@ export function TopBar() {
           </div>
         </div>
       </header>
-      <MobileNavDrawer open={drawerOpen} onOpenChange={setDrawerOpen} />
+      <MobileNavDrawer open={drawerOpen} onOpenChange={setDrawerOpen} user={user} />
     </>
   );
 }
@@ -153,7 +153,15 @@ function UserDropdown({ user }: { user: AuthUser }) {
   );
 }
 
-function ContentDropdown({ pathname }: { pathname: string }) {
+function ContentDropdown({ pathname, user }: { pathname: string; user: AuthUser | null }) {
+  // AI Processing is an admin-only tool; hide it from regular users.
+  const contentLinks =
+    user?.role === 'admin'
+      ? NAV_LINKS.content
+      : NAV_LINKS.content.filter((item) => item.href !== '/ai');
+
+  if (contentLinks.length === 0) return null;
+
   return (
     <details className="relative">
       <summary
@@ -172,7 +180,7 @@ function ContentDropdown({ pathname }: { pathname: string }) {
         <ChevronDown className="h-3.5 w-3.5" />
       </summary>
       <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-border/60 bg-card p-2 shadow-2xl shadow-black/40">
-        {NAV_LINKS.content.map((item) => {
+        {contentLinks.map((item) => {
           const active = pathname.startsWith(item.href);
           return (
             <Link

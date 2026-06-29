@@ -20,15 +20,18 @@ import {
   getCourseOverview,
 } from '@/lib/db/queries';
 import { runtimeOverallCompletion } from '@/lib/status';
+import { getCurrentSession } from '@/lib/auth/session';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { ProgressCard } from '@/components/dashboard/ProgressCard';
 import { cn, formatDate } from '@/lib/utils';
 
 export default async function DashboardPage() {
-  const [overview, statuses] = await Promise.all([
+  const [overview, statuses, session] = await Promise.all([
     getCourseOverview(),
     getAllLessonRuntimeStatuses(),
+    getCurrentSession(),
   ]);
+  const isAdmin = session?.role === 'admin';
 
   // "Continue from here" = first lesson that's imported but not yet completed.
   const statusBySlug = Object.fromEntries(statuses.map((s) => [s.lessonSlug, s]));
@@ -85,12 +88,14 @@ export default async function DashboardPage() {
                   </Link>
                 </Button>
               )}
-              <Button asChild size="lg" variant="outline" className="gap-2">
-                <Link href="/ai">
-                  <Brain className="h-4 w-4" />
-                  AI Processing
-                </Link>
-              </Button>
+              {isAdmin && (
+                <Button asChild size="lg" variant="outline" className="gap-2">
+                  <Link href="/ai">
+                    <Brain className="h-4 w-4" />
+                    AI Processing
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
           <div className="flex flex-col items-end gap-1 text-right">

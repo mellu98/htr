@@ -1,5 +1,6 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 export interface SessionPayload {
   userId: string;
@@ -50,6 +51,15 @@ export async function verifySessionToken(
 
 export function getSessionCookie(request: NextRequest): string | undefined {
   return request.cookies.get(COOKIE_NAME)?.value;
+}
+
+/**
+ * Reads the session from cookies in a Server Component.
+ */
+export async function getCurrentSession(): Promise<SessionPayload | null> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+  return verifySessionToken(token);
 }
 
 function cookieOptions() {

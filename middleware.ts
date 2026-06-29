@@ -21,9 +21,24 @@ const PUBLIC_PREFIXES = [
   '/favicon.ico',
 ];
 
+// Admin-only routes (prefix match so /ai and /ai/tutor are both covered).
+const ADMIN_PREFIXES = ['/ai'];
+
 function isPublicPath(pathname: string): boolean {
   if (PUBLIC_PATHS.has(pathname)) return true;
   return PUBLIC_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+}
+
+function isAdminPath(pathname: string): boolean {
+  return ADMIN_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+}
+
+function buildForbiddenResponse(request: NextRequest): NextResponse {
+  const isApi = request.nextUrl.pathname.startsWith('/api/');
+  if (isApi) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+  return NextResponse.redirect(new URL('/', request.url));
 }
 
 export async function middleware(request: NextRequest) {
@@ -47,6 +62,11 @@ export async function middleware(request: NextRequest) {
   const session = await verifySessionToken(token);
   if (!session) {
     return buildUnauthorizedResponse(request);
+  }
+
+  // Admin-only area.
+  if (isAdminPath(pathname) && session.role !== 'admin') {
+    return buildForbiddenResponse(request);
   }
 
   return NextResponse.next();

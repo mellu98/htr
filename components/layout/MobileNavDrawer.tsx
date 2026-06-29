@@ -26,13 +26,22 @@ import { Brain, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BRAND, MOBILE_NAV_SECTIONS } from '@/lib/wave-up/brand';
 
+interface AuthUser {
+  id: string;
+  email: string;
+  name: string | null;
+  role: string;
+}
+
 interface MobileNavDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  user: AuthUser | null;
 }
 
-export function MobileNavDrawer({ open, onOpenChange }: MobileNavDrawerProps) {
+export function MobileNavDrawer({ open, onOpenChange, user }: MobileNavDrawerProps) {
   const pathname = usePathname();
+  const isAdmin = user?.role === 'admin';
 
   // Close the drawer whenever the route changes, so the user lands cleanly
   // on the destination page without having to tap the overlay.
@@ -41,6 +50,15 @@ export function MobileNavDrawer({ open, onOpenChange }: MobileNavDrawerProps) {
     // We intentionally only react to pathname changes; onOpenChange is stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  const filteredSections = isAdmin
+    ? MOBILE_NAV_SECTIONS
+    : MOBILE_NAV_SECTIONS.map((section) => ({
+        ...section,
+        items: section.items.filter(
+          (item) => item.href !== '/ai' && item.href !== '/ai/tutor',
+        ),
+      })).filter((section) => section.items.length > 0);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -70,7 +88,7 @@ export function MobileNavDrawer({ open, onOpenChange }: MobileNavDrawerProps) {
           aria-label="Mobile navigation"
           className="flex-1 overflow-y-auto px-3 py-4 pb-[calc(1rem+var(--safe-bottom))]"
         >
-          {MOBILE_NAV_SECTIONS.map((section) => (
+          {filteredSections.map((section) => (
             <div key={section.title} className="mb-5">
               <h3 className="mb-1.5 px-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                 {section.title}
