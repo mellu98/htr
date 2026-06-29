@@ -970,12 +970,19 @@ export interface NormalizedLessonOutput {
   analysis: LessonAnalysis | null;
 }
 
+function normalizeString(value: unknown): string {
+  if (typeof value === 'string') return value.trim();
+  if (value == null) return '';
+  if (Array.isArray(value)) return value.join('\n').trim();
+  return String(value).trim();
+}
+
 export function normalizeMiniMaxOutput(raw: RawModelOutput): NormalizedLessonOutput {
   return {
-    transcript: raw.transcript?.trim() || '',
-    visualNotes: raw.visualNotes?.trim() || '',
-    summary: raw.summary?.trim() || '',
-    actionPlan: raw.actionPlan?.trim() || '',
+    transcript: normalizeString(raw.transcript),
+    visualNotes: normalizeString(raw.visualNotes),
+    summary: normalizeString(raw.summary),
+    actionPlan: normalizeString(raw.actionPlan),
     checklist: Array.isArray(raw.checklist) ? raw.checklist : [],
     quiz: Array.isArray(raw.quiz) ? raw.quiz : [],
     flashcards: Array.isArray(raw.flashcards) ? raw.flashcards : [],
