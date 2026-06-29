@@ -561,14 +561,16 @@ export async function transcribeAudio(
     },
   );
 
-  let parsed: {
+  interface TranscriptionJson {
     language?: string;
     durationSeconds?: number;
     segments?: Array<{ start?: string; end?: string; text?: string }>;
     fullText?: string;
-  } | null = null;
+  }
+
+  let parsed: TranscriptionJson | null = null;
   try {
-    parsed = extractJson(raw) as typeof parsed;
+    parsed = extractJson(raw) as TranscriptionJson;
   } catch {
     parsed = null;
   }
@@ -824,7 +826,7 @@ export async function analyzeVideoWithMiniMax(
 
   let parsed: RawModelOutput;
   try {
-    parsed = extractJson(raw);
+    parsed = extractJson(raw) as RawModelOutput;
   } catch (err) {
     throw new Error(
       `[minimax] ${config.model} returned non-JSON for ${slug}: ${(err as Error).message}\n--- body ---\n${raw.slice(0, 800)}`,
