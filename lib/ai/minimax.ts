@@ -173,6 +173,17 @@ export function extractJson(text: string): unknown {
     // fall through
   }
 
+  // The whole response isn't a single fenced block; look for a ```json block
+  // anywhere in the text.
+  const jsonFence = /```(?:json)?\s*([\s\S]*?)\s*```/i.exec(cleaned);
+  if (jsonFence) {
+    try {
+      return JSON.parse(jsonFence[1].trim());
+    } catch {
+      // fall through
+    }
+  }
+
   const firstBrace = cleaned.indexOf('{');
   const lastBrace = cleaned.lastIndexOf('}');
   if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
@@ -521,9 +532,16 @@ export async function transcribeAudio(
   const language = opts?.language ?? 'it';
 
   const instruction =
-    `Trascrivi il file audio in lingua "${language === 'it' ? 'italiano (it-IT)' : language}" in modo VERBATIM parola per parola.\n` +
-    `Inserisci un marker [MM:SS] all'inizio di ogni nuovo paragrafo o cambio di argomento.\n` +
-    `Restituisci SOLO il testo della trascrizione, senza intestazioni, spiegazioni o JSON.`;
+    `Trascrivi il file audio in italiano (it-IT) in modo VERBATIM parola per parola. ` +
+    `Se il file è in un'altra lingua, trascrivi in quella lingua ma rispondi in italiano solo per i metadati. ` +
+    `Restituisci ESCLUSIVAMENTE un JSON valido:\n` +
+    `{\n` +
+    `  "language": "<ISO 639-1 della lingua parlata nell'audio>",\n` +
+    `  "durationSeconds": <numero intero stimato>,\n` +
+    `  "segments": [{ "start": "MM:SS", "end": "MM:SS", "text": "trascrizione del segmento" }],\n` +
+    `  "fullText": "trascrizione completa unita, con [MM:SS] markers prima di ogni cambio di argomento principale"\n` +
+    `}\n` +
+    `Nessun testo fuori dal JSON. Nessun commento.`;
 
   const content = [
     { type: 'text', text: instruction },
@@ -537,14 +555,12 @@ export async function transcribeAudio(
     [{ role: 'user', content }],
     {
       model: opts?.model ?? config.transcribeModel,
-      json: false,
+      json: true,
       temperature: 0.1,
-      maxTokens: 32000,
+      maxTokens: 64000,
     },
   );
 
-  // Some providers may still return JSON despite the plain-text request.
-  // Try to extract a fullText field; otherwise use the raw text as-is.
   let parsed: {
     language?: string;
     durationSeconds?: number;
@@ -552,7 +568,7 @@ export async function transcribeAudio(
     fullText?: string;
   } | null = null;
   try {
-    parsed = JSON.parse(raw);
+    parsed = extractJson(raw) as typeof parsed;
   } catch {
     parsed = null;
   }
@@ -796,7 +812,7 @@ export async function analyzeVideoWithMiniMax(
   const raw = await callModel(textPrompt, {
     json: false,
     temperature: 0.4,
-    maxTokens: 8000,
+    maxTokens: 16000,
     system:
       'Sei un coach didattico per il corso HTR Training. Rispondi solo con JSON valido che rispetti lo schema richiesto. ' +
       'Non inventare contenuti: usa solo ciò che leggi nel transcript fornito. ' +
@@ -899,10 +915,10 @@ TRANSCRIPT:
 ${transcript.slice(0, 28000)}${transcript.length > 28000 ? '\n[...truncated...]' : ''}
 \`\`\`
 
-Devi produrre ESCLUSIVAMENTE un JSON valido (nessun testo prima o dopo) con questo schema:
+Devi produrre ESCLUSIVAMENTE un JSON valido (nessun testo prima o dopo) con questo schema.
+NOTA: NON ripetere il transcript nel JSON; lo script lo inserisce automaticamente. Restituisci solo i campi strutturati sottostanti.
 
 {
-  "transcript": "(stringa markdown con trascrizione verbatim, già presente sopra — lasciala IDENTICA)",
   "visualNotes": "(stringa markdown che descrive i tipi di slide/whiteboard/schermo che tipicamente compaiono in una lezione del genere; resta generico)",
   "summary": "(stringa markdown con 'Key takeaways' (5 bullet), 'Why it matters', 'What to do next')",
   "actionPlan": "(stringa markdown con sezioni 'Entro 24 ore', 'Entro la settimana', 'Entro il mese', 2-3 bullet ciascuna)",
