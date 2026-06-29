@@ -7,6 +7,7 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
+    instrumentationHook: true,
   },
   // Explicit webpack alias for `@/*` -> `./*` (mirrors tsconfig paths).
   // Render's build environment was failing to resolve `@/...` imports via
