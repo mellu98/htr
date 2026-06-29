@@ -21,9 +21,10 @@
  *   2. transcribeAudio() sends the MP3 to the transcribe model (default
  *      Gemini Flash Lite, OpenRouter-only) and returns the verbatim Italian
  *      transcript.
- *   3. analyzeVideoWithMiniMax() sends the transcript + keyframes + a
- *      structured prompt to the M3 multimodal model and parses the JSON
- *      response into the lesson artifact set the rest of the app expects.
+ *   3. analyzeVideoWithMiniMax() sends the transcript + a structured prompt
+ *      to a text-only analysis model (default Claude 3.5 Sonnet via
+ *      OpenRouter) and parses the JSON response into the lesson artifact
+ *      set the rest of the app expects.
  *
  * Behavior with no API key:
  *   - All functions return deterministic mock output. The script pipeline
@@ -75,7 +76,7 @@ export interface MiniMaxConfig {
 }
 
 const DEFAULT_OPENAI_BASE_URL = 'https://openrouter.ai/api/v1';
-const DEFAULT_OPENAI_MODEL = 'minimax/minimax-m3';
+const DEFAULT_OPENAI_MODEL = 'anthropic/claude-3.5-sonnet';
 const DEFAULT_TRANSCRIBE_MODEL = 'google/gemini-2.5-flash-lite';
 
 const DEFAULT_ANTHROPIC_BASE_URL =
@@ -154,6 +155,31 @@ export function stripThinkingAndFences(text: string): string {
   const fence = /^\s*```(?:json)?\s*([\s\S]*?)\s*```\s*$/i.exec(out);
   if (fence) out = fence[1];
   return out.trim();
+}
+
+/**
+ * Extract a JSON object from a model reply. Handles:
+ *   - code fences stripped by stripThinkingAndFences
+ *   - JSON embedded inside explanatory text (uses first `{` and last `}`)
+ *   - trailing model text after the JSON
+ *
+ * Throws if no valid JSON object can be parsed.
+ */
+export function extractJson(text: string): unknown {
+  const cleaned = stripThinkingAndFences(text);
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    // fall through
+  }
+
+  const firstBrace = cleaned.indexOf('{');
+  const lastBrace = cleaned.lastIndexOf('}');
+  if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
+    throw new Error('No JSON object found in response');
+  }
+  const candidate = cleaned.slice(firstBrace, lastBrace + 1);
+  return JSON.parse(candidate);
 }
 
 export class MiniMaxApiError extends Error {
@@ -495,16 +521,9 @@ export async function transcribeAudio(
   const language = opts?.language ?? 'it';
 
   const instruction =
-    `Trascrivi il file audio in italiano (it-IT) in modo VERBATIM parola per parola. ` +
-    `Se il file è in un'altra lingua, trascrivi in quella lingua ma rispondi in italiano solo per i metadati. ` +
-    `Restituisci ESCLUSIVAMENTE un JSON valido:\n` +
-    `{\n` +
-    `  "language": "<ISO 639-1 della lingua parlata nell'audio>",\n` +
-    `  "durationSeconds": <numero intero stimato>,\n` +
-    `  "segments": [{ "start": "MM:SS", "end": "MM:SS", "text": "trascrizione del segmento" }],\n` +
-    `  "fullText": "trascrizione completa unita, con [MM:SS] markers prima di ogni cambio di argomento principale"\n` +
-    `}\n` +
-    `Nessun testo fuori dal JSON. Nessun commento.`;
+    `Trascrivi il file audio in lingua "${language === 'it' ? 'italiano (it-IT)' : language}" in modo VERBATIM parola per parola.\n` +
+    `Inserisci un marker [MM:SS] all'inizio di ogni nuovo paragrafo o cambio di argomento.\n` +
+    `Restituisci SOLO il testo della trascrizione, senza intestazioni, spiegazioni o JSON.`;
 
   const content = [
     { type: 'text', text: instruction },
@@ -518,39 +537,39 @@ export async function transcribeAudio(
     [{ role: 'user', content }],
     {
       model: opts?.model ?? config.transcribeModel,
-      json: true,
+      json: false,
       temperature: 0.1,
-      maxTokens: 16000,
+      maxTokens: 32000,
     },
   );
 
+  // Some providers may still return JSON despite the plain-text request.
+  // Try to extract a fullText field; otherwise use the raw text as-is.
   let parsed: {
     language?: string;
     durationSeconds?: number;
     segments?: Array<{ start?: string; end?: string; text?: string }>;
     fullText?: string;
-  };
+  } | null = null;
   try {
     parsed = JSON.parse(raw);
   } catch {
-    // Some providers don't honor json_object strictly; fall back to raw.
-    return { text: raw, raw };
+    parsed = null;
   }
 
-  // Build a markdown transcript with [MM:SS] markers.
   let md = '';
-  if (Array.isArray(parsed.segments)) {
+  if (parsed && Array.isArray(parsed.segments)) {
     for (const seg of parsed.segments) {
       const start = seg.start ?? '00:00';
       const text = seg.text ?? '';
       md += `[${start}] ${text}\n\n`;
     }
-  } else if (parsed.fullText) {
+  } else if (parsed?.fullText) {
     md = parsed.fullText;
   } else {
     md = raw;
   }
-  return { text: md.trim(), raw: parsed };
+  return { text: md.trim(), raw };
 }
 
 // ---------------------------------------------------------------------------
@@ -750,7 +769,7 @@ export async function analyzeVideoWithMiniMax(
   const absVideo = fs.existsSync(videoPath)
     ? videoPath
     : path.join(process.cwd(), 'public', videoPath.replace(/^\/+/, ''));
-  const assets = await extractMediaAssets(absVideo, slug);
+  const assets = await extractMediaAssets(absVideo, slug, { maxFrames: 16, maxEdgePx: 512 });
 
   // 2. Transcribe audio.
   console.log(`[minimax] transcribing audio for ${slug}…`);
@@ -763,33 +782,25 @@ export async function analyzeVideoWithMiniMax(
     `[minimax] transcript ready: ${transcription.text.length} chars`,
   );
 
-  // 3. Build multimodal prompt and call M3.
+  // 3. Build text-only prompt and call the analysis model.
+  // We no longer send video frames: MiniMax M3 repeatedly failed on long
+  // videos. Claude 3.5 Sonnet on OpenRouter analyzes the verbatim transcript
+  // and produces the same structured output reliably.
   const config = getMiniMaxConfig();
   console.log(
-    `[minimax] calling ${config.model} with transcript + ${assets.framePaths.length} frames…`,
+    `[minimax] calling ${config.model} with transcript (${transcription.text.length} chars)…`,
   );
 
-  const textPrompt = buildAnalysisPrompt(slug, lessonTitle, moduleTitle, transcription.text);
+  const textPrompt = buildTextAnalysisPrompt(slug, lessonTitle, moduleTitle, transcription.text);
 
-  // Build the content array: text first, then keyframes as image_url data URLs.
-  const contentParts: Array<Record<string, unknown>> = [
-    { type: 'text', text: textPrompt },
-  ];
-  for (const fp of assets.framePaths) {
-    const dataUrl = dataUrlFromFile(fp, 'image/jpeg');
-    contentParts.push({
-      type: 'image_url',
-      image_url: { url: dataUrl },
-    });
-  }
-
-  const raw = await callModelMultimodal(contentParts, {
-    json: true,
+  const raw = await callModel(textPrompt, {
+    json: false,
     temperature: 0.4,
     maxTokens: 8000,
     system:
       'Sei un coach didattico per il corso HTR Training. Rispondi solo con JSON valido che rispetti lo schema richiesto. ' +
-      'Non inventare contenuti: usa solo ciò che vedi nei frame e ciò che leggi nel transcript forniti.',
+      'Non inventare contenuti: usa solo ciò che leggi nel transcript fornito. ' +
+      'Per i visualElements e visualNotes, inferisci i tipi di slide/whiteboard tipici di una lezione del genere, ma resta generico e prudente.',
   });
   if (!raw) {
     return buildMockOutputFromVideo(videoPath);
@@ -797,10 +808,10 @@ export async function analyzeVideoWithMiniMax(
 
   let parsed: RawModelOutput;
   try {
-    parsed = JSON.parse(stripThinkingAndFences(raw));
+    parsed = extractJson(raw);
   } catch (err) {
     throw new Error(
-      `[minimax] M3 returned non-JSON for ${slug}: ${(err as Error).message}\n--- body ---\n${raw.slice(0, 800)}`,
+      `[minimax] ${config.model} returned non-JSON for ${slug}: ${(err as Error).message}\n--- body ---\n${raw.slice(0, 800)}`,
     );
   }
 
@@ -839,7 +850,7 @@ Qui sotto trovi:
 
 TRANSCRIPT:
 \`\`\`
-${transcript.slice(0, 24000)}${transcript.length > 24000 ? '\n[...truncated...]' : ''}
+${transcript.slice(0, 12000)}${transcript.length > 12000 ? '\n[...truncated...]' : ''}
 \`\`\`
 
 Devi produrre ESCLUSIVAMENTE un JSON valido (nessun testo prima o dopo) con questo schema:
@@ -868,7 +879,53 @@ Vincoli:
 - Tutti i testi in italiano, tono professionale e diretto.
 - Le domande del quiz devono avere UNA sola risposta corretta presente testualmente nelle options.
 - I timestamp di importantMoments in formato MM:SS, basati sui segmenti del transcript.
-- Basa le risposte SOLO sul transcript e sui frame forniti. Non inventare.`;
+- Basa le risposte SOLO sul transcript fornito. Non inventare.`;
+}
+
+function buildTextAnalysisPrompt(
+  slug: string,
+  lessonTitle: string,
+  moduleTitle: string,
+  transcript: string,
+): string {
+  return `Sei un coach didattico per il corso HTR Training (music business per artisti italiani).
+
+Stai analizzando la lezione intitolata "${lessonTitle}" del modulo "${moduleTitle}".
+
+Hai a disposizione SOLO il transcript VERBATIM dell'audio (fonte primaria di verità). Non ci sono frame video.
+
+TRANSCRIPT:
+\`\`\`
+${transcript.slice(0, 28000)}${transcript.length > 28000 ? '\n[...truncated...]' : ''}
+\`\`\`
+
+Devi produrre ESCLUSIVAMENTE un JSON valido (nessun testo prima o dopo) con questo schema:
+
+{
+  "transcript": "(stringa markdown con trascrizione verbatim, già presente sopra — lasciala IDENTICA)",
+  "visualNotes": "(stringa markdown che descrive i tipi di slide/whiteboard/schermo che tipicamente compaiono in una lezione del genere; resta generico)",
+  "summary": "(stringa markdown con 'Key takeaways' (5 bullet), 'Why it matters', 'What to do next')",
+  "actionPlan": "(stringa markdown con sezioni 'Entro 24 ore', 'Entro la settimana', 'Entro il mese', 2-3 bullet ciascuna)",
+  "checklist": [{ "id": "check-1", "title": "...", "description": "...", "completed": false }] (3-5 elementi),
+  "quiz": [{ "id": "q1", "question": "...", "options": ["a","b","c","d"], "correctAnswer": "una delle options esatta", "explanation": "..." }] (3 domande),
+  "flashcards": [{ "id": "f1", "front": "...", "back": "...", "difficulty": "easy|medium|hard" }] (4 elementi),
+  "analysis": {
+    "lessonSlug": "${slug}",
+    "mainTopics": ["..."],
+    "visualElements": [{ "type": "slide|whiteboard|photo|diagram|screen|performance", "description": "..." }],
+    "importantMoments": [{ "timestamp": "MM:SS", "title": "...", "why": "..." }],
+    "practicalOutput": "deliverable concreto che lo studente produce",
+    "difficulty": "beginner|intermediate|advanced",
+    "recommendedNextAction": "azione specifica per la prossima settimana",
+    "managerNotes": "cosa deve verificare un manager"
+  }
+}
+
+Vincoli:
+- Tutti i testi in italiano, tono professionale e diretto.
+- Le domande del quiz devono avere UNA sola risposta corretta presente testualmente nelle options.
+- I timestamp di importantMoments in formato MM:SS, basati sui segmenti del transcript.
+- Basa le risposte SOLO sul transcript fornito. Non inventare.`;
 }
 
 // ---------------------------------------------------------------------------

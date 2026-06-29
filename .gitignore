@@ -37,8 +37,12 @@ next-env.d.ts
 /prisma/dev.db
 /prisma/dev.db-journal
 
-# Generated content (keep course.json, ignore generated/)
-/content/generated/
+# Generated content is now committed so Render can serve it without running
+# the analyzer on every deploy.
+# /content/generated/
+
+# But never commit extracted audio/frames (large binary/cache files).
+/content/generated/*/assets/
 
 # MP4 videos are NOT committed: GitHub rejects files >100MB.
 # Videos are uploaded to Render persistent disk via admin upload

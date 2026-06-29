@@ -38,6 +38,8 @@ async function main() {
 
   let processed = 0;
   let skipped = 0;
+  let failed = 0;
+  const failures: { slug: string; title: string; error: string }[] = [];
 
   for (const lesson of course.lessons) {
     const videoFull = path.join(process.cwd(), 'public', lesson.videoPath);
@@ -52,16 +54,35 @@ async function main() {
       console.log(`  ⚠ Local video not present — analyzing from metadata only.`);
     }
 
-    await uploadVideoToMiniMax(lesson.videoPath);
-    const raw = await analyzeVideoWithMiniMax(lesson.videoPath);
-    const normalized = normalizeMiniMaxOutput(raw);
-    const written = await generateLessonFiles(lesson.slug, normalized);
-    console.log(`  ✓ wrote ${written.length} files`);
-    processed++;
+    try {
+      await uploadVideoToMiniMax(lesson.videoPath);
+      const raw = await analyzeVideoWithMiniMax(lesson.videoPath);
+      const normalized = normalizeMiniMaxOutput(raw);
+      const written = await generateLessonFiles(lesson.slug, normalized);
+      console.log(`  ✓ wrote ${written.length} files`);
+      processed++;
+    } catch (err) {
+      failed++;
+      const message = err instanceof Error ? err.message : String(err);
+      failures.push({ slug: lesson.slug, title: lesson.title, error: message });
+      console.error(`  ✗ FAILED: ${message.slice(0, 300)}`);
+    }
+
+    // Small delay to avoid hammering the API and to keep local ffmpeg cool.
+    if (course.lessons.indexOf(lesson) < course.lessons.length - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
   }
 
   console.log('\n─'.repeat(72));
-  console.log(`Done. Processed ${processed} lessons, skipped ${skipped}.`);
+  console.log(`Done. Processed ${processed} lessons, skipped ${skipped}, failed ${failed}.`);
+  if (failures.length) {
+    console.log('\nFailures:');
+    for (const f of failures) {
+      console.log(`  - ${f.slug}: ${f.error.slice(0, 200)}`);
+    }
+    process.exitCode = 1;
+  }
   console.log('Open the dashboard or /library to inspect the output.');
 }
 
