@@ -1,0 +1,106 @@
+{
+  "lessonSlug": "modulo-4-preparare-una-release-updated",
+  "mainTopics": [
+    "Strategie di release musicale",
+    "Il Singolo: scopi e vantaggi",
+    "L'EP: caratteristiche e uso strategico",
+    "Il Mixtape: evoluzione e rilevanza attuale",
+    "L'Album: quando e perché farlo",
+    "Gestione del budget e costruzione dell'identità"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Introduzione al modulo e riepilogo dei concetti precedenti."
+    },
+    {
+      "type": "slide",
+      "description": "Elenco e descrizione delle diverse forme di release (Singolo, EP, Mixtape, Album)."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Schema delle motivazioni per lanciare un singolo (broad, community, trend)."
+    },
+    {
+      "type": "slide",
+      "description": "Punti chiave sui vantaggi del singolo (costanza, budget, test, identità)."
+    },
+    {
+      "type": "slide",
+      "description": "Caratteristiche e usi strategici dell'EP (numero tracce, coerenza, test album)."
+    },
+    {
+      "type": "slide",
+      "description": "Evoluzione e attualità del Mixtape (beat editi/inediti, uso per crew, test nicchia)."
+    },
+    {
+      "type": "slide",
+      "description": "Condizioni per la pubblicazione di un Album (richiesta pubblico/etichetta, tour, visione)."
+    },
+    {
+      "type": "diagram",
+      "description": "Rappresentazione dell'investimento e dei rischi legati all'Album."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:02",
+      "title": "Introduzione al nuovo modulo sulle release",
+      "why": "Segna l'inizio di un argomento cruciale nel percorso di un artista, collegandosi ai moduli precedenti."
+    },
+    {
+      "timestamp": "01:09",
+      "title": "Il Singolo come forma di release più comune",
+      "why": "Introduce la prima e più diffusa forma di pubblicazione, ponendo le basi per l'analisi successiva."
+    },
+    {
+      "timestamp": "02:25",
+      "title": "Tre motivi per lanciare un singolo (broad, community, trend)",
+      "why": "Fornisce una categorizzazione chiara e strategica delle finalità di un singolo, essenziale per la pianificazione."
+    },
+    {
+      "timestamp": "03:40",
+      "title": "Il singolo per la costanza e la rilevanza annuale",
+      "why": "Spiega il cambio di paradigma nel mercato musicale e l'importanza della frequenza di uscita."
+    },
+    {
+      "timestamp": "05:01",
+      "title": "Il singolo come strumento di test e costruzione dell'identità",
+      "why": "Evidenzia due vantaggi cruciali del singolo per gli artisti emergenti, permettendo crescita e adattamento."
+    },
+    {
+      "timestamp": "06:03",
+      "title": "L'EP come forma di pubblicazione emergente",
+      "why": "Introduce un formato intermedio sempre più rilevante, spiegandone le caratteristiche e l'utilità."
+    },
+    {
+      "timestamp": "06:53",
+      "title": "L'EP per testare una release più corposa",
+      "why": "Sottolinea la funzione dell'EP come 'prova generale' per un album, riducendo i rischi."
+    },
+    {
+      "timestamp": "08:42",
+      "title": "Il Mixtape: una forma in evoluzione",
+      "why": "Analizza un formato storico che ha subito cambiamenti significativi, evidenziandone l'uso attuale e potenziale."
+    },
+    {
+      "timestamp": "11:32",
+      "title": "L'Album: il 'mostro finale'",
+      "why": "Introduce l'album come la release più impegnativa, sfatando il mito che sia sempre la scelta migliore."
+    },
+    {
+      "timestamp": "12:46",
+      "title": "L'importanza di una visione per l'album",
+      "why": "Sottolinea che un album deve essere guidato da una chiara intenzione artistica, concettuale o commerciale."
+    },
+    {
+      "timestamp": "14:26",
+      "title": "L'album può ingessare il percorso di un artista",
+      "why": "Avverte sui rischi finanziari e di carriera di un album mal pianificato, specialmente per gli emergenti."
+    }
+  ],
+  "practicalOutput": "Una strategia di release definita per la prossima uscita musicale, basata sugli obiettivi e le risorse disponibili.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Pianifica la tua prossima release scegliendo tra singolo, EP, mixtape o album, definendo l'obiettivo (broad, community, trend) e stimando il budget necessario. Se sei un emergente, inizia con un singolo.",
+  "managerNotes": "Verificare che lo studente abbia compreso l'importanza di una strategia di release e non si butti su un album senza una chiara visione o richiesta. Assicurarsi che sappia distinguere tra i vari formati e i loro scopi."
+}

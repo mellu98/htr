@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Qual è il passaggio fondamentale dopo la teoria?",
+    "back": "Mettere in pratica le conoscenze acquisite.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Cosa non vogliono molti artisti?",
+    "back": "La fatica che c'è nel mezzo tra non essere nessuno e diventare un artista di successo.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Cosa offre HTR Training per accelerare il percorso dopo il corso?",
+    "back": "Una consulenza gratuita con il team.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f4",
+    "front": "Qual è l'elemento chiave che il team cerca negli artisti per la consulenza?",
+    "back": "Fame e motivazione ad agire ('muovere il culo').",
+    "difficulty": "medium"
+  }
+]

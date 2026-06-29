@@ -1,0 +1,87 @@
+{
+  "lessonSlug": "modulo-6-contenuti-and-social-updated",
+  "mainTopics": [
+    "Importanza dei contenuti e social per artisti",
+    "Fasi del marketing dei contenuti (Attrazione, Educazione, Conversione)",
+    "Vantaggi dei contenuti organici rispetto all'ADV",
+    "Ostacoli psicologici alla creazione di contenuti (timidezza, giudizio, non sapere cosa fare)",
+    "Mindset per superare i blocchi creativi e iniziare a produrre"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Titolo del modulo e della lezione"
+    },
+    {
+      "type": "diagram",
+      "description": "Schema delle tre fasi del marketing: Attrazione, Educazione, Conversione"
+    },
+    {
+      "type": "slide",
+      "description": "Punti elenco sull'importanza di fare contenuti"
+    },
+    {
+      "type": "whiteboard",
+      "description": "Lista dei tre problemi principali degli artisti con i contenuti: Timidezza, Giudizio, Non so che fare"
+    },
+    {
+      "type": "slide",
+      "description": "Esempi di contenuti per le diverse fasi"
+    },
+    {
+      "type": "screen",
+      "description": "Confronto tra traffico organico e traffico a pagamento (ADV)"
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:02",
+      "title": "Introduzione ai contenuti e social come 'bestia nera'",
+      "why": "Stabilisce il problema principale che il modulo intende risolvere per gli artisti."
+    },
+    {
+      "timestamp": "00:22",
+      "title": "Mancanza di comprensione del nesso tra marketing e contenuti",
+      "why": "Identifica la radice del problema per molti artisti, sottolineando la necessità di una visione strategica."
+    },
+    {
+      "timestamp": "01:03",
+      "title": "Spiegazione delle tre fasi del marketing: Attrazione, Educazione, Conversione",
+      "why": "Fornisce il framework fondamentale per la strategia di contenuto, essenziale per capire come e cosa pubblicare."
+    },
+    {
+      "timestamp": "01:43",
+      "title": "L'essenzialità di fare contenuti oggi",
+      "why": "Sottolinea l'importanza ineludibile dei contenuti nell'attuale panorama musicale, sfatando l'idea di poterne fare a meno."
+    },
+    {
+      "timestamp": "03:16",
+      "title": "I contenuti organici come risparmio sull'ADV",
+      "why": "Evidenzia un beneficio economico cruciale dei contenuti ben fatti, motivando gli artisti a investire tempo nell'organico."
+    },
+    {
+      "timestamp": "05:22",
+      "title": "I tre problemi principali degli artisti con i contenuti: timidezza, giudizio, non so che fare",
+      "why": "Affronta direttamente le barriere psicologiche comuni, preparando il terreno per soluzioni pratiche."
+    },
+    {
+      "timestamp": "06:07",
+      "title": "La timidezza come opportunità, non ostacolo",
+      "why": "Riformula un problema comune in una potenziale forza, incoraggiando un approccio creativo alla propria identità."
+    },
+    {
+      "timestamp": "08:27",
+      "title": "Accogliere il giudizio come segno di attenzione",
+      "why": "Cambia la prospettiva sul giudizio, trasformandolo da paura a indicatore di engagement e visibilità."
+    },
+    {
+      "timestamp": "09:32",
+      "title": "La soluzione al 'non so che fare': iniziare a fare",
+      "why": "Fornisce la strategia più diretta e pratica per superare l'inerzia e la paralisi da analisi."
+    }
+  ],
+  "practicalOutput": "Un piano di contenuti iniziale che tenga conto delle fasi di marketing e delle proprie caratteristiche personali, superando i blocchi psicologici.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Iniziare a produrre attivamente almeno un contenuto organico a settimana, applicando le logiche di attrazione/educazione/conversione, e monitorare le reazioni per imparare e migliorare.",
+  "managerNotes": "Verificare che gli studenti abbiano compreso la differenza tra le fasi di marketing e come applicarle ai contenuti. Assicurarsi che stiano attivamente superando i blocchi psicologici e iniziando a produrre, anche con piccoli esperimenti. Chiedere esempi concreti di come stanno veicolando la loro 'timidezza' o 'introversione' nei contenuti."
+}

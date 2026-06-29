@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Definire la musica come mercato",
+    "description": "Comprendere che la musica, per essere un lavoro sostenibile, deve essere trattata come un mercato.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Identificare la propria nicchia",
+    "description": "Capire in quale 'scala' o nicchia di mercato ci si posiziona per evitare competizioni irrilevanti.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Mantenere coerenza identitaria",
+    "description": "Assicurarsi che la propria produzione artistica e comunicazione siano coerenti per non confondere il pubblico.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Adottare comunicazione polarizzante",
+    "description": "Sviluppare una comunicazione che prenda posizione e catturi l'attenzione, evitando la 'comunicazione vaniglia'.",
+    "completed": false
+  }
+]

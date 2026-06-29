@@ -1,0 +1,99 @@
+{
+  "lessonSlug": "modulo-1-il-mercato-updated",
+  "mainTopics": [
+    "Musica come mercato e lavoro sostenibile",
+    "Importanza della nicchia e della competizione",
+    "Coerenza identitaria dell'artista",
+    "Gestione dell'attenzione del pubblico",
+    "Comunicazione polarizzante vs. vaniglia",
+    "Differenza tra follower e trend setter"
+  ],
+  "visualElements": [
+    {
+      "type": "whiteboard",
+      "description": "Diagramma a scala per rappresentare il mercato della musica e le nicchie."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Grafico sull'andamento degli stream/follower per artisti senza coerenza identitaria."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Schema delle 24 ore giornaliere con suddivisione delle attività."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Elenco di elementi che bombardano il cervello quotidianamente."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Confronto tra 'follower' e 'trend setter'."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:08",
+      "title": "Musica come mercato e lavoro",
+      "why": "Stabilisce la premessa fondamentale del corso: la musica deve essere vista come un mercato per essere sostenibile come lavoro."
+    },
+    {
+      "timestamp": "01:05",
+      "title": "Superare le credenze comuni",
+      "why": "Affronta direttamente lo scetticismo di familiari e amici riguardo la musica come professione, motivando gli studenti."
+    },
+    {
+      "timestamp": "03:00",
+      "title": "L'arte resta arte se acquistata",
+      "why": "Un punto di vista cinico ma realistico sull'importanza economica dell'arte per la sua sopravvivenza."
+    },
+    {
+      "timestamp": "03:34",
+      "title": "Il mercato come scala immaginaria",
+      "why": "Introduce una metafora visiva chiave per comprendere il posizionamento nel mercato e le nicchie."
+    },
+    {
+      "timestamp": "06:04",
+      "title": "Capire la propria nicchia",
+      "why": "Sottolinea l'importanza di identificare la propria nicchia per non sentirsi in competizione con tutti."
+    },
+    {
+      "timestamp": "08:05",
+      "title": "Il pericolo del 'fare di tutto'",
+      "why": "Critica la tendenza degli artisti a non avere un'identità chiara, spiegando come ciò li posizioni fuori dal mercato."
+    },
+    {
+      "timestamp": "10:02",
+      "title": "Non avere genere = non sapere chi sei",
+      "why": "Afferma con forza che la mancanza di identità confonde il pubblico e impedisce la crescita."
+    },
+    {
+      "timestamp": "11:36",
+      "title": "Comprendere gli spazi pubblicitari",
+      "why": "Introduce il concetto di 'spazi pubblicitari' nella vita quotidiana delle persone, cruciale per catturare attenzione."
+    },
+    {
+      "timestamp": "15:08",
+      "title": "L'abitudine e l'affezione",
+      "why": "Spiega come l'abitudine e l'affezione siano meccanismi chiave per mantenere l'attenzione del pubblico."
+    },
+    {
+      "timestamp": "18:03",
+      "title": "L'attenzione è la cosa più costosa",
+      "why": "Enfatizza il valore supremo dell'attenzione nel mercato attuale e come ottenerla tramite la comunicazione."
+    },
+    {
+      "timestamp": "19:15",
+      "title": "Importanza di essere polarizzanti",
+      "why": "Spiega perché una comunicazione polarizzante è essenziale per catturare l'attenzione in un mondo saturo di stimoli."
+    },
+    {
+      "timestamp": "23:21",
+      "title": "Follower vs. Trend Setter",
+      "why": "Introduce un'altra distinzione fondamentale per il posizionamento e la strategia artistica."
+    }
+  ],
+  "practicalOutput": "Lo studente dovrebbe essere in grado di analizzare la propria identità artistica e la propria comunicazione attuale, identificando se è 'vaniglia' o 'polarizzante', e iniziare a definire la propria nicchia di mercato.",
+  "difficulty": "beginner",
+  "recommendedNextAction": "Inizia a riflettere attivamente sulla tua identità artistica e su come puoi comunicarla in modo più chiaro e polarizzante sui tuoi canali social, evitando di 'fare di tutto'.",
+  "managerNotes": "Verificare che gli studenti abbiano compreso il concetto di musica come mercato e l'importanza della coerenza identitaria. Chiedere esempi di comunicazione 'vaniglia' e 'polarizzante' e come intendono applicare questi concetti alla propria arte. Assicurarsi che comprendano il valore dell'attenzione e come ottenerla."
+}

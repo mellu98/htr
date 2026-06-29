@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Definire l'obiettivo di marketing per ogni contenuto",
+    "description": "Assicurati che ogni contenuto (post, reel, story) abbia un obiettivo chiaro tra attrazione, educazione e conversione.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Utilizzare i caroselli per i post di educazione",
+    "description": "Implementa la strategia del carosello per i post, sfruttando le multiple slide per raccontare una storia e aumentare le chance di visualizzazione.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Strutturare i caroselli in modo efficace",
+    "description": "Alterna foto, note testuali e spoiler audio/video all'interno del carosello per mantenere l'attenzione e veicolare messaggi specifici.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Verificare la coerenza tra contenuto e fase di marketing",
+    "description": "Assicurati di non usare contenuti da attrazione (es. reel) per obiettivi di educazione (es. post) e viceversa, per evitare errori di posizionamento.",
+    "completed": false
+  }
+]

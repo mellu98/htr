@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la risorsa più preziosa secondo il relatore, che non si può comprare?",
+    "options": [
+      "Denaro",
+      "Fama",
+      "Tempo",
+      "Talento"
+    ],
+    "correctAnswer": "Tempo",
+    "explanation": "Il relatore afferma chiaramente che 'il tempo è la risorsa più preziosa che abbiamo nella vita, nel senso che purtroppo il tempo non si può comprare'."
+  },
+  {
+    "id": "q2",
+    "question": "Quale piattaforma viene menzionata come strumento utile per organizzare la propria carriera musicale?",
+    "options": [
+      "Facebook",
+      "Instagram",
+      "Notion",
+      "Twitter"
+    ],
+    "correctAnswer": "Notion",
+    "explanation": "Vengono menzionate piattaforme come Basecamp, Notion e Google Calendar come strumenti per organizzare la carriera."
+  },
+  {
+    "id": "q3",
+    "question": "Secondo il relatore, cosa succede spesso ai brani di qualità che non vengono pubblicati subito?",
+    "options": [
+      "Vengono scoperti da un talent scout",
+      "Non usciranno mai più",
+      "Diventano più preziosi nel tempo",
+      "Vengono rubati da altri artisti"
+    ],
+    "correctAnswer": "Non usciranno mai più",
+    "explanation": "Una delle ragioni fornite per pubblicare subito è che 'il brano che oggi non sta uscendo... non uscirà mai più'."
+  }
+]

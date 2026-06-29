@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Cos'è la 'comunicazione vaniglia'?",
+    "back": "È una comunicazione neutra, che non prende posizione, non polarizzante, e che non cattura l'attenzione del pubblico, tipica del 90% degli artisti emergenti.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Perché è importante essere 'polarizzanti' nella comunicazione?",
+    "back": "Essere polarizzanti permette di catturare l'attenzione delle persone, di essere ascoltati e di prendere una posizione chiara nel mercato, distinguendosi dagli altri.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Qual è la differenza tra 'follower' e 'trend setter' nel mercato musicale?",
+    "back": "I 'follower' seguono un genere o un trend già esistente, spesso migliorandolo. I 'trend setter' inventano nuovi generi o tendenze, ma sono una minoranza.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Come si può occupare uno 'spazio pubblicitario' nella mente delle persone?",
+    "back": "Attraverso la presenza costante e la ripetizione della comunicazione, creando un'abitudine nel pubblico a fruire dei propri contenuti, come dimostrato dall'esempio delle stories sui social.",
+    "difficulty": "hard"
+  }
+]

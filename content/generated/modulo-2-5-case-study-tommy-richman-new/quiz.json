@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è uno dei motivi principali per cui è stato scelto Tommy Richman come case study?",
+    "options": [
+      "Perché ha avuto successo in un solo anno.",
+      "Perché è un artista che accontenta sia il pubblico Urban che quello Indie/R&B/Pop.",
+      "Perché è un artista che fa solo musica punk.",
+      "Perché non ha mai pubblicato nulla prima di Million Dollar Baby."
+    ],
+    "correctAnswer": "Perché è un artista che accontenta sia il pubblico Urban che quello Indie/R&B/Pop.",
+    "explanation": "Tommy Richman è stato scelto perché è poliedrico e risponde a problemi sull'identità artistica, accontentando diversi pubblici."
+  },
+  {
+    "id": "q2",
+    "question": "Quale elemento, secondo il relatore, è la caratteristica più distintiva di Tommy Richman su cui ha costruito la sua carriera?",
+    "options": [
+      "I suoi videoclip.",
+      "La sua voce.",
+      "Le sue collaborazioni.",
+      "I suoi testi."
+    ],
+    "correctAnswer": "La sua voce.",
+    "explanation": "Il relatore afferma chiaramente che la voce è la caratteristica distintiva di Tommy Richman su cui ha costruito la sua carriera."
+  },
+  {
+    "id": "q3",
+    "question": "Cosa indica il relatore riguardo alla costanza di pubblicazione di Tommy Richman prima del suo successo virale?",
+    "options": [
+      "Ha pubblicato solo un singolo prima di Million Dollar Baby.",
+      "Ha pubblicato costantemente singoli dal 2019 in poi, senza mai skippare un anno.",
+      "Ha pubblicato solo album, non singoli.",
+      "Ha pubblicato solo su YouTube, non su Spotify."
+    ],
+    "correctAnswer": "Ha pubblicato costantemente singoli dal 2019 in poi, senza mai skippare un anno.",
+    "explanation": "Il relatore sottolinea la costanza di Tommy Richman, che ha pubblicato singoli ogni anno dal 2019 in poi."
+  }
+]

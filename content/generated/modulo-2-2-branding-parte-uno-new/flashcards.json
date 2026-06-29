@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Cos'è il brand per un artista?",
+    "back": "La percezione che una persona ha di ciò che fai e di ciò che potresti fare.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Qual è il rapporto tra identità artistica e brand?",
+    "back": "L'identità artistica è il giusto modo di chiamare il brand di un artista.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Perché la coerenza è cruciale per un brand?",
+    "back": "Permette al pubblico di immaginare nuove creazioni dell'artista, fornendo linee guida di percezione e mantenendo forte il brand.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Il brand è uguale al genere musicale?",
+    "back": "No, il brand non è il genere. Il brand può comunicare elementi di diversi generi, ma è accomunato da comunicazione, tone of voice, origini, ecc.",
+    "difficulty": "hard"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Cos'è un singolo 'community'?",
+    "back": "Un singolo molto più introspettivo e meno commerciale, fatto per i fan che apprezzano quel tipo di contenuto.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Qual è uno dei principali vantaggi di pubblicare singoli per un artista emergente?",
+    "back": "Permette di dare costanza al percorso, testare il mercato, gestire meglio il budget e costruire l'identità passo dopo passo.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Perché un mixtape oggi viene quasi sempre fatto con beat inediti?",
+    "back": "Per evitare problemi di copyright e poter monetizzare il lavoro sulle piattaforme di streaming come Spotify.",
+    "difficulty": "hard"
+  },
+  {
+    "id": "f4",
+    "front": "Quando ha senso per un artista emergente fare un album?",
+    "back": "Solo quando c'è una fortissima richiesta da parte del pubblico, una richiesta dall'etichetta o la necessità di tracce per un tour live.",
+    "difficulty": "medium"
+  }
+]

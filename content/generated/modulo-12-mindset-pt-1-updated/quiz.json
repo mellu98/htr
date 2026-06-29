@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è il concetto principale che l'oratore vuole trasmettere riguardo al mindset?",
+    "options": [
+      "Sentirsi bene con se stessi è la chiave del successo.",
+      "Fare la doccia fredda ogni mattina migliora la disciplina.",
+      "L'universo premia l'azione, intesa come fare le cose concretamente.",
+      "Leggere molti libri sulla crescita personale è sufficiente."
+    ],
+    "correctAnswer": "L'universo premia l'azione, intesa come fare le cose concretamente.",
+    "explanation": "L'oratore enfatizza che il mindset più efficace è quello orientato all'azione, al 'fare', piuttosto che a concetti astratti o superficiali."
+  },
+  {
+    "id": "q2",
+    "question": "Perché, secondo l'oratore, molti artisti credono alle 'strade facili' proposte da pseudo agenzie?",
+    "options": [
+      "Perché non hanno abbastanza budget per investire in percorsi complessi.",
+      "Perché sono pigri e cercano scorciatoie.",
+      "Perché non conoscono le vere difficoltà del settore musicale.",
+      "Perché le pseudo agenzie offrono servizi gratuiti."
+    ],
+    "correctAnswer": "Perché sono pigri e cercano scorciatoie.",
+    "explanation": "L'oratore afferma che gli artisti credono alle promesse facili perché 'volevate la strada facile' e 'avete detto, merda, sì, lo voglio fare'."
+  },
+  {
+    "id": "q3",
+    "question": "Qual è la differenza tra l'impegno dedicato a scuola/lavoro e quello dedicato alla musica, secondo l'oratore?",
+    "options": [
+      "Alla musica si dedica più tempo, ma con meno intensità.",
+      "A scuola/lavoro si è grintosi per paura di essere licenziati/bocciati, mentre per la musica si è pigri.",
+      "La musica richiede un impegno maggiore a livello emotivo.",
+      "Non c'è alcuna differenza significativa nell'impegno richiesto."
+    ],
+    "correctAnswer": "A scuola/lavoro si è grintosi per paura di essere licenziati/bocciati, mentre per la musica si è pigri.",
+    "explanation": "L'oratore sottolinea che a scuola o al lavoro si è 'grintosi o perlomeno decenti, perché sapete che altrimenti vi cacciano via', mentre per la musica si è 'pigri e fate il minimo indispensabile'."
+  }
+]

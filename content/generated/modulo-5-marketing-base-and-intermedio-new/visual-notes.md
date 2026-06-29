@@ -1,0 +1,1 @@
+Slide con titolo del modulo e lezione. Slide con elenco puntato dei moduli precedenti. Slide con definizione di marketing. Diagramma a flusso delle fasi del marketing (Attrazione, Educazione, Conversione, Conversione Ripetuta). Slide con la definizione di pubblico freddo. Esempi di artisti con strategie di attrazione efficaci (Massimo Pericolo, Night, Da Supreme).

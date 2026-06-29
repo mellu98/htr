@@ -1,0 +1,32 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere le fasi di marketing",
+    "description": "Assicurati di aver ben chiaro il concetto di attrazione, educazione e conversione nel marketing dei contenuti.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Valutare l'importanza dei contenuti organici",
+    "description": "Riconosci come i contenuti organici possano farti risparmiare sui costi di ADV e generare traffico.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Affrontare la timidezza",
+    "description": "Rifletti su come la tua timidezza possa essere veicolata in modo autentico nei contenuti, senza dover 'fare il pagliaccio'.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Superare la paura del giudizio",
+    "description": "Accetta che il giudizio, anche negativo, significa che le persone ti notano e che è un passo verso il successo.",
+    "completed": false
+  },
+  {
+    "id": "check-5",
+    "title": "Iniziare a fare contenuti",
+    "description": "Smetti di pensare e inizia a creare e pubblicare contenuti, anche se non sai esattamente cosa fare all'inizio.",
+    "completed": false
+  }
+]

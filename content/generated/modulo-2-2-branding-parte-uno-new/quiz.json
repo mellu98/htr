@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Secondo la lezione, cos'è il brand?",
+    "options": [
+      "Il logo e i colori che utilizza un artista.",
+      "La percezione che ha una persona di ciò che fai e di ciò che potresti fare.",
+      "Il genere musicale principale di un artista.",
+      "Il numero di follower sui social media."
+    ],
+    "correctAnswer": "La percezione che ha una persona di ciò che fai e di ciò che potresti fare.",
+    "explanation": "Il docente definisce il brand come 'la percezione che ha una persona di ciò che fai e di ciò che potresti fare'."
+  },
+  {
+    "id": "q2",
+    "question": "Qual è un elemento fondamentale per la costruzione di un brand forte, secondo il docente?",
+    "options": [
+      "La quantità di musica prodotta.",
+      "La capacità di cambiare genere musicale frequentemente.",
+      "La coerenza.",
+      "Il budget di marketing."
+    ],
+    "correctAnswer": "La coerenza.",
+    "explanation": "Il docente afferma che 'la coerenza' è un'altra cosa fortissima e fondamentale per un brand forte."
+  },
+  {
+    "id": "q3",
+    "question": "Perché Lil Baby, a differenza di Drake, non potrebbe fare un brano pop con The Weeknd senza perdere coerenza?",
+    "options": [
+      "Perché Lil Baby non ha abbastanza follower.",
+      "Perché nel brand Lil Baby non c'è coerenza con il genere pop, ad esempio.",
+      "Perché Lil Baby fa solo musica dal vivo.",
+      "Perché Drake ha più esperienza nel pop."
+    ],
+    "correctAnswer": "Perché nel brand Lil Baby non c'è coerenza con il genere pop, ad esempio.",
+    "explanation": "Il docente spiega che 'nel brand Lil Baby non c'è coerenza con il genere pop, ad esempio. Infatti non fa brani pop'."
+  }
+]

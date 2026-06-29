@@ -1,0 +1,80 @@
+{
+  "lessonSlug": "modulo-2-5-case-study-tommy-richman-new",
+  "mainTopics": [
+    "Identità artistica",
+    "Costanza di pubblicazione",
+    "Sperimentazione musicale",
+    "Claim artistico",
+    "Percorso di un artista emergente",
+    "Ruolo del budget nel successo"
+  ],
+  "visualElements": [
+    {
+      "type": "screen",
+      "description": "Schermata di Spotify o SoundCloud che mostra la discografia di Tommy Richman con date e ascolti."
+    },
+    {
+      "type": "screen",
+      "description": "Schermata di un articolo o sito web (es. Complex) per approfondire il background dell'artista."
+    },
+    {
+      "type": "screen",
+      "description": "Sito web 'everythingispunk.com' per dimostrare il claim dell'artista."
+    },
+    {
+      "type": "performance",
+      "description": "Riproduzione di estratti musicali di Tommy Richman per illustrare la sua evoluzione e varietà di generi."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "01:05",
+      "title": "Perché Tommy Richman come case study",
+      "why": "Spiega la rilevanza dell'artista per affrontare i temi dell'identità artistica e la sua versatilità di genere."
+    },
+    {
+      "timestamp": "02:46",
+      "title": "Discussione su 'Industry Plant'",
+      "why": "Affronta il dibattito sull'autenticità del successo di Tommy Richman, mostrando la sua lunga storia di pubblicazioni."
+    },
+    {
+      "timestamp": "03:15",
+      "title": "Costanza di pubblicazione",
+      "why": "Evidenzia la dedizione dell'artista nel pubblicare musica regolarmente dal 2019, un fattore chiave per il successo."
+    },
+    {
+      "timestamp": "04:00",
+      "title": "Tommy Richman: un insieme di generi",
+      "why": "Sottolinea la sua capacità di spaziare tra R&B, punk, rock, trap e urban, dimostrando la sua poliedricità."
+    },
+    {
+      "timestamp": "04:14",
+      "title": "L'esplosione e il ruolo di Brent Faiyaz",
+      "why": "Spiega come il supporto di un artista affermato e un budget significativo abbiano accelerato la sua ascesa."
+    },
+    {
+      "timestamp": "04:59",
+      "title": "Il claim \"Everything is Punk\"",
+      "why": "Introduce il concetto di 'claim' artistico e come Tommy Richman lo abbia utilizzato per definire la sua identità al di là del genere musicale."
+    },
+    {
+      "timestamp": "06:02",
+      "title": "La voce come elemento distintivo",
+      "why": "Identifica la voce di Tommy Richman come il suo tratto più caratteristico e su cui ha costruito la sua carriera."
+    },
+    {
+      "timestamp": "07:49",
+      "title": "Sperimentazione e mancanza di identità iniziale",
+      "why": "Mostra attraverso esempi musicali come Tommy Richman abbia sperimentato diversi generi prima di trovare la sua direzione, evidenziando che non aveva un'identità chiara fin da subito."
+    },
+    {
+      "timestamp": "09:20",
+      "title": "Il punto di svolta nel 2023",
+      "why": "Indica il momento in cui Tommy Richman ha iniziato a fare qualcosa di diverso e più distintivo, portandolo al successo."
+    }
+  ],
+  "practicalOutput": "Lo studente dovrebbe produrre un'analisi della propria discografia (o bozze musicali) per identificare pattern di sperimentazione, costanza di pubblicazione e potenziali elementi distintivi (come la voce o un \"claim\").",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Inizia a documentare la tua produzione musicale passata e presente, categorizzando i generi e le sonorità esplorate. Definisci un \"claim\" provvisorio per il tuo progetto artistico.",
+  "managerNotes": "Verificare che gli studenti comprendano l'importanza della costanza e della sperimentazione. Assicurarsi che non interpretino l'assenza di un'identità chiara iniziale come una scusa per non definirla, ma come parte di un processo di scoperta. Sottolineare che il budget è un acceleratore, non l'unico fattore di successo."
+}

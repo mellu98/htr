@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la differenza principale tra 'preparazione' e 'organizzazione' secondo la lezione?",
+    "options": [
+      "La preparazione riguarda il 'come' e l'organizzazione il 'cosa'.",
+      "La preparazione riguarda il 'cosa' (la musica) e l'organizzazione il 'come' (il piano d'azione).",
+      "La preparazione è solo per i video, l'organizzazione è per la distribuzione.",
+      "Non c'è differenza, sono sinonimi."
+    ],
+    "correctAnswer": "La preparazione riguarda il 'cosa' (la musica) e l'organizzazione il 'come' (il piano d'azione).",
+    "explanation": "La lezione spiega chiaramente che la preparazione si riferisce al 'cosa' si deve fare (es. avere la musica pronta), mentre l'organizzazione si riferisce al 'come' si devono fare le cose (es. il piano per il lancio)."
+  },
+  {
+    "id": "q2",
+    "question": "Perché è fondamentale avere almeno due o tre brani già pronti e masterizzati?",
+    "options": [
+      "Per poter fare più soldi subito.",
+      "Per poter replicare un successo inaspettato e prevenire il 'mollare'.",
+      "Per impressionare i discografici.",
+      "Per avere più materiale da mostrare agli amici."
+    ],
+    "correctAnswer": "Per poter replicare un successo inaspettato e prevenire il 'mollare'.",
+    "explanation": "Avere brani pronti permette di reagire rapidamente a un successo (replicare) e di mantenere la costanza nelle uscite, impedendo che la demotivazione porti ad abbandonare."
+  },
+  {
+    "id": "q3",
+    "question": "Come si manifesta il 'mollare' per la maggior parte degli artisti?",
+    "options": [
+      "Con una decisione improvvisa e consapevole di smettere.",
+      "Gradualmente, attraverso la procrastinazione e il mentire a se stessi.",
+      "Solo dopo aver raggiunto un grande successo e aver perso interesse.",
+      "Quando si esauriscono le idee musicali."
+    ],
+    "correctAnswer": "Gradualmente, attraverso la procrastinazione e il mentire a se stessi.",
+    "explanation": "La lezione descrive il 'mollare' come un processo graduale, fatto di piccole rinunce e giustificazioni, che porta a una diminuzione della produzione e della costanza."
+  }
+]

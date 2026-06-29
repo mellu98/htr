@@ -1,0 +1,88 @@
+{
+  "lessonSlug": "modulo-5-marketing-base-and-intermedio-new",
+  "mainTopics": [
+    "Marketing base e intermedio",
+    "Importanza della semplicità nel marketing",
+    "Costanza nella pubblicazione di contenuti e musica",
+    "Fasi del marketing (Attrazione, Educazione, Conversione)",
+    "Pubblico freddo e caldo",
+    "Ruolo dell'identità artistica nell'attrazione"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Introduzione al modulo di marketing base e intermedio."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Elenco dei moduli precedenti per contestualizzare il percorso."
+    },
+    {
+      "type": "slide",
+      "description": "Concetto di marketing semplice vs. facile."
+    },
+    {
+      "type": "diagram",
+      "description": "Schema delle fasi del marketing: Attrazione, Educazione, Conversione, Conversione Ripetuta."
+    },
+    {
+      "type": "slide",
+      "description": "Definizione e caratteristiche della fase di Attrazione."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Esempi di artisti e le loro strategie di attrazione (Massimo Pericolo, Night, Da Supreme)."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:07",
+      "title": "Inizio del modulo Marketing",
+      "why": "Segna l'inizio di un nuovo modulo, considerato più complesso ma fondamentale, partendo dalle basi."
+    },
+    {
+      "timestamp": "01:49",
+      "title": "Consiglio per artisti emergenti: fare cose semplici",
+      "why": "Punto chiave che enfatizza l'importanza di concentrarsi su poche, grandi azioni per massimizzare i risultati iniziali."
+    },
+    {
+      "timestamp": "02:57",
+      "title": "Differenza tra 'sapere' e 'fare'",
+      "why": "Sottolinea l'importanza dell'applicazione pratica delle conoscenze rispetto alla sola comprensione teorica."
+    },
+    {
+      "timestamp": "03:32",
+      "title": "La costanza come marketing",
+      "why": "Evidenzia come la costanza nella pubblicazione di contenuti e musica sia una forma di marketing cruciale, spesso sottovalutata."
+    },
+    {
+      "timestamp": "06:47",
+      "title": "Definizione di marketing",
+      "why": "Fornisce una definizione chiara e concisa di marketing: attrarre, educare e convertire un pubblico."
+    },
+    {
+      "timestamp": "07:13",
+      "title": "Le 3 fasi del marketing",
+      "why": "Introduce il modello a tre (o quattro) fasi del marketing: Attrazione, Educazione, Conversione e Conversione Ripetuta."
+    },
+    {
+      "timestamp": "08:09",
+      "title": "Spiegazione della fase di Attrazione",
+      "why": "Approfondisce la prima e fondamentale fase del marketing, spiegando il suo scopo e le sfide principali."
+    },
+    {
+      "timestamp": "09:53",
+      "title": "Concetto di pubblico freddo",
+      "why": "Introduce il concetto di pubblico freddo, fondamentale per capire come approcciare la fase di attrazione."
+    },
+    {
+      "timestamp": "11:13",
+      "title": "Identità artistica e marketing",
+      "why": "Ricollega l'importanza dell'identità artistica, già trattata, alla sua funzione strategica nella fase di attrazione del marketing."
+    }
+  ],
+  "practicalOutput": "Un piano d'azione personalizzato per la pubblicazione costante di contenuti e musica, basato sulla propria identità artistica e focalizzato sulla fase di attrazione.",
+  "difficulty": "beginner",
+  "recommendedNextAction": "Iniziare a implementare una strategia di pubblicazione costante di contenuti (reel/TikTok) che mettano in risalto i 'claim' più attrattivi della propria identità artistica, con l'obiettivo di raggiungere un pubblico 'freddo'.",
+  "managerNotes": "Verificare che lo studente abbia compreso l'importanza della semplicità e della costanza nel marketing iniziale. Assicurarsi che abbia identificato i 'claim' della sua identità artistica e stia pianificando contenuti specifici per la fase di attrazione. Monitorare la frequenza e la tipologia dei contenuti pubblicati."
+}

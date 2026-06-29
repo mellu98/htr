@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere le 4 fasi del lancio",
+    "description": "Assicurati di aver ben chiaro il significato e gli obiettivi di Pre-Pre-Lancio, Pre-Lancio, Lancio e Post-Lancio.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Definire la propria identità artistica",
+    "description": "Verifica di avere un'identità artistica chiara e qualcosa di autentico da comunicare, evitando di basarti solo sulla viralità effimera.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Pianificare contenuti per il Pre-Pre-Lancio",
+    "description": "Identifica e pianifica contenuti (Reel, TikTok) che possano generare curiosità e traffico da un pubblico freddo.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Distinguere tra ascoltatore e true fan",
+    "description": "Comprendi la differenza tra un ascoltatore occasionale e un true fan, e punta a costruire una base di true fan.",
+    "completed": false
+  }
+]

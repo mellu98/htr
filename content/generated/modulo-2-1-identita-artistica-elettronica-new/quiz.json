@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la principale differenza tra la musica elettronica e la musica cantata (pop, urban) in termini di sviluppo digitale e social, secondo la lezione?",
+    "options": [
+      "La musica cantata è più complessa da produrre digitalmente.",
+      "La musica elettronica è \"un pelino indietro\" nell'aspetto digitale e social.",
+      "La musica elettronica ha già sdoganato il marketing digitale più della musica cantata.",
+      "Non ci sono differenze significative nell'approccio digitale tra i due generi."
+    ],
+    "correctAnswer": "La musica elettronica è \"un pelino indietro\" nell'aspetto digitale e social.",
+    "explanation": "La lezione afferma che l'elettronica è 'un pelino indietro' rispetto a generi come pop e urban per quanto riguarda il contenuto, il marketing e la promozione sui social, il che rappresenta un vantaggio per i nuovi artisti."
+  },
+  {
+    "id": "q2",
+    "question": "Quali sono i tre tipi di identità artistica menzionati nella lezione?",
+    "options": [
+      "Identità sonora, testuale, di genere.",
+      "Identità visiva, musicale, concettuale.",
+      "Identità di produzione, di performance, di marketing.",
+      "Identità melodica, ritmica, armonica."
+    ],
+    "correctAnswer": "Identità visiva, musicale, concettuale.",
+    "explanation": "La lezione divide l'identità artistica in tre aspetti fondamentali: visiva, musicale e concettuale, applicabili a tutti i generi."
+  },
+  {
+    "id": "q3",
+    "question": "Cosa significa che la musica deve essere 'carriabile'?",
+    "options": [
+      "Deve essere facile da trasportare fisicamente.",
+      "Deve essere prodotta con strumenti di alta qualità.",
+      "Deve avere elementi che permettano ad altri di agganciarla e promuoverla.",
+      "Deve essere adatta per essere suonata in macchina."
+    ],
+    "correctAnswer": "Deve avere elementi che permettano ad altri di agganciarla e promuoverla.",
+    "explanation": "La lezione spiega che la musica 'carriabile' ha dei 'ganci' (come sample famosi, vocal particolari, o un DJ più famoso che la suona) che permettono di essere trasportata e promossa da altri."
+  }
+]

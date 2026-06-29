@@ -1,0 +1,73 @@
+{
+  "lessonSlug": "modulo-14-l-inizio-della-tua-carriera",
+  "mainTopics": [
+    "Importanza della pratica",
+    "Motivazione e impegno dell'artista",
+    "Transizione dalla teoria all'azione",
+    "Offerta di consulenza gratuita",
+    "Affiancamento HR"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Slide introduttiva con il titolo del modulo e il nome del relatore."
+    },
+    {
+      "type": "slide",
+      "description": "Slide con punti elenco che riassumono i concetti chiave: teoria vs. pratica, importanza della fatica."
+    },
+    {
+      "type": "screen",
+      "description": "Schermata con informazioni su come richiedere la consulenza gratuita (contatti del team)."
+    },
+    {
+      "type": "slide",
+      "description": "Slide che elenca i temi trattati nella consulenza (branding, identità, contenuti, ecc.)."
+    },
+    {
+      "type": "diagram",
+      "description": "Diagramma che illustra il percorso dall'HR Training all'affiancamento HR."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:12",
+      "title": "L'importanza di finire il training",
+      "why": "Il relatore sottolinea l'importanza di aver completato l'intero corso prima di accedere a questo modulo finale."
+    },
+    {
+      "timestamp": "00:27",
+      "title": "Metti in pratica la teoria",
+      "why": "Viene ribadito il concetto fondamentale che la teoria deve essere trasformata in pratica per ottenere risultati."
+    },
+    {
+      "timestamp": "00:59",
+      "title": "La fatica nel mezzo",
+      "why": "Il relatore evidenzia che il vero valore e la crescita artistica si trovano nel percorso di duro lavoro, non solo nel risultato finale."
+    },
+    {
+      "timestamp": "01:26",
+      "title": "Basta pensare, metti in pratica",
+      "why": "Un'esortazione diretta a smettere di procrastinare e iniziare ad agire concretamente."
+    },
+    {
+      "timestamp": "01:44",
+      "title": "Offerta di consulenza gratuita",
+      "why": "Viene presentata l'opportunità di una consulenza personalizzata per accelerare il percorso."
+    },
+    {
+      "timestamp": "02:09",
+      "title": "Cosa cerchiamo: fame e azione",
+      "why": "Il relatore chiarisce i criteri per accedere alla consulenza, enfatizzando la motivazione e la proattività."
+    },
+    {
+      "timestamp": "02:47",
+      "title": "L'affiancamento cambia la vita",
+      "why": "Viene introdotto l'affiancamento HR come il passo successivo e decisivo per la carriera dell'artista."
+    }
+  ],
+  "practicalOutput": "Un piano d'azione personalizzato per la propria carriera artistica, definito durante la consulenza gratuita, e l'inizio della messa in pratica delle strategie apprese.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Contattare il team HTR Training per richiedere la consulenza gratuita e iniziare a preparare le risposte alle domande sulla propria motivazione e fame di agire.",
+  "managerNotes": "Verificare che gli studenti abbiano compreso l'importanza della messa in pratica e siano motivati a richiedere la consulenza gratuita. Assicurarsi che il team sia pronto a gestire le richieste e a valutare la 'fame' degli artisti. Monitorare il tasso di conversione da training a consulenza/affiancamento."
+}

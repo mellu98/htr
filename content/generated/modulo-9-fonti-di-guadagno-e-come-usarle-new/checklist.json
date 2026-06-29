@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere la diversificazione dei guadagni",
+    "description": "Assicurati di aver capito perché è fondamentale non dipendere solo dagli stream e quali sono le principali fonti di reddito per un artista.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Valutare il proprio personal brand",
+    "description": "Rifletti su come il tuo personal brand può aiutarti a monetizzare e a costruire fiducia con il pubblico.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Identificare le fette della torta",
+    "description": "Individua quali delle fonti di guadagno (streams, live, eventi, merch, brand) sono già attive per te e quali potresti sviluppare.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Superare il pregiudizio sulla monetizzazione",
+    "description": "Riconosci che guadagnare dall'arte è un passo necessario per la sostenibilità e la libertà creativa dell'artista.",
+    "completed": false
+  }
+]

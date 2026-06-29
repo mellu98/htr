@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere l'importanza dell'identità artistica",
+    "description": "Assicurati di aver capito perché l'identità artistica è cruciale per posizionarsi sul mercato e trasformare il pubblico in fan.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Definire i propri \"Chi, Cosa, Come\"",
+    "description": "Chiarisci per te stesso e per il tuo pubblico chi sei, cosa fai e come lo fai come artista.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Basare l'identità sulle sfumature naturali",
+    "description": "Verifica che la tua identità artistica sia autentica e sostenibile nel tempo, sfruttando le tue caratteristiche personali.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Applicare il Reverse Marketing",
+    "description": "Inizia a praticare il reverse marketing per analizzare le strategie degli artisti di successo e capire il loro percorso.",
+    "completed": false
+  }
+]

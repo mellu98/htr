@@ -1,0 +1,82 @@
+{
+  "lessonSlug": "modulo-2-identita-artistica-updated",
+  "mainTopics": [
+    "Definizione e importanza dell'identità artistica",
+    "Sostenibilità dell'identità artistica basata sul carattere",
+    "Evoluzione del ruolo dell'identità nell'era dei social media",
+    "L'importanza del primo impatto visivo",
+    "Strategie di costruzione dell'identità: copiare i big e reverse marketing"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Titolo del modulo e della lezione."
+    },
+    {
+      "type": "slide",
+      "description": "Definizione di identità artistica e i suoi tre pilastri (Chi, Cosa, Come)."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Elenco di caratteristiche che compongono l'identità (es. timido, estroverso, colori, outfit)."
+    },
+    {
+      "type": "diagram",
+      "description": "Rappresentazione del rapporto tra identità e musica, e l'impatto dei social media."
+    },
+    {
+      "type": "slide",
+      "description": "Esempi di artisti (Sfera, Art, Tony Boy, Shiva, Plaza) per illustrare strategie di marketing."
+    },
+    {
+      "type": "slide",
+      "description": "Spiegazione del concetto di Reverse Marketing."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:19",
+      "title": "Definizione di Identità Artistica",
+      "why": "Viene introdotto il concetto chiave della lezione: l'identità artistica e la sua importanza nel definire un artista per il pubblico."
+    },
+    {
+      "timestamp": "00:22",
+      "title": "I tre pilastri dell'identità",
+      "why": "Vengono enunciati i tre elementi fondamentali che l'identità artistica deve comunicare: chi siete, cosa fate e come lo fate."
+    },
+    {
+      "timestamp": "01:06",
+      "title": "Componenti dell'identità artistica",
+      "why": "Viene fornito un elenco dettagliato di elementi che contribuiscono a formare l'identità artistica, dal carattere agli aspetti visivi."
+    },
+    {
+      "timestamp": "02:27",
+      "title": "Sostenibilità dell'identità",
+      "why": "Viene sottolineata l'importanza di costruire un'identità basata sulle sfumature naturali per renderla sostenibile nel tempo."
+    },
+    {
+      "timestamp": "05:17",
+      "title": "Identità e Musica: pari valore",
+      "why": "Viene evidenziato come nell'era dei social media, identità e musica abbiano acquisito pari importanza, soprattutto per il primo contatto con il pubblico."
+    },
+    {
+      "timestamp": "06:45",
+      "title": "L'identità come primo contatto",
+      "why": "Si spiega che sui social media, l'identità visiva precede spesso l'ascolto della musica, rendendo cruciale l'impatto visivo iniziale."
+    },
+    {
+      "timestamp": "09:05",
+      "title": "Copiare i big: quando ha senso?",
+      "why": "Viene analizzata la pratica di copiare artisti affermati, distinguendo quando può essere utile (per capire i 'chi, cosa, come') e quando è controproducente."
+    },
+    {
+      "timestamp": "11:05",
+      "title": "Introduzione al Reverse Marketing",
+      "why": "Viene introdotto e spiegato il concetto di reverse marketing come strumento per analizzare le strategie di successo degli altri artisti."
+    }
+  ],
+  "practicalOutput": "Una bozza strutturata della propria identità artistica, definendo 'chi sono, cosa faccio e come lo faccio', basata sulle proprie sfumature naturali e supportata da un'analisi di reverse marketing di artisti di riferimento.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Iniziare a delineare la propria identità artistica rispondendo alle domande 'Chi sono?', 'Cosa faccio?' e 'Come lo faccio?', e identificare 2-3 artisti da analizzare con il metodo del reverse marketing.",
+  "managerNotes": "Verificare che lo studente abbia compreso l'importanza di un'identità artistica autentica e sostenibile, e che abbia iniziato a riflettere sulle proprie sfumature naturali. Assicurarsi che lo studente non confonda il 'copiare il risultato' con l'applicazione del 'reverse marketing' per comprendere le strategie."
+}

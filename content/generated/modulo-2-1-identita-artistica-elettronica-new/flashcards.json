@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Qual è lo stato del marketing digitale nella musica elettronica rispetto al pop/urban?",
+    "back": "È \"un pelino indietro\", il che offre un'opportunità di posizionamento per i nuovi artisti.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Quali sono i tre pilastri dell'identità artistica?",
+    "back": "Visiva, Musicale, Concettuale.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f3",
+    "front": "Cosa si intende per \"memorabilità\" nella musica elettronica?",
+    "back": "La capacità di un brano, melodia o pattern ritmico di rimanere impresso nella mente dell'ascoltatore, anche tramite il test del 'mammolare'.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Spiega il concetto di \"carro\" e \"musica carriabile\".",
+    "back": "Un \"carro\" è un elemento (es. sample famoso, vocal, DJ più noto) che permette alla musica di essere \"agganciata\" e promossa. La \"musica carriabile\" è quella che contiene questi \"ganci\" per facilitare la sua diffusione.",
+    "difficulty": "hard"
+  }
+]

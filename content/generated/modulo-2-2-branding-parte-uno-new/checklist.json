@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere la definizione di Brand",
+    "description": "Assicurati di aver compreso che il brand è la percezione che le persone hanno di te e della tua arte.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Identificare la coerenza del proprio Brand",
+    "description": "Valuta se le tue azioni e la tua comunicazione sono coerenti con la percezione che vuoi creare.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Distinguere Brand da Genere",
+    "description": "Riconosci che il tuo brand non è definito esclusivamente dal genere musicale che produci.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Analizzare esempi di Brand",
+    "description": "Rifletti sugli esempi forniti (Mulino Bianco, Drake) per capire come la coerenza influenzi la percezione.",
+    "completed": false
+  }
+]

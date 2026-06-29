@@ -1,0 +1,32 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere i tipi di distribuzione",
+    "description": "Distinguere tra distributori digitali (es. DistroKid) e 'fisici' (es. Ada, The Orchard) e i loro modelli di business.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Scegliere il piano DistroKid corretto",
+    "description": "Sottoscrivere il piano Musician Plus per avere la data di pubblicazione personalizzabile e altre funzionalità essenziali.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Preparare il brano e la copertina",
+    "description": "Assicurarsi che il brano sia in formato WAV e la copertina sia pronta per il caricamento.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Registrare il diritto d'autore",
+    "description": "Depositare il brano in SIAE o Soundreef prima della distribuzione per tutelare il diritto d'autore.",
+    "completed": false
+  },
+  {
+    "id": "check-5",
+    "title": "Caricare il brano su DistroKid",
+    "description": "Seguire la procedura di caricamento, deselezionando YouTube Music e prestando attenzione alla scelta del nome d'artista e dell'etichetta.",
+    "completed": false
+  }
+]

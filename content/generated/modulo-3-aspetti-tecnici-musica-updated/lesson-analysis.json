@@ -1,0 +1,111 @@
+{
+  "lessonSlug": "modulo-3-aspetti-tecnici-musica-updated",
+  "mainTopics": [
+    "Home Studio vs Studio Professionale",
+    "Vantaggi dell'Home Studio",
+    "Attrezzatura base Home Studio",
+    "Processo di Sessione in Studio",
+    "Importanza del Provino",
+    "Identità Artistica nel Suono"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Titolo della lezione e introduzione all'argomento."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Distinzione tra 'Studio' e 'Home Studio'."
+    },
+    {
+      "type": "slide",
+      "description": "Elenco dell'attrezzatura base per l'home studio con costi indicativi."
+    },
+    {
+      "type": "slide",
+      "description": "Elenco dei vantaggi dell'home studio (24H, test, esperienza, comfort zone, esagerazione, costruzione del suono, idee lampo, provini)."
+    },
+    {
+      "type": "diagram",
+      "description": "Grafico 'encefalogramma' per illustrare il miglioramento con e senza 'esagerazione'."
+    },
+    {
+      "type": "slide",
+      "description": "Motivi per andare in studio professionale (qualità, miglioramento)."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Elenco numerato del processo di sessione in studio (ascolto provino, divisione brano, analisi, rec one take, rec ufficiale, fase creativa, dettaglio, premix)."
+    },
+    {
+      "type": "slide",
+      "description": "Esempi di artisti/produttori che hanno costruito un suono distintivo."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:16",
+      "title": "Distinzione Studio e Home Studio",
+      "why": "Introduce il tema centrale della lezione e la sua rilevanza attuale."
+    },
+    {
+      "timestamp": "00:46",
+      "title": "L'Home Studio non è più opzionale",
+      "why": "Sottolinea un cambiamento fondamentale nel music business rispetto al passato."
+    },
+    {
+      "timestamp": "02:05",
+      "title": "Attrezzatura base per Home Studio",
+      "why": "Fornisce informazioni pratiche e concrete per iniziare, con costi accessibili."
+    },
+    {
+      "timestamp": "03:00",
+      "title": "Vantaggi dell'Home Studio",
+      "why": "Elenca i benefici chiave che giustificano l'investimento in un home studio."
+    },
+    {
+      "timestamp": "04:47",
+      "title": "Comfort Zone in Home Studio",
+      "why": "Evidenzia un aspetto psicologico importante per la performance artistica."
+    },
+    {
+      "timestamp": "05:32",
+      "title": "L'importanza dell'Esagerazione",
+      "why": "Introduce un concetto creativo fondamentale per il miglioramento continuo."
+    },
+    {
+      "timestamp": "07:22",
+      "title": "Costruire il proprio suono",
+      "why": "Spiega come l'home studio sia cruciale per sviluppare l'identità artistica sonora."
+    },
+    {
+      "timestamp": "01:17",
+      "title": "Motivi per andare in Studio Professionale",
+      "why": "Definisce gli obiettivi specifici e il valore aggiunto di una sessione in studio esterno."
+    },
+    {
+      "timestamp": "02:27",
+      "title": "Processo di Sessione in Studio",
+      "why": "Delinea una metodologia strutturata per massimizzare l'efficacia delle sessioni in studio."
+    },
+    {
+      "timestamp": "02:53",
+      "title": "Ascolto del provino e feedback",
+      "why": "Sottolinea l'importanza della preparazione e della collaborazione con i professionisti."
+    },
+    {
+      "timestamp": "06:26",
+      "title": "Il Dettaglio come risultato della fase creativa",
+      "why": "Spiega come la sperimentazione porti a elementi unici e distintivi nel brano."
+    },
+    {
+      "timestamp": "07:00",
+      "title": "Mix e Master non subito dopo la rec",
+      "why": "Fornisce un'indicazione tecnica cruciale per la qualità finale del prodotto."
+    }
+  ],
+  "practicalOutput": "Lo studente sarà in grado di pianificare e ottimizzare le proprie sessioni di registrazione, sia in home studio che in studio professionale, con una chiara comprensione degli obiettivi e dei processi per migliorare la qualità e l'identità sonora della propria musica.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Pianificare l'allestimento o il miglioramento del proprio home studio e preparare un provino dettagliato per la prossima sessione di registrazione, applicando i principi di 'esagerazione' e 'dettaglio'.",
+  "managerNotes": "Verificare che gli studenti comprendano la differenza strategica tra home studio e studio professionale. Assicurarsi che siano in grado di identificare l'attrezzatura base necessaria e che capiscano l'importanza della preparazione (provini) prima di una sessione in studio esterno. Monitorare la loro capacità di applicare il concetto di 'esagerazione' per il miglioramento continuo."
+}

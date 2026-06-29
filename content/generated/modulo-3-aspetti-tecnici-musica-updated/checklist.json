@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Verificare il proprio setup Home Studio",
+    "description": "Assicurati di avere o di pianificare l'acquisto di microfono, scheda audio, DAW, cuffie/monitor e un minimo trattamento acustico.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Preparare sempre i provini",
+    "description": "Prima di ogni sessione in studio professionale, registra e invia un provino del brano per ricevere feedback e arrivare preparato.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Sfruttare l'Home Studio per test e miglioramento",
+    "description": "Utilizza il tuo home studio per registrare 24/7, testare nuove idee, accumulare esperienza e lavorare nella tua comfort zone, esagerando creativamente.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Ricercare studi professionali con direzione artistica",
+    "description": "Quando scegli uno studio esterno, assicurati che offra non solo qualità tecnica ma anche supporto di direzione artistica per il tuo miglioramento.",
+    "completed": false
+  }
+]

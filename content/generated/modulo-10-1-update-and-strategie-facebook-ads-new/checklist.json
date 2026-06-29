@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Utilizzare Business Manager",
+    "description": "Assicurati di operare esclusivamente tramite Meta Business Manager e non Business Suite per accedere a tutte le funzionalità avanzate.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Selezionare Pubblico Originale",
+    "description": "Durante la creazione di una campagna, clicca su 'passa alle opzioni del pubblico originali' e 'usa pubblico originale' per mantenere il controllo sul targeting.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Impostare Posizionamenti Manuali",
+    "description": "Modifica i posizionamenti da 'Advantage Plus' a 'posizionamenti manuali' per scegliere dove mostrare le tue inserzioni, includendo i reel su Instagram.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Testare Obiettivi di Prestazioni",
+    "description": "Sperimenta tra 'massimizza il numero di click' e 'massimizza il numero di visualizzazioni della pagina di destinazione' per ottimizzare gli ascolti effettivi.",
+    "completed": false
+  }
+]

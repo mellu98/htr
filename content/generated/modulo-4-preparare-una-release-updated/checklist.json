@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Ho compreso le differenze tra singolo, EP, mixtape e album?",
+    "description": "Verifica di aver assimilato le caratteristiche e gli scopi di ciascuna forma di release.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Ho identificato l'obiettivo principale della mia prossima release?",
+    "description": "Determina se la tua release mira a 'andare broad', 'fare community' o 'lanciare un trend'.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Ho valutato il budget e le risorse necessarie per la release scelta?",
+    "description": "Considera l'investimento in produzione, marketing e promozione per la forma di release selezionata.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Ho considerato l'impatto della release sulla mia identità artistica e sul mio percorso a lungo termine?",
+    "description": "Rifletti su come la scelta della release contribuirà alla costruzione della tua identità e alla costanza nel tempo.",
+    "completed": false
+  }
+]

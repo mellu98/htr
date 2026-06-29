@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la cosa più importante da fare dopo aver completato la parte teorica dell'HR training?",
+    "options": [
+      "Rivedere tutti i moduli",
+      "Mettere in pratica la parte teorica",
+      "Aspettare l'ispirazione",
+      "Cercare altri corsi"
+    ],
+    "correctAnswer": "Mettere in pratica la parte teorica",
+    "explanation": "Il relatore sottolinea più volte che la cosa più importante è mettere in pratica la teoria appresa per renderla concreta."
+  },
+  {
+    "id": "q2",
+    "question": "Cosa cercano principalmente i formatori negli artisti che richiedono una consulenza gratuita?",
+    "options": [
+      "Un grande budget",
+      "Che siano già fortissimi",
+      "Fame e disponibilità a muovere il culo",
+      "La fama e il successo immediato"
+    ],
+    "correctAnswer": "Fame e disponibilità a muovere il culo",
+    "explanation": "Il relatore afferma chiaramente: 'Noi cerchiamo il fatto che voi abbiate fame, che siate disposti a muovere il culo'."
+  },
+  {
+    "id": "q3",
+    "question": "Perché un obiettivo grande non si costruisce in 20 giorni di lavoro?",
+    "options": [
+      "Perché non sarebbe un obiettivo grande",
+      "Perché non c'è abbastanza budget",
+      "Perché non si può lavorare per più di 20 giorni",
+      "Perché il team non è disponibile"
+    ],
+    "correctAnswer": "Perché non sarebbe un obiettivo grande",
+    "explanation": "Il relatore spiega: 'un obiettivo grande non si costruisce in 20 giorni di lavoro. Altrimenti non sarebbe un obiettivo grande'."
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "check-1",
+    "title": "Configurazione Business Manager",
+    "description": "Ho creato e configurato il mio account pubblicitario nel Business Manager di Facebook, inclusi i dati di pagamento e l'autenticazione a due fattori.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Scelta Obiettivo Campagna",
+    "description": "Ho compreso i diversi obiettivi di campagna (Notorietà, Traffico, Interazione, Contatti, Promozione dell'app, Vendite) e so quale scegliere in base al mio scopo (es. Traffico per Spotify, Interazione per engagement).",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Struttura Campagna-Ad Set-Inserzione",
+    "description": "Ho memorizzato la struttura di una campagna Facebook Ads: Campagna (obiettivo), Ad Set (target, budget, posizionamenti) e Inserzione (creatività).",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Importanza della Creatività",
+    "description": "Ho capito che la qualità della creatività (video/foto) è il fattore più importante per il successo delle mie campagne, specialmente con budget limitati.",
+    "completed": false
+  },
+  {
+    "id": "check-5",
+    "title": "Testing e Ottimizzazione",
+    "description": "Sono consapevole che il testing continuo (interessi, creatività, posizionamenti) e l'analisi dei dati sono essenziali per ottimizzare le performance delle mie campagne.",
+    "completed": false
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "check-1",
+    "title": "Verificare il computer",
+    "description": "Assicurarsi che il computer sia in grado di aprire una DAW e gestire registrazioni di base, senza preoccuparsi eccessivamente delle prestazioni per mix o produzione.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Acquistare scheda audio e microfono a condensatore",
+    "description": "Scegliere una scheda audio (es. Audient ID4 Mark II) e un microfono a condensatore (es. Shure PGA27) in base al budget e alle esigenze, evitando microfoni USB.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Procurarsi cuffie di qualità",
+    "description": "Acquistare un paio di cuffie come le Audio Technica ATH M50X, fondamentali per il monitoraggio in Home Studio, specialmente in assenza di monitor da studio trattati.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Scegliere una DAW",
+    "description": "Selezionare una DAW come FL Studio o Cubase e iniziare a imparare le sue funzionalità di base per la registrazione.",
+    "completed": false
+  },
+  {
+    "id": "check-5",
+    "title": "Implementare trattamento acustico di base",
+    "description": "Applicare soluzioni di trattamento acustico (lana di roccia, pannelli piramidali o fai-da-te) per migliorare l'acustica della stanza e ridurre le riflessioni.",
+    "completed": false
+  }
+]

@@ -1,0 +1,86 @@
+{
+  "lessonSlug": "modulo-10-1-update-and-strategie-facebook-ads-new",
+  "mainTopics": [
+    "Aggiornamenti interfaccia Meta Ads",
+    "Differenza Business Manager vs Business Suite",
+    "Obiettivi di prestazioni della campagna",
+    "Gestione del budget e impatto sulla qualità del pubblico",
+    "Targeting del pubblico (Advantage Plus vs. originale)",
+    "Posizionamenti manuali (inclusi Reel)",
+    "Strategie ADV: acquisizione e conversione",
+    "Importanza del testing e della curva di apprendimento"
+  ],
+  "visualElements": [
+    {
+      "type": "screen",
+      "description": "Interfaccia di Meta Business Manager durante la creazione di una campagna di traffico."
+    },
+    {
+      "type": "screen",
+      "description": "Schermata delle impostazioni del gruppo di inserzioni, con evidenziazione dell'obiettivo di prestazioni."
+    },
+    {
+      "type": "screen",
+      "description": "Sezione di selezione del pubblico, mostrando l'opzione 'pubblico Advantage Plus' e il passaggio al 'pubblico originale'."
+    },
+    {
+      "type": "screen",
+      "description": "Sezione dei posizionamenti, mostrando l'opzione 'Advantage Plus' e il passaggio ai 'posizionamenti manuali'."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Schema concettuale degli obiettivi di acquisizione e conversione del pubblico."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:20",
+      "title": "Cambiamento Interfaccia Meta",
+      "why": "Viene evidenziato il problema principale che ha generato la richiesta di aggiornamento: i frequenti cambiamenti dell'interfaccia di Meta."
+    },
+    {
+      "timestamp": "01:09",
+      "title": "Business Manager vs. Business Suite",
+      "why": "Viene chiarita una distinzione fondamentale per l'efficacia delle campagne, sottolineando l'importanza del Business Manager."
+    },
+    {
+      "timestamp": "02:02",
+      "title": "Impostazioni Consigliate vs. Manuale",
+      "why": "Viene introdotta la necessità di scegliere sempre la configurazione manuale per mantenere il controllo sulla campagna."
+    },
+    {
+      "timestamp": "02:40",
+      "title": "Obiettivo di Prestazioni",
+      "why": "Viene spiegato un concetto chiave che influenza direttamente il tipo di risultati ottenuti (click vs. visualizzazioni pagina) e la sua rilevanza per gli ascolti su Spotify."
+    },
+    {
+      "timestamp": "07:02",
+      "title": "Budget e Creativity",
+      "why": "Viene sottolineato come la creatività sia più importante del budget e come un budget troppo basso possa compromettere la qualità del pubblico raggiunto."
+    },
+    {
+      "timestamp": "09:01",
+      "title": "Pubblico Advantage Plus vs. Originale",
+      "why": "Viene mostrato il primo grande cambiamento nell'interfaccia e come tornare al targeting manuale per avere controllo sul pubblico."
+    },
+    {
+      "timestamp": "10:03",
+      "title": "Posizionamenti Advantage Plus vs. Manuali",
+      "why": "Viene spiegato come disattivare i posizionamenti automatici di Meta e selezionare manualmente dove mostrare le inserzioni, con un focus sui Reel."
+    },
+    {
+      "timestamp": "13:37",
+      "title": "Non aver paura di sbagliare con l'ADV",
+      "why": "Viene fornita una motivazione psicologica e pratica per superare la paura di usare l'ADV, incoraggiando la sperimentazione."
+    },
+    {
+      "timestamp": "15:27",
+      "title": "Strategia: Acquisire e Convertire",
+      "why": "Viene introdotta una strategia fondamentale a due pilastri per la promozione musicale tramite ADV."
+    }
+  ],
+  "practicalOutput": "Lo studente dovrebbe essere in grado di navigare nell'interfaccia aggiornata di Meta Business Manager, creare una campagna di traffico selezionando correttamente il 'pubblico originale' e i 'posizionamenti manuali', e impostare l'obiettivo di prestazioni più adatto ai propri scopi, comprendendo l'importanza del testing e della strategia di acquisizione/conversione.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Crea una campagna di traffico di test nel tuo Business Manager, applicando le modifiche discusse per il pubblico e i posizionamenti. Monitora i primi risultati e sperimenta con gli obiettivi di prestazioni.",
+  "managerNotes": "Verificare che lo studente abbia compreso la differenza tra Business Manager e Business Suite e che sappia come disattivare le opzioni 'Advantage Plus' per mantenere il controllo sulla campagna. Assicurarsi che comprenda l'importanza del testing e della strategia a due fasi (acquisizione/conversione)."
+}

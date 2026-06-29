@@ -1,0 +1,69 @@
+{
+  "lessonSlug": "modulo-8-principi-della-viralita-new",
+  "mainTopics": [
+    "Definizione e importanza della viralità",
+    "Vantaggi e svantaggi della viralità",
+    "Allineamento della viralità con il progetto artistico",
+    "Differenza tra artista, influencer e content creator",
+    "I due grandi principi della viralità: passaparola e algoritmi",
+    "Il principio della 'valuta sociale'"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Titolo della lezione: 'MODULO 8 - Principi della viralità [NEW]'"
+    },
+    {
+      "type": "slide",
+      "description": "Elenchi puntati sui 'Vantaggi della Viralità' (es. riduzione tempo incubazione, attrazione efficace)"
+    },
+    {
+      "type": "slide",
+      "description": "Elenchi puntati sugli 'Svantaggi della Viralità' (es. gestione errata, disallineamento artistico)"
+    },
+    {
+      "type": "whiteboard",
+      "description": "Diagramma di flusso o schema che illustra il ciclo della viralità (condivisione -> algoritmi -> maggiore diffusione)"
+    },
+    {
+      "type": "whiteboard",
+      "description": "Elenco dei 'Principi della Viralità' con il primo punto 'Valuta Sociale' e i suoi sottocriteri (orgoglio, cool, esclusività)"
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:42",
+      "title": "Vantaggi della Viralità",
+      "why": "Vengono introdotti i due principali benefici della viralità: riduzione del tempo di incubazione e attrazione efficace a basso costo."
+    },
+    {
+      "timestamp": "01:25",
+      "title": "Contro della Viralità",
+      "why": "Si inizia a discutere dei rischi e degli svantaggi di una viralità non gestita o disallineata con l'immagine dell'artista."
+    },
+    {
+      "timestamp": "03:06",
+      "title": "Artista vs. Influencer/Content Creator",
+      "why": "Viene sottolineata la distinzione cruciale tra essere un artista e un influencer, evidenziando l'importanza dell'allineamento dei contenuti con la propria identità artistica."
+    },
+    {
+      "timestamp": "05:55",
+      "title": "La Piattaforma non è il Nemico",
+      "why": "Viene sfatato il mito che la piattaforma 'punisca' i contenuti, spostando la responsabilità sulla qualità e polarizzazione del contenuto stesso."
+    },
+    {
+      "timestamp": "08:44",
+      "title": "I due grandi principi della viralità",
+      "why": "Vengono introdotti i due pilastri su cui si basa la viralità: passaparola e algoritmi."
+    },
+    {
+      "timestamp": "10:04",
+      "title": "Principio di Valuta Sociale",
+      "why": "Viene spiegato il primo dei sei principi della viralità, la 'valuta sociale', e perché le persone condividono i contenuti."
+    }
+  ],
+  "practicalOutput": "Un piano di ideazione e valutazione dei contenuti per i social media, basato sui principi della viralità e allineato alla propria identità artistica.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Analizzare i propri contenuti social attuali e futuri alla luce del principio della 'valuta sociale', cercando opportunità per renderli più condivisibili e allineati alla propria immagine artistica.",
+  "managerNotes": "Verificare che lo studente abbia compreso la differenza tra viralità 'buona' e 'cattiva' e l'importanza di allineare i contenuti virali al proprio brand artistico. Assicurarsi che inizi a pensare ai contenuti in termini di 'valuta sociale' e non solo di visualizzazioni."
+}

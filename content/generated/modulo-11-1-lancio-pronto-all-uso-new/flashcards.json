@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Qual è il problema principale che il modulo vuole affrontare?",
+    "back": "La gestione del tempo e la mancanza di organizzazione durante i lanci musicali.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Cosa significa 'preparazione' nel contesto di un lancio musicale?",
+    "back": "Avere la musica (i brani) pronta e finita (masterizzata).",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Cosa significa 'organizzazione' nel contesto di un lancio musicale?",
+    "back": "Avere un piano dettagliato per tutte le attività connesse al lancio: video, promo, storie, distribuzione.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Qual è una delle conseguenze più gravi della mancanza di preparazione e organizzazione?",
+    "back": "Il rischio di 'mollare' la carriera musicale, spesso in modo graduale e inconscio.",
+    "difficulty": "hard"
+  }
+]

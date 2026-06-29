@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Qual è la piattaforma di streaming dominante in Italia?",
+    "back": "Spotify. È considerata una costante imprescindibile per gli artisti.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Cosa significa che Spotify è una 'piattaforma di atterraggio'?",
+    "back": "Significa che gli utenti tendono ad ascoltare musica che già conoscono, rendendo più difficile la scoperta per gli artisti emergenti.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Perché è importante curare il proprio profilo Spotify?",
+    "back": "Un profilo curato (immagini, bio, Artist Pick) segnala a Spotify la serietà dell'artista, influenzando positivamente l'algoritmo e le possibilità di essere premiati.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f4",
+    "front": "Qual è il ruolo di Spotify for Artists?",
+    "back": "È la piattaforma dove gli artisti possono visualizzare le analytics della propria musica, gestire il profilo e accedere a nuove funzionalità e news.",
+    "difficulty": "easy"
+  }
+]

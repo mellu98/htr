@@ -1,0 +1,115 @@
+{
+  "lessonSlug": "modulo-7-marketing-avanzato-and-lanci-updated",
+  "mainTopics": [
+    "Fasi del lancio (Pre-Pre-Lancio, Pre-Lancio, Lancio, Post-Lancio)",
+    "Marketing di acquisizione e viralità",
+    "Importanza dell'identità artistica",
+    "Differenza tra ascoltatore e true fan",
+    "Strategie di posizionamento per il Pre-Pre-Lancio (Reel, TikTok, Pagine/Tag)",
+    "Critica alle vanity metrics e alle sponsorizzazioni inefficaci"
+  ],
+  "visualElements": [
+    {
+      "type": "whiteboard",
+      "description": "Una lavagnetta con uno schema delle quattro fasi del lancio (Pre-Pre-Lancio, Pre-Lancio, Lancio, Post-Lancio) e frecce che indicano il flusso, con annotazioni per ogni fase."
+    },
+    {
+      "type": "diagram",
+      "description": "Un diagramma che illustra il percorso dell'utente da 'non ci conosce' a 'fan accanito', con le diverse fasi del lancio come tappe."
+    },
+    {
+      "type": "slide",
+      "description": "Slide con esempi di artisti (Massimo Pericolo, Tony Boy, Sfera, Lazza) per illustrare le strategie di pre-prelancio e l'evoluzione della carriera."
+    },
+    {
+      "type": "slide",
+      "description": "Slide o elenco puntato che elenca i canali e le tattiche specifiche per la fase di Pre-Pre-Lancio (Reel, TikTok, Pagine e Tag)."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:06",
+      "title": "Introduzione al marketing avanzato e ai lanci",
+      "why": "Stabilisce l'argomento principale della lezione e l'importanza dei lanci nel music business."
+    },
+    {
+      "timestamp": "00:44",
+      "title": "Definizione di lancio come percorso utente",
+      "why": "Fornisce una prospettiva chiara e funzionale su cosa sia un 'lancio' nel contesto del marketing, dal punto di vista dell'utente."
+    },
+    {
+      "timestamp": "01:09",
+      "title": "Approccio alla spiegazione del lancio",
+      "why": "Chiarisce che la lezione userà il lancio di un artista come esempio principale per spiegare la struttura del lancio a livello marketing."
+    },
+    {
+      "timestamp": "02:10",
+      "title": "Spiegazione del Pre-Pre-Lancio e acquisizione",
+      "why": "Inizia l'analisi dettagliata della prima e cruciale fase del lancio, evidenziandone gli obiettivi di traffico e viralità."
+    },
+    {
+      "timestamp": "03:02",
+      "title": "Importanza dell'identità artistica nel Pre-Pre-Lancio",
+      "why": "Sottolinea che il Pre-Pre-Lancio non è solo viralità, ma anche comunicazione dell'identità artistica, distinguendola dal lancio di un singolo."
+    },
+    {
+      "timestamp": "04:21",
+      "title": "Generare curiosità e caos nel Pre-Pre-Lancio",
+      "why": "Spiega che l'obiettivo iniziale è creare interazione e curiosità, senza necessariamente 'spiegare' subito la propria arte."
+    },
+    {
+      "timestamp": "05:17",
+      "title": "Il problema di non avere nulla da dire",
+      "why": "Evidenzia il rischio di artisti che cercano solo viralità senza un'identità, portando a una popolarità effimera."
+    },
+    {
+      "timestamp": "06:08",
+      "title": "Differenza tra viralità e consapevolezza/identità",
+      "why": "Spiega che la viralità senza un'identità non si traduce in una fan base duratura."
+    },
+    {
+      "timestamp": "06:43",
+      "title": "Quando finisce il Pre-Pre-Lancio",
+      "why": "Affronta il concetto che il Pre-Pre-Lancio può essere continuo, anche per artisti affermati che cercano nuove nicchie."
+    },
+    {
+      "timestamp": "09:07",
+      "title": "Pericolo delle vanity metrics",
+      "why": "Avverte contro il concentrarsi solo sui numeri che non riflettono una vera fan base, portando a risultati deludenti."
+    },
+    {
+      "timestamp": "09:44",
+      "title": "Il Lancio come fase di conversione",
+      "why": "Introduce la terza fase, spiegando che è il momento di convertire il pubblico e che il suo successo dipende dalle fasi precedenti."
+    },
+    {
+      "timestamp": "12:08",
+      "title": "Il Post-Lancio e la soddisfazione delle promesse",
+      "why": "Spiega l'ultima fase, sottolineando l'importanza di mantenere le promesse fatte per fidelizzare il pubblico."
+    },
+    {
+      "timestamp": "12:58",
+      "title": "Importanza del true fan",
+      "why": "Distingue l'ascoltatore dal true fan e spiega perché quest'ultimo è fondamentale per una carriera sostenibile."
+    },
+    {
+      "timestamp": "13:36",
+      "title": "Perché i true fan sono più importanti dei numeri",
+      "why": "Rafforza il concetto che una base di true fan, anche se numericamente inferiore, è più preziosa di grandi numeri di ascoltatori passivi."
+    },
+    {
+      "timestamp": "14:39",
+      "title": "Posizionamenti per il Pre-Pre-Lancio (Reel, TikTok)",
+      "why": "Fornisce strumenti pratici e canali specifici per la fase di acquisizione."
+    },
+    {
+      "timestamp": "15:07",
+      "title": "Come usare pagine e tag in modo efficace",
+      "why": "Offre una strategia innovativa per sfruttare le pagine di settore senza pagare, basandosi sulla viralità e la curiosità generata."
+    }
+  ],
+  "practicalOutput": "Un piano di contenuti per la fase di Pre-Pre-Lancio, focalizzato sulla generazione di curiosità e viralità, e una strategia per coinvolgere pagine di settore in modo organico.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Iniziare a sviluppare un piano di contenuti per la fase di Pre-Pre-Lancio, identificando potenziali 'ganci' virali e come comunicare l'identità artistica.",
+  "managerNotes": "Verificare che lo studente abbia compreso la distinzione tra viralità effimera e costruzione di identità artistica, e che non si concentri solo su vanity metrics. Assicurarsi che il piano di Pre-Pre-Lancio sia autentico e non basato su tattiche di promozione a pagamento inefficaci."
+}

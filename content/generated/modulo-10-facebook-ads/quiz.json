@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la prima cosa da evitare quando si fa promozione a pagamento su Facebook/Instagram?",
+    "options": [
+      "Utilizzare il Business Manager di Facebook.",
+      "Fare promo da Instagram direttamente.",
+      "Testare diversi interessi.",
+      "Mettere sottotitoli ai video."
+    ],
+    "correctAnswer": "Fare promo da Instagram direttamente.",
+    "explanation": "Il relatore sconsiglia vivamente di fare promozioni direttamente da Instagram, suggerendo invece l'uso del Business Manager per un controllo maggiore."
+  },
+  {
+    "id": "q2",
+    "question": "Se l'obiettivo di una campagna è 'Traffico', a chi Facebook manderà le inserzioni?",
+    "options": [
+      "A chi più facilmente ricorda l'inserzione.",
+      "A chi è più incline a mettere 'mi piace' o commentare.",
+      "A chi clicca più facilmente sul link e quindi esce dalla piattaforma.",
+      "A chi è interessato a compilare moduli di contatto."
+    ],
+    "correctAnswer": "A chi clicca più facilmente sul link e quindi esce dalla piattaforma.",
+    "explanation": "Facebook, una volta impostato l'obiettivo 'Traffico', manderà le inserzioni a chi è più propenso a cliccare sui link e uscire dalla piattaforma, come ad esempio per andare su Spotify."
+  },
+  {
+    "id": "q3",
+    "question": "Quali sono i due posizionamenti su Instagram che il relatore consiglia di usare principalmente per le inserzioni?",
+    "options": [
+      "Esplora e Ricerca.",
+      "Home e Messenger.",
+      "Stories e Feed.",
+      "Audience Network e Facebook."
+    ],
+    "correctAnswer": "Stories e Feed.",
+    "explanation": "Il relatore suggerisce di togliere Facebook, Audience Network, Messenger, Esplora e Home, e di lasciare principalmente le Stories e il Feed di Instagram, in quanto sono i posizionamenti che performano meglio."
+  }
+]

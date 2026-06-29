@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Organizzare il tempo con strumenti digitali",
+    "description": "Utilizzare piattaforme come Notion, Google Calendar o Basecamp per schedulare e gestire le attività quotidiane e i task legati alla carriera musicale.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Adottare una mentalità di crescita e costanza",
+    "description": "Impegnarsi a lavorare più degli altri e con maggiore costanza per creare un vantaggio competitivo e migliorare continuamente le proprie capacità.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Superare il paradigma quantità vs qualità",
+    "description": "Comprendere che è possibile produrre musica di qualità con costanza e che la quantità non è necessariamente nemica della qualità, ma piuttosto un fattore di esperienza e miglioramento.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Pubblicare le 'hit' senza rimandare",
+    "description": "Evitare di tenere brani di qualità nel cassetto, ma pianificarne l'uscita con una strategia, per non perdere attualità e opportunità.",
+    "completed": false
+  }
+]

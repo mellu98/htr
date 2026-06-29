@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Ho finito l'HR training?",
+    "description": "Verificare di aver completato tutti i moduli dell'HR training prima di procedere.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Ho identificato azioni pratiche?",
+    "description": "Pensare a come mettere in pratica la teoria appresa, con fogli scritti, demo pronte o idee di marketing/video.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Ho contattato il team per la consulenza gratuita?",
+    "description": "Scrivere al team HTR per richiedere una consulenza gratuita e dimostrare la propria motivazione.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Sono pronto a dimostrare fame e motivazione?",
+    "description": "Prepararsi a rispondere alle domande del team, mostrando la propria voglia di agire e muovere il culo.",
+    "completed": false
+  }
+]

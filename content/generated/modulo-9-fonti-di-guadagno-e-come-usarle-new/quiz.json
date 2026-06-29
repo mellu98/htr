@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è il principale motivo per cui un artista non dovrebbe dipendere unicamente dagli stream per guadagnare?",
+    "options": [
+      "Gli stream non generano entrate significative per gli artisti emergenti.",
+      "I guadagni dagli stream sono spesso divisi con etichette e distributori, riducendo la quota dell'artista.",
+      "Il mercato musicale italiano è troppo piccolo rispetto a quello anglofono per generare grandi entrate dagli stream.",
+      "Tutte le opzioni precedenti sono corrette."
+    ],
+    "correctAnswer": "Tutte le opzioni precedenti sono corrette.",
+    "explanation": "Il relatore spiega che gli stream da soli non bastano, soprattutto per gli emergenti, a causa della divisione delle royalties, delle tasse e delle dimensioni del mercato italiano rispetto a quello anglofono."
+  },
+  {
+    "id": "q2",
+    "question": "Quale delle seguenti non è stata menzionata come una delle principali 'fette della torta' dei guadagni di un artista?",
+    "options": [
+      "Streams",
+      "Live",
+      "Sponsorizzazioni personali",
+      "Merch"
+    ],
+    "correctAnswer": "Sponsorizzazioni personali",
+    "explanation": "Le fette della torta menzionate sono streams, live, eventi, CD/vinili/merch e brand. Le 'sponsorizzazioni personali' non sono state esplicitamente nominate come categoria a sé stante, ma rientrano più genericamente sotto 'brand'."
+  },
+  {
+    "id": "q3",
+    "question": "Secondo il relatore, perché è importante per un artista essere economicamente stabile?",
+    "options": [
+      "Per potersi permettere strumenti musicali costosi.",
+      "Per non dover fare lavori secondari e dedicare più tempo all'arte.",
+      "Per dimostrare il proprio successo agli altri artisti.",
+      "Per pagare le tasse sugli stream."
+    ],
+    "correctAnswer": "Per non dover fare lavori secondari e dedicare più tempo all'arte.",
+    "explanation": "Il relatore afferma che un artista economicamente stabile può dedicare più tempo all'arte, evitando lavori che gli sottraggono energie e tempo prezioso."
+  }
+]

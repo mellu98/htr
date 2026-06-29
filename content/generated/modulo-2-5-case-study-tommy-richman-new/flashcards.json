@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Qual è il claim di Tommy Richman menzionato nella lezione?",
+    "back": "\"Everything is Punk\".",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Quale artista ha supportato Tommy Richman portandolo in tour e firmandolo con la sua etichetta?",
+    "back": "Brent Faiyaz.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Qual è il brano di Tommy Richman che è diventato viralissimo e ha avuto un grande impatto?",
+    "back": "Million Dollar Baby.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f4",
+    "front": "Cosa ha fatto Tommy Richman per emergere, secondo la lezione, prima di trovare la formula vincente?",
+    "back": "Ha sperimentato diversi generi (Hip Hop, R&B, Pop, Urban) con grande costanza di pubblicazione.",
+    "difficulty": "hard"
+  }
+]

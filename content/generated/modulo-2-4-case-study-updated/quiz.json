@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Secondo la lezione, quale era la caratteristica più importante per gli artisti della trap nel 2016 per emergere?",
+    "options": [
+      "La qualità musicale impeccabile",
+      "L'essere dei geni incompresi",
+      "Il portare qualcosa di nuovo e fresco",
+      "L'essere già professionisti affermati"
+    ],
+    "correctAnswer": "Il portare qualcosa di nuovo e fresco",
+    "explanation": "La lezione afferma che 'era importante farlo in maniera nuova' e che 'era qualcosa di fresco, qualcosa che non avevamo mai sentito', non necessariamente con il 100% di qualità."
+  },
+  {
+    "id": "q2",
+    "question": "Cosa rappresenta il 'claim' per un artista, secondo la lezione?",
+    "options": [
+      "Un contratto discografico esclusivo",
+      "Un gancio identitario che riduce il tempo per farsi notare",
+      "Una strategia di marketing a lungo termine",
+      "La capacità di produrre musica di alta qualità"
+    ],
+    "correctAnswer": "Un gancio identitario che riduce il tempo per farsi notare",
+    "explanation": "Il relatore spiega che 'il claim è semplicemente qualcosa che, se fatto bene, riduce il tempo che ci mettete per farvi vedere' e che 'riduce quello che poi vedremo, la fase di attrazione'."
+  },
+  {
+    "id": "q3",
+    "question": "Quale artista viene citato come esempio di 'follower' che ha costruito la sua carriera sulla pazienza e le skill tecniche?",
+    "options": [
+      "Sfera Ebbasta",
+      "Tedua",
+      "Lazza",
+      "da Sup"
+    ],
+    "correctAnswer": "Lazza",
+    "explanation": "La lezione dedica un intero caso studio a Lazza, definendolo 'il follower più forte di tutti' e sottolineando il suo percorso più lento e basato sulle skill."
+  }
+]

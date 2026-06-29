@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Cos'è la distribuzione musicale?",
+    "back": "Un'infrastruttura terza che porta la musica sulle piattaforme digitali (Spotify, Apple Music, Amazon, Tidal, ecc.).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Qual è la differenza principale tra distributori digitali e 'fisici' in termini di royalties?",
+    "back": "I distributori digitali (es. DistroKid) permettono di tenere il 100% delle royalties, mentre i 'fisici' (es. Ada, The Orchard) prendono una percentuale.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Perché è importante depositare il diritto d'autore prima di distribuire?",
+    "back": "I distributori non tutelano il diritto d'autore; è necessario registrarlo in SIAE o Soundreef per essere totalmente tutelati.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Quale consiglio viene dato per gli artisti emergenti riguardo alla scelta del distributore?",
+    "back": "Iniziare con un distributore digitale come DistroKid per le prime uscite, acquisire esperienza e numeri, per poi valutare offerte da distributori 'fisici' con una posizione negoziale più forte.",
+    "difficulty": "hard"
+  }
+]

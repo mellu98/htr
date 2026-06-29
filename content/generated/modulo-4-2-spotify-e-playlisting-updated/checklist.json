@@ -1,0 +1,32 @@
+[
+  {
+    "id": "check-1",
+    "title": "Profilo Spotify curato",
+    "description": "Verificare che immagine di copertina, foto profilo, Artist Pick e bio siano aggiornati e professionali.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Playlist 'This Is' o discografia",
+    "description": "Creare o verificare l'esistenza di una playlist con tutta la propria musica e impostarla come Artist Pick.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Link social collegati",
+    "description": "Assicurarsi che tutti i link ai social media (es. Instagram) siano correttamente collegati al profilo Spotify.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Costanza nelle pubblicazioni",
+    "description": "Valutare la frequenza delle proprie uscite musicali e pianificare una strategia per mantenere la costanza.",
+    "completed": false
+  },
+  {
+    "id": "check-5",
+    "title": "Analisi Spotify for Artists",
+    "description": "Esaminare regolarmente i dati di Spotify for Artists per monitorare performance e identificare aree di miglioramento.",
+    "completed": false
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "lessonSlug": "modulo-12-1-mindset-pt-2-new",
+  "mainTopics": [
+    "Gestione del tempo",
+    "Organizzazione e strumenti",
+    "Mentalità di crescita e costanza (Kobe mentality)",
+    "Quantità vs Qualità nella produzione musicale",
+    "Importanza di pubblicare le 'hit' subito",
+    "Strategia nella pubblicazione musicale"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Titolo della lezione: 'MODULO 12.1 - Mindset pt.2 [NEW]'"
+    },
+    {
+      "type": "slide",
+      "description": "Concetto chiave: 'Il Tempo è la risorsa più preziosa'"
+    },
+    {
+      "type": "whiteboard",
+      "description": "Elenco di strumenti per l'organizzazione: Notion, Google Calendar, Basecamp"
+    },
+    {
+      "type": "diagram",
+      "description": "Illustrazione del 'gap' creato dalla costanza nel tempo (Kobe mentality)"
+    },
+    {
+      "type": "slide",
+      "description": "Titolo: 'Quantità vs Qualità: Sfatare il mito'"
+    },
+    {
+      "type": "slide",
+      "description": "Titolo: 'La Hit nel cassetto: Pubblicarla subito'"
+    },
+    {
+      "type": "whiteboard",
+      "description": "Elenco delle 3 ragioni per non rimandare l'uscita di un brano"
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:14",
+      "title": "Il tempo come risorsa preziosa",
+      "why": "Viene introdotto il concetto centrale della lezione, sottolineando l'importanza del tempo come risorsa non rinnovabile."
+    },
+    {
+      "timestamp": "00:44",
+      "title": "Rinunciare al sonno per gli obiettivi",
+      "why": "Un consiglio provocatorio ma pratico per i giovani, evidenziando la necessità di dedicare tempo agli obiettivi sacrificando attività meno produttive."
+    },
+    {
+      "timestamp": "01:29",
+      "title": "Gestione del tempo e organizzazione",
+      "why": "Introduzione agli strumenti e alle metodologie per organizzare il proprio tempo in modo efficace, contrastando lo spreco di tempo."
+    },
+    {
+      "timestamp": "02:48",
+      "title": "Importanza di organizzarsi",
+      "why": "Viene ribadito il concetto di organizzazione e l'uso di piattaforme specifiche per la gestione della carriera."
+    },
+    {
+      "timestamp": "03:58",
+      "title": "Il tempo è oro",
+      "why": "Rafforza il messaggio sull'importanza di non sprecare tempo, specialmente in giovane età."
+    },
+    {
+      "timestamp": "05:20",
+      "title": "Il tempo determina la qualità",
+      "why": "Viene introdotto il legame tra il tempo dedicato e la qualità del lavoro, con l'esperienza che ne deriva."
+    },
+    {
+      "timestamp": "05:30",
+      "title": "Il metodo di Kobe Bryant",
+      "why": "Esempio concreto e potente di come la costanza e l'impegno nel tempo creino un vantaggio competitivo incolmabile."
+    },
+    {
+      "timestamp": "09:35",
+      "title": "Sfatare il mito quantità vs qualità",
+      "why": "Affronta un paradigma comune nel mondo artistico, sostenendo che la quantità non preclude la qualità, ma anzi può migliorarla."
+    },
+    {
+      "timestamp": "10:20",
+      "title": "Esempio di Marracash (Persona)",
+      "why": "Utilizza un esempio di successo per dimostrare come un artista esperto possa produrre musica di alta qualità in tempi brevi."
+    },
+    {
+      "timestamp": "14:44",
+      "title": "La hit nel computer deve uscire oggi",
+      "why": "Punto cruciale della lezione, che esorta gli artisti a non rimandare la pubblicazione dei loro migliori brani."
+    },
+    {
+      "timestamp": "15:12",
+      "title": "Tre ragioni per non rimandare",
+      "why": "Vengono elencate le motivazioni logiche per pubblicare subito i brani, evidenziando i rischi della procrastinazione."
+    }
+  ],
+  "practicalOutput": "Uno studente dovrebbe produrre una 'schedule' settimanale dettagliata delle proprie attività musicali utilizzando uno strumento di organizzazione (es. Google Calendar, Notion), includendo task specifici per la scrittura, produzione, marketing e strategia, e un piano di massima per l'uscita di un brano 'hit' dal proprio repertorio.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Crea un calendario editoriale per la tua musica, pianificando le prossime 3 uscite e le relative attività di promozione, basandoti sui principi di costanza e pubblicazione immediata delle 'hit'.",
+  "managerNotes": "Verificare che lo studente abbia compreso l'importanza della gestione del tempo e dell'organizzazione. Chiedere esempi concreti di come intende applicare la 'Kobe mentality' e come ha superato il paradigma quantità/qualità. Assicurarsi che abbia un piano per le 'hit' nel cassetto."
+}

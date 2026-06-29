@@ -1,0 +1,104 @@
+{
+  "lessonSlug": "modulo-2-4-case-study-updated",
+  "mainTopics": [
+    "Case Study di artisti di successo",
+    "Trend Setter vs. Follower",
+    "Importanza del 'Claim' nell'identità artistica",
+    "Fasi di attrazione e fidelizzazione del pubblico",
+    "Evoluzione della carriera artistica nel tempo",
+    "Trasformazione di caratteristiche personali in punti di forza"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Titolo della lezione 'MODULO 2.4 - Case Study [UPDATED]'"
+    },
+    {
+      "type": "whiteboard",
+      "description": "Elenco di artisti 'bimbi' (Sfera, Izi, Rkomi, Tedua, Gali) e 'Freshman' americani (Kodak, Savage, Uzi)"
+    },
+    {
+      "type": "slide",
+      "description": "Definizione di 'Claim' e le sue funzioni (attrazione, educazione, fan)"
+    },
+    {
+      "type": "whiteboard",
+      "description": "Timeline della carriera di Lazza con tappe chiave (Zala, Remida, Sirio, Sanremo)"
+    },
+    {
+      "type": "slide",
+      "description": "Punti chiave del caso studio di da Sup (timidezza, introversione, poca esposizione trasformati in brand)"
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:10",
+      "title": "Definizione di Case Study",
+      "why": "Introduce il tema centrale della lezione e il suo scopo pratico."
+    },
+    {
+      "timestamp": "00:46",
+      "title": "Il concetto di Trend Setter con l'esempio dei 'bimbi'",
+      "why": "Spiega come l'innovazione e la novità fossero più importanti della qualità iniziale per gli artisti trap del 2016."
+    },
+    {
+      "timestamp": "01:13",
+      "title": "Importanza del 'fare in maniera nuova'",
+      "why": "Sottolinea che la freschezza e la novità superano la qualità perfetta all'inizio di un trend."
+    },
+    {
+      "timestamp": "02:34",
+      "title": "Il successo basato sul trend e la novità",
+      "why": "Rafforza l'idea che la capacità di costruire e anticipare un trend è stata la chiave del successo iniziale."
+    },
+    {
+      "timestamp": "03:02",
+      "title": "21 Savage e la rappresentazione popolare",
+      "why": "Mostra come un artista possa emergere rappresentando una classe sociale non sentita prima, anche con poca qualità iniziale."
+    },
+    {
+      "timestamp": "03:35",
+      "title": "Il successo di Savage con il mumble rap",
+      "why": "Evidenzia come la novità e la rappresentazione abbiano portato al successo, non la qualità intrinseca iniziale."
+    },
+    {
+      "timestamp": "05:27",
+      "title": "Gli artisti si vedono sul lungo termine",
+      "why": "Introduce il concetto di evoluzione e ramificazione della carriera artistica nel tempo."
+    },
+    {
+      "timestamp": "06:35",
+      "title": "Il 'claim' identitario",
+      "why": "Definisce il 'claim' come elemento fondamentale per costruire l'identità e attrarre il pubblico."
+    },
+    {
+      "timestamp": "06:48",
+      "title": "Il claim riduce il tempo di attrazione",
+      "why": "Spiega la funzione pratica del claim nella fase iniziale di una carriera artistica."
+    },
+    {
+      "timestamp": "07:19",
+      "title": "Fasi di interazione con il pubblico: Attrazione, Educazione, Fan",
+      "why": "Descrive il percorso che un artista deve seguire per trasformare un ascoltatore in un fan fedele."
+    },
+    {
+      "timestamp": "08:50",
+      "title": "Case Study di Lazza come 'follower'",
+      "why": "Presenta un esempio di carriera costruita sulla pazienza, le skill tecniche e un percorso ascendente più lento ma solido."
+    },
+    {
+      "timestamp": "11:49",
+      "title": "Trend setter o follower: questione di carattere artistico",
+      "why": "Conclude che la scelta tra i due ruoli non è di merito, ma di approccio strategico alla carriera."
+    },
+    {
+      "timestamp": "12:31",
+      "title": "Case Study di da Sup: trasformare l'introversione in un brand",
+      "why": "Illustra come anche caratteristiche personali 'negative' possano essere trasformate in un claim forte e unico."
+    }
+  ],
+  "practicalOutput": "Lo studente sarà in grado di analizzare la propria identità artistica e definire un 'claim' distintivo, oltre a pianificare una strategia di posizionamento iniziale (trend setter o follower) basata sugli esempi forniti.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Sviluppare un 'claim' iniziale per la propria identità artistica e riflettere su come questo possa attrarre un pubblico specifico, considerando se si vuole essere un 'trend setter' o un 'follower' nel proprio genere.",
+  "managerNotes": "Verificare che lo studente abbia compreso la differenza tra 'trend setter' e 'follower' e l'importanza del 'claim'. Chiedere esempi concreti di come applicherebbe questi concetti alla propria musica. Assicurarsi che non confonda la qualità iniziale con la capacità di innovare."
+}

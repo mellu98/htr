@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la fase più importante per un artista molto emergente, secondo il modulo?",
+    "options": [
+      "a) Conversione ripetuta",
+      "b) Educazione",
+      "c) Attrazione",
+      "d) Promozione a pagamento"
+    ],
+    "correctAnswer": "c) Attrazione",
+    "explanation": "Per un artista emergente, la fase di attrazione è la più importante perché senza un pubblico attratto, non c'è nessuno da educare o convertire."
+  },
+  {
+    "id": "q2",
+    "question": "Quale dei seguenti non è uno dei tre problemi principali che impediscono agli artisti di fare contenuti?",
+    "options": [
+      "a) Timidezza",
+      "b) Mancanza di attrezzatura professionale",
+      "c) Giudizio",
+      "d) Non sapere cosa fare"
+    ],
+    "correctAnswer": "b) Mancanza di attrezzatura professionale",
+    "explanation": "I tre problemi principali menzionati sono timidezza, giudizio e non sapere cosa fare. La mancanza di attrezzatura non è stata citata come uno dei problemi principali."
+  },
+  {
+    "id": "q3",
+    "question": "Qual è il vantaggio principale di fare bene la parte di contenuto organico?",
+    "options": [
+      "a) Raggiungere 1 milione di ascolti in ADV",
+      "b) Risparmiare in ADV",
+      "c) Non dover mai fare live",
+      "d) Evitare qualsiasi tipo di giudizio"
+    ],
+    "correctAnswer": "b) Risparmiare in ADV",
+    "explanation": "Fare bene la parte di contenuto organico permette di portare traffico senza costi diretti, riducendo la necessità di spendere grandi somme in promozione a pagamento (ADV)."
+  }
+]

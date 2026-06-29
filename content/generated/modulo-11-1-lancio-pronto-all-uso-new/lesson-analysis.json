@@ -1,0 +1,65 @@
+{
+  "lessonSlug": "modulo-11-1-lancio-pronto-all-uso-new",
+  "mainTopics": [
+    "Gestione del tempo nei lanci",
+    "Organizzazione vs. Preparazione",
+    "Importanza di avere brani pronti",
+    "Il processo del 'mollare'",
+    "Mindset e costanza nella carriera musicale"
+  ],
+  "visualElements": [
+    {
+      "type": "whiteboard",
+      "description": "Scrittura dei concetti chiave 'Organizzazione' e 'Preparazione' e la loro distinzione ('cosa' vs 'come')."
+    },
+    {
+      "type": "diagram",
+      "description": "Illustrazione della ramificazione di un lancio musicale dalla 'musica' a 'video', 'promo', 'storie', 'distribuzione'."
+    },
+    {
+      "type": "slide",
+      "description": "Un grafico (menzionato ma non mostrato) che potrebbe illustrare il progresso nel tempo o il concetto di 'mollare'."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:19",
+      "title": "Introduzione alla gestione del tempo nei lanci",
+      "why": "Definisce l'argomento principale della lezione e l'importanza di una corretta gestione del tempo per gli artisti."
+    },
+    {
+      "timestamp": "01:45",
+      "title": "Due motivi di insuccesso: Organizzazione e Preparazione",
+      "why": "Identifica le due aree critiche che portano al fallimento e che saranno approfondite."
+    },
+    {
+      "timestamp": "02:17",
+      "title": "Distinzione tra Preparazione ('cosa') e Organizzazione ('come')",
+      "why": "Fornisce una chiara definizione dei due concetti chiave, essenziale per la comprensione del modulo."
+    },
+    {
+      "timestamp": "03:33",
+      "title": "Importanza di avere brani pronti e un piano organizzato",
+      "why": "Sottolinea la necessità di avere un backlog di musica e una strategia per le uscite future."
+    },
+    {
+      "timestamp": "05:03",
+      "title": "Motivi per avere brani pronti: replicare e non mollare",
+      "why": "Spiega le due ragioni fondamentali per cui la preparazione è cruciale, collegandola direttamente al successo e alla perseveranza."
+    },
+    {
+      "timestamp": "06:04",
+      "title": "Come gli artisti 'mollano' gradualmente",
+      "why": "Analizza il processo psicologico e comportamentale che porta gli artisti ad abbandonare, spesso senza rendersene conto."
+    },
+    {
+      "timestamp": "08:47",
+      "title": "Organizzazione e preparazione come antidoto al 'mollare'",
+      "why": "Ricollega i concetti iniziali alla soluzione del problema della demotivazione e dell'abbandono."
+    }
+  ],
+  "practicalOutput": "Lo studente dovrebbe essere in grado di creare un piano di lancio dettagliato per almeno due-tre brani futuri, inclusa la pianificazione di video, promo, contenuti social e distribuzione, e di avere i brani stessi pronti (masterizzati).",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Iniziare a mappare le prossime tre uscite musicali, definendo per ciascuna il brano, la data di uscita desiderata e un elenco preliminare di tutte le attività di preparazione e organizzazione necessarie.",
+  "managerNotes": "Verificare che gli studenti comprendano la distinzione tra preparazione e organizzazione. Monitorare la loro capacità di pianificare in anticipo e di avere un 'buffer' di brani pronti. Prestare attenzione a segnali di procrastinazione o demotivazione, incoraggiando l'applicazione delle strategie discusse per mantenere la costanza."
+}

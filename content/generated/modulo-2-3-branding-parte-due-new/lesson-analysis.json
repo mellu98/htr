@@ -1,0 +1,65 @@
+{
+  "lessonSlug": "modulo-2-3-branding-parte-due-new",
+  "mainTopics": [
+    "Elementi fondamentali del brand",
+    "Claim: definizione e costruzione",
+    "Differenza tra nemico e competitor",
+    "Strategie di posizionamento (differenziazione vs. miglioramento)",
+    "Ruolo di brand, marketing e ADV"
+  ],
+  "visualElements": [
+    {
+      "type": "whiteboard",
+      "description": "Schemi per illustrare 'claim', 'nemico', 'competitor' e le loro relazioni."
+    },
+    {
+      "type": "slide",
+      "description": "Elenchi puntati per definire i concetti chiave e gli esempi di artisti."
+    },
+    {
+      "type": "diagram",
+      "description": "Diagramma a flusso per mostrare la sequenza Brand -> Messaggio -> Marketing -> ADV -> Target."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:14",
+      "title": "Concetti chiave del branding",
+      "why": "Vengono riepilogati i concetti fondamentali del branding già trattati, come immaginazione, percezione e coerenza."
+    },
+    {
+      "timestamp": "00:43",
+      "title": "Tre elementi fondamentali del brand",
+      "why": "Vengono introdotti i tre elementi centrali della lezione: claim, nemico e competitor."
+    },
+    {
+      "timestamp": "01:11",
+      "title": "Definizione di claim",
+      "why": "Viene spiegato cosa rappresenta il claim e come si lega alla percezione."
+    },
+    {
+      "timestamp": "01:43",
+      "title": "Strategie per il claim: differenziazione o miglioramento",
+      "why": "Vengono presentate le due vie principali per costruire un claim efficace."
+    },
+    {
+      "timestamp": "02:20",
+      "title": "Differenza tra nemico e competitor",
+      "why": "Viene introdotta e spiegata la distinzione cruciale tra questi due concetti."
+    },
+    {
+      "timestamp": "02:49",
+      "title": "Esempi pratici di competitor e nemici",
+      "why": "Vengono forniti esempi concreti di artisti per chiarire la distinzione tra competitor e nemici."
+    },
+    {
+      "timestamp": "06:49",
+      "title": "Ruolo di Brand, Marketing e ADV",
+      "why": "Viene illustrata la relazione e la funzione di ciascuno di questi elementi nel processo di comunicazione del messaggio."
+    }
+  ],
+  "practicalOutput": "Lo studente dovrebbe essere in grado di identificare i propri competitor e nemici nel panorama musicale e formulare un primo abbozzo del proprio 'claim' artistico, basandosi sulla differenziazione o sul miglioramento.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Analizzare il proprio genere musicale di riferimento e stilare una lista di 3-5 artisti, classificandoli come 'nemici' o 'competitor' e motivando la scelta.",
+  "managerNotes": "Verificare che lo studente abbia compreso la differenza tra nemico e competitor e sia in grado di applicarla al proprio contesto artistico. Assicurarsi che abbia iniziato a formulare un 'claim' distintivo."
+}

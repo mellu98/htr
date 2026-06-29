@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Allineamento Contenuti-Progetto",
+    "description": "Verificare che i contenuti virali siano allineati al progetto artistico e alla visione di carriera.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Analisi Vantaggi/Svantaggi Viralità",
+    "description": "Comprendere i pro (riduzione tempo incubazione, attrazione efficace) e i contro (gestione errata, disallineamento immagine) della viralità.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Principi della Viralità",
+    "description": "Assimilare i due grandi principi della viralità: passaparola (condivisione) e algoritmi.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Valuta Sociale",
+    "description": "Applicare il principio della 'valuta sociale' nella creazione di contenuti, rendendoli orgogliosi, cool ed esclusivi per chi li condivide.",
+    "completed": false
+  }
+]

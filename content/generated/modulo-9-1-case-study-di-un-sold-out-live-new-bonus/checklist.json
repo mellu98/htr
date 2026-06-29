@@ -1,0 +1,32 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere le fasi del lancio",
+    "description": "Assicurati di aver ben chiaro il significato e le attività associate a pre-lancio, lancio e post-lancio in una campagna di marketing.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Identificare gli obiettivi di marketing",
+    "description": "Definisci chiaramente gli obiettivi per ogni fase della tua campagna: acquisizione, educazione, conversione, soddisfazione, riconversione.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Analizzare le 'temperature' del pubblico",
+    "description": "Categorizza il tuo pubblico in freddo, tiepido e caldo e pensa a come raggiungerli con messaggi e canali appropriati.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Sfruttare le Instagram Stories per la conversione",
+    "description": "Pianifica come utilizzare le Stories per comunicare direttamente con il tuo pubblico più coinvolto e guidarlo verso un'azione specifica (es. acquisto biglietti).",
+    "completed": false
+  },
+  {
+    "id": "check-5",
+    "title": "Valutare il potenziale di 'riconversione'",
+    "description": "Cerca opportunità per 'riconvertire' un pubblico già acquisito (es. da ascoltatore Spotify a partecipante live) per massimizzare l'efficacia delle tue campagne.",
+    "completed": false
+  }
+]

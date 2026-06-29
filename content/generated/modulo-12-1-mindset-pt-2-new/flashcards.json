@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Qual è la risorsa più preziosa e perché?",
+    "back": "Il tempo, perché non si può comprare e la sua gestione è cruciale per il successo.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Quali strumenti possono aiutare nell'organizzazione del tempo per un artista?",
+    "back": "Notion, Google Calendar, Basecamp e fogli Google.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Cosa insegna la 'Kobe mentality' riguardo all'impegno?",
+    "back": "Che lavorare costantemente e più degli altri crea un gap di esperienza e miglioramento incolmabile nel tempo.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Perché non bisognerebbe rimandare l'uscita di una 'hit'?",
+    "back": "Perché il brano potrebbe non rappresentarti più, le aspettative non soddisfatte possono demotivare, o potresti mollare del tutto il progetto.",
+    "difficulty": "hard"
+  }
+]

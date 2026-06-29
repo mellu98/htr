@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere le differenze tra musica elettronica e cantata",
+    "description": "Assicurati di aver afferrato le peculiarità del marketing e della promozione nell'elettronica rispetto ai generi cantati.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Identificare le tre identità artistiche",
+    "description": "Riconosci e definisci per te stesso cosa significa identità visiva, musicale e concettuale.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Valutare la memorabilità della propria musica",
+    "description": "Applica il test del 'mammolare' ai tuoi brani per capire se hanno elementi riconoscibili e memorabili.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Verificare la 'carriabilità' dei propri brani",
+    "description": "Analizza se la tua musica contiene 'ganci' che possono facilitare la promozione da parte di altri (DJ, piattaforme).",
+    "completed": false
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Cos'è il Business Manager di Facebook?",
+    "back": "È lo strumento professionale di Facebook per gestire account pubblicitari, pagine e risorse, offrendo un controllo più granulare sulle campagne rispetto alle promo dirette da Instagram.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Qual è la differenza tra Campagna, Ad Set e Inserzione?",
+    "back": "La Campagna definisce l'obiettivo generale (es. Traffico); l'Ad Set definisce il pubblico target, il budget e i posizionamenti; l'Inserzione è la creatività effettiva (video, foto) che viene mostrata al pubblico.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Perché la 'creativity' è così importante in Facebook Ads?",
+    "back": "Con budget limitati, la creatività di alta qualità e che cattura l'attenzione è il fattore chiave per vincere le aste di Facebook (bidding) e ottenere risultati, superando la concorrenza con budget maggiori.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Quali sono i rischi di non avere un budget di pagamento sempre carico per Facebook Ads?",
+    "back": "Facebook potrebbe iniziare a dare problemi, chiudere o disattivare gli account pubblicitari in caso di pagamenti in ritardo.",
+    "difficulty": "easy"
+  }
+]

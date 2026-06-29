@@ -1,0 +1,62 @@
+{
+  "lessonSlug": "modulo-9-1-case-study-di-un-sold-out-live-new-bonus",
+  "mainTopics": [
+    "Marketing per artisti",
+    "Campagne di lancio (brano e live)",
+    "Fasi del marketing (pre-lancio, lancio, post-lancio)",
+    "Obiettivi di marketing (acquisizione, educazione, conversione, riconversione)",
+    "Segmentazione del pubblico (freddo, tiepido, caldo)",
+    "Strategie di marketing organico (Instagram Stories, Reel, TikTok)",
+    "Case study di sold out live"
+  ],
+  "visualElements": [
+    {
+      "type": "diagram",
+      "description": "Schema delle fasi di lancio: Pre-lancio, Pre-lancio, Lancio, Post-lancio."
+    },
+    {
+      "type": "screen",
+      "description": "Esempi di Instagram Stories utilizzate per la campagna live."
+    },
+    {
+      "type": "screen",
+      "description": "Esempi di Reel e TikTok utilizzati per la fase di attrazione."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:04",
+      "title": "Introduzione al caso studio di sold out live",
+      "why": "Il docente introduce l'argomento principale della lezione, un caso studio pratico di come hanno ottenuto un sold out per un live."
+    },
+    {
+      "timestamp": "00:56",
+      "title": "Definizione di 'lancio' e elementi di una campagna marketing",
+      "why": "Viene fornita una definizione ampia di 'lancio' e si elencano gli elementi chiave di una campagna marketing, inclusi i momenti (pre-lancio, lancio, post-lancio) e gli obiettivi (acquisizione, educazione, conversione, soddisfazione, riconversione)."
+    },
+    {
+      "timestamp": "03:04",
+      "title": "Schema delle fasi di lancio applicato al caso studio",
+      "why": "Il docente inizia a spiegare come le fasi di pre-lancio, lancio e post-lancio sono state applicate al caso specifico dell'artista Albe."
+    },
+    {
+      "timestamp": "06:26",
+      "title": "Concetto di riconversione del pubblico",
+      "why": "Viene introdotto il concetto cruciale di 'riconversione', spiegando come il pubblico acquisito tramite lo streaming possa essere riconvertito per un live, evitando una fase di 'post-lancio' passiva."
+    },
+    {
+      "timestamp": "07:09",
+      "title": "Il lancio del brano come pre-lancio del live",
+      "why": "Questo è il punto chiave della strategia: il lancio del brano 'Tornami addosso' è stato strategicamente usato come fase di pre-lancio per l'evento live, generando attrazione e pubblico prima di comunicare i dettagli del concerto."
+    },
+    {
+      "timestamp": "08:49",
+      "title": "Importanza delle Instagram Stories per il pubblico caldo",
+      "why": "Viene evidenziato il ruolo fondamentale delle Instagram Stories come strumento organico per raggiungere il pubblico 'caldo' e veicolare la conversione per la vendita dei biglietti, sottolineando l'inefficacia dei soli Reel/TikTok per questo obiettivo specifico."
+    }
+  ],
+  "practicalOutput": "Una bozza di piano di marketing per un prossimo lancio (brano o live) che integri le fasi di pre-lancio, lancio e post-lancio, con obiettivi specifici per ciascuna fase e l'identificazione dei canali più adatti per i diversi pubblici.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Sviluppare un piano dettagliato per l'utilizzo delle Instagram Stories per un obiettivo di conversione specifico (es. vendita biglietti per un live, pre-save di un brano), basandosi sulla comprensione del proprio pubblico 'caldo'.",
+  "managerNotes": "Verificare che lo studente abbia compreso la differenza tra le varie fasi di lancio e gli obiettivi associati. Assicurarsi che sappia identificare il proprio pubblico 'caldo' e come utilizzare le Instagram Stories in modo strategico per la conversione, come dimostrato nel caso studio."
+}

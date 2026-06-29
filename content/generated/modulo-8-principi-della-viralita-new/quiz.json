@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è uno dei principali vantaggi della viralità per un artista?",
+    "options": [
+      "Aumentare il budget per le ADV.",
+      "Ridurre il tempo di incubazione del progetto.",
+      "Garantire una carriera più lunga senza sforzo.",
+      "Trasformare l'artista in un content creator."
+    ],
+    "correctAnswer": "Ridurre il tempo di incubazione del progetto.",
+    "explanation": "La viralità riduce il tempo necessario affinché un progetto raggiunga un vasto pubblico, permettendo di risparmiare tempo e potenzialmente allungare la carriera."
+  },
+  {
+    "id": "q2",
+    "question": "Cosa succede se la viralità non viene gestita nel modo corretto o non è allineata al percorso artistico?",
+    "options": [
+      "L'artista diventa automaticamente un influencer di successo.",
+      "Il pubblico si fidelizza maggiormente all'artista.",
+      "L'artista rischia di restare incastrato in un'immagine che non desidera.",
+      "I costi pubblicitari si abbassano sensibilmente."
+    ],
+    "correctAnswer": "L'artista rischia di restare incastrato in un'immagine che non desidera.",
+    "explanation": "Se la viralità non è gestita correttamente o non rispecchia il vero percorso artistico, l'artista può rimanere intrappolato in un'immagine o un contenuto che non lo rappresenta, con conseguenze negative sulla sua carriera a lungo termine."
+  },
+  {
+    "id": "q3",
+    "question": "Quali sono i due grandi principi su cui si basa la viralità secondo la lezione?",
+    "options": [
+      "Originalità e esclusività.",
+      "Passaparola e algoritmi.",
+      "Costi pubblicitari e trend.",
+      "Serietà e polarizzazione."
+    ],
+    "correctAnswer": "Passaparola e algoritmi.",
+    "explanation": "La viralità si genera attraverso il passaparola (condivisione da parte degli utenti) che, notato dagli algoritmi, porta a una maggiore diffusione del contenuto."
+  }
+]

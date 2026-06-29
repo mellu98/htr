@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Valutare i brani pronti",
+    "description": "Verificare quanti brani sono già completi (masterizzati) e pronti per essere pubblicati.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Pianificare le attività di lancio",
+    "description": "Delineare un piano dettagliato per video, promo, storie e distribuzione per almeno le prossime due uscite.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Identificare i motivi di procrastinazione",
+    "description": "Riflettere sulle scuse o i comportamenti che portano a rimandare le attività importanti.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Stabilire un piano di backup",
+    "description": "Avere un piano per cosa fare se un brano non funziona come previsto, o se uno va virale e necessita di un follow-up rapido.",
+    "completed": false
+  }
+]

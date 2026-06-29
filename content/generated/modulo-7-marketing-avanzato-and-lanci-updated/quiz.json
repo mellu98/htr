@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è l'obiettivo principale della fase di Pre-Pre-Lancio?",
+    "options": [
+      "Convertire il pubblico in fan paganti.",
+      "Generare traffico e curiosità in un pubblico freddo.",
+      "Rispettare le promesse fatte al pubblico.",
+      "Lanciare un singolo o un album."
+    ],
+    "correctAnswer": "Generare traffico e curiosità in un pubblico freddo.",
+    "explanation": "Il Pre-Pre-Lancio è la fase di acquisizione, dove l'obiettivo è generare traffico e mettere l'artista di fronte a un pubblico che non lo conosce, creando curiosità e viralità."
+  },
+  {
+    "id": "q2",
+    "question": "Secondo la lezione, cosa succede se un artista si basa solo sulla viralità senza un'identità artistica solida?",
+    "options": [
+      "Diventa immediatamente famoso e mantiene il successo a lungo termine.",
+      "Non riesce a generare traffico significativo.",
+      "La viralità non si trasferisce in consapevolezza o identità e l'artista rischia di scomparire.",
+      "Attira solo true fan fin dall'inizio."
+    ],
+    "correctAnswer": "La viralità non si trasferisce in consapevolezza o identità e l'artista rischia di scomparire.",
+    "explanation": "La lezione sottolinea che senza un'identità artistica e qualcosa da comunicare, la viralità è effimera e non porta alla costruzione di una fan base duratura, portando l'artista a scomparire."
+  },
+  {
+    "id": "q3",
+    "question": "Qual è la differenza fondamentale tra un ascoltatore e un true fan, secondo la lezione?",
+    "options": [
+      "L'ascoltatore compra il merch, il true fan no.",
+      "Il true fan ascolta sistematicamente e interagisce attivamente, l'ascoltatore è più occasionale.",
+      "L'ascoltatore va ai live, il true fan no.",
+      "Il true fan è interessato solo ai singoli estivi, l'ascoltatore a tutti i brani."
+    ],
+    "correctAnswer": "Il true fan ascolta sistematicamente e interagisce attivamente, l'ascoltatore è più occasionale.",
+    "explanation": "Il true fan si distingue per l'ascolto sistematico, l'interazione (rispondere alle storie, fare azioni richieste) e il passaparola, a differenza dell'ascoltatore che ascolta solo occasionalmente."
+  }
+]

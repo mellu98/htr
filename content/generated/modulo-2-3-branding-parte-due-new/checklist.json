@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere il concetto di Brand",
+    "description": "Assicurati di aver compreso che il brand è immaginazione, percezione e coerenza.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Distinguere Nemico e Competitor",
+    "description": "Sii in grado di identificare la differenza tra un artista 'nemico' (differenziazione) e un 'competitor' (miglioramento).",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Definire il proprio Claim",
+    "description": "Inizia a formulare il tuo 'claim' basandoti sulla tua unicità o sul tuo vantaggio competitivo.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Analizzare il proprio genere musicale",
+    "description": "Identifica gli artisti di riferimento nel tuo genere e analizza il loro posizionamento.",
+    "completed": false
+  }
+]

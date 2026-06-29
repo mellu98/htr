@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprensione dei Moduli Precedenti",
+    "description": "Ho compreso a fondo tutti i moduli precedenti sul marketing di base e avanzato prima di affrontare questo argomento complesso.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Analisi delle Differenze Culturali",
+    "description": "Ho analizzato le differenze culturali e di mercato tra l'Italia e altri paesi (es. USA, UK) per il mio genere musicale.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Identificazione di Sfumature Musicali",
+    "description": "Ho identificato diverse sfumature e sottogeneri all'interno del mio genere musicale, sia a livello nazionale che internazionale.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Valutazione del Potenziale di Mercato",
+    "description": "Ho valutato se la mia proposta musicale si rivolge a una nicchia troppo piccola in Italia e se ha il potenziale per diventare mainstream.",
+    "completed": false
+  }
+]

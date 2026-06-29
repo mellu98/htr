@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Quali sono le tre fasi del marketing dei contenuti?",
+    "back": "Attrazione, Educazione, Conversione.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Perché è importante fare contenuti organici?",
+    "back": "Permette di risparmiare sui costi di promozione a pagamento (ADV) e di scalare l'Everest con gli strumenti giusti, anziché a mani nude.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Come affrontare la timidezza nella creazione di contenuti?",
+    "back": "Sfruttare la propria timidezza come parte dell'identità artistica, ponendosi la domanda 'come posso veicolare la mia timidezza attraverso un contenuto?'",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Cosa fare se 'non so che fare' per i contenuti?",
+    "back": "Iniziare a fare, anche se si sbaglia, e imparare dall'esperienza, prendendo spunto da altri e adattando le idee al proprio stile.",
+    "difficulty": "easy"
+  }
+]

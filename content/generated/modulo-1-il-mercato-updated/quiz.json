@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Secondo la lezione, perché è importante considerare la musica come un 'mercato'?",
+    "options": [
+      "Perché permette di guadagnare molti soldi rapidamente.",
+      "Perché se si parla di mercato, si parla di lavoro e sostenibilità nel tempo.",
+      "Perché è l'unico modo per ottenere fama internazionale.",
+      "Perché tutti gli artisti di successo lo fanno."
+    ],
+    "correctAnswer": "Perché se si parla di mercato, si parla di lavoro e sostenibilità nel tempo.",
+    "explanation": "Il relatore afferma chiaramente che parlare di musica come mercato significa parlare di lavoro e, di conseguenza, di qualcosa che è sostenibile nel tempo."
+  },
+  {
+    "id": "q2",
+    "question": "Cosa succede quando un artista emergente non ha una coerenza identitaria?",
+    "options": [
+      "Attira un pubblico più ampio e diversificato.",
+      "Il pubblico è confuso, non capisce chi è l'artista e non lo segue.",
+      "Diventa un trend setter e influenza altri artisti.",
+      "Riesce a posizionarsi in diverse nicchie contemporaneamente."
+    ],
+    "correctAnswer": "Il pubblico è confuso, non capisce chi è l'artista e non lo segue.",
+    "explanation": "La lezione spiega che la mancanza di coerenza identitaria confonde il pubblico, che non percepisce l'identità dell'artista e non lo segue, portando a 'ricominciare da zero' ad ogni lancio."
+  },
+  {
+    "id": "q3",
+    "question": "Qual è la cosa più costosa al mondo, secondo il relatore, nel contesto del mercato attuale?",
+    "options": [
+      "I dischi d'oro.",
+      "Le produzioni musicali di alta qualità.",
+      "L'attenzione.",
+      "Le campagne pubblicitarie sui social media."
+    ],
+    "correctAnswer": "L'attenzione.",
+    "explanation": "Il relatore afferma esplicitamente: 'La cosa più costosa che abbiamo oggi al mondo è l'attenzione. Questa. È la cosa che costa di più al mondo.'"
+  }
+]

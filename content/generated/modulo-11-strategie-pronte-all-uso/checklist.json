@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Identificare l'elemento virale",
+    "description": "Individuare un elemento distintivo nella musica, nell'identità o nelle visual che possa catturare l'attenzione del pubblico.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Produzione di clip per il pre-pre-lancio",
+    "description": "Realizzare 50-60 clip (anche con budget zero, usando smartphone e amici) che mettano in risalto l'elemento virale per TikTok e Instagram.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Esecuzione della fase di pre-pre-lancio",
+    "description": "Pubblicare un TikTok al giorno per 30 giorni e 2-3 reel a settimana, monitorando l'interesse generato.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Gestione dell'interesse iniziale",
+    "description": "Valutare l'interesse dopo il pre-pre-lancio e decidere se proseguire, reiterare o cambiare strategia/brano.",
+    "completed": false
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è uno dei principali cambiamenti avvenuti su TikTok negli ultimi anni?",
+    "options": [
+      "È diventato più facile ottenere viralità con qualsiasi contenuto.",
+      "La piattaforma ha ridotto il numero di utenti attivi.",
+      "È aumentata la competizione e il grado di difficoltà dei video.",
+      "TikTok ha smesso di spingere gli utenti a usare la piattaforma."
+    ],
+    "correctAnswer": "È aumentata la competizione e il grado di difficoltà dei video.",
+    "explanation": "Il relatore afferma che oggi c'è molta più competizione, il che aumenta il grado di difficoltà dei video."
+  },
+  {
+    "id": "q2",
+    "question": "Secondo il relatore, quali sono i due tipi di 'share' (condivisione) su TikTok?",
+    "options": [
+      "Condivisione tramite messaggi privati e condivisione su altre piattaforme.",
+      "Condivisione del tasto 'condividi' e 'replica' (far rifare il contenuto agli altri).",
+      "Condivisione di video lunghi e condivisione di video brevi.",
+      "Condivisione a pagamento e condivisione organica."
+    ],
+    "correctAnswer": "Condivisione del tasto 'condividi' e 'replica' (far rifare il contenuto agli altri).",
+    "explanation": "Il relatore distingue tra il 'classico tasto condividi' e uno 'share che in realtà permette alle persone di rifarlo', che chiama 'replica' o 'trend'."
+  },
+  {
+    "id": "q3",
+    "question": "Perché le persone replicano un contenuto su TikTok, secondo la lezione?",
+    "options": [
+      "Perché il contenuto è di alta qualità visiva.",
+      "Perché vogliono far vedere che appartiene anche a loro e li fa sentire 'figo'.",
+      "Per supportare l'artista che lo ha creato.",
+      "Perché il contenuto è stato sponsorizzato."
+    ],
+    "correctAnswer": "Perché vogliono far vedere che appartiene anche a loro e li fa sentire 'figo'.",
+    "explanation": "Il relatore spiega che le persone replicano un contenuto perché 'vogliono far vedere che quella roba è anche mia' e 'mi fa figo'."
+  }
+]

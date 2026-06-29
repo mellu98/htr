@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Secondo la lezione, quali sono i tre elementi fondamentali del brand?",
+    "options": [
+      "Messaggio, marketing, ADV",
+      "Claim, nemico, competitor",
+      "Focalizzazione, defocalizzazione, coerenza",
+      "Immaginazione, percezione, target"
+    ],
+    "correctAnswer": "Claim, nemico, competitor",
+    "explanation": "La lezione afferma che il brand ha tre elementi fondamentali: claim, nemico e competitor."
+  },
+  {
+    "id": "q2",
+    "question": "Qual è la caratteristica principale di un 'competitor' secondo la lezione?",
+    "options": [
+      "Fa qualcosa di simile e tu ti differenzi da lui.",
+      "Fa la tua stessa cosa, ma tu lo vuoi far meglio.",
+      "Trasmette un messaggio diverso.",
+      "Non attacca a livello di brand."
+    ],
+    "correctAnswer": "Fa la tua stessa cosa, ma tu lo vuoi far meglio.",
+    "explanation": "Un competitor è definito come qualcuno che fa la tua stessa cosa, ma tu lo vuoi far meglio."
+  },
+  {
+    "id": "q3",
+    "question": "Cosa fa il brand, il marketing e l'ADV rispettivamente, secondo la lezione?",
+    "options": [
+      "Il brand manipola il messaggio, il marketing lancia il messaggio, l'ADV sceglie il target.",
+      "Il brand sceglie il target, il marketing lancia il messaggio, l'ADV manipola il messaggio.",
+      "Il brand lancia il messaggio, il marketing manipola il messaggio, l'ADV sceglie il target.",
+      "Il brand manipola il messaggio, il marketing sceglie il target, l'ADV lancia il messaggio."
+    ],
+    "correctAnswer": "Il brand lancia il messaggio, il marketing manipola il messaggio, l'ADV sceglie il target.",
+    "explanation": "La lezione chiarisce che il brand lancia il messaggio, il marketing manipola il messaggio e l'ADV sceglie il target."
+  }
+]

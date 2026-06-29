@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Vantaggi principali della viralità",
+    "back": "Riduzione del tempo di incubazione del progetto e attrazione efficace a basso costo (o zero).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Pericoli della viralità non gestita",
+    "back": "Rimanere incastrati in un'immagine non desiderata o effimera, non allineata al proprio percorso artistico.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "I due grandi principi della viralità",
+    "back": "Passaparola (condivisione) e algoritmi.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f4",
+    "front": "Cos'è la 'valuta sociale' nella viralità?",
+    "back": "Il principio che spinge le persone a condividere contenuti che le fanno sentire cool, orgogliose, o parte di qualcosa di esclusivo.",
+    "difficulty": "medium"
+  }
+]

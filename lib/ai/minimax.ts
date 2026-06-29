@@ -812,7 +812,7 @@ export async function analyzeVideoWithMiniMax(
   const raw = await callModel(textPrompt, {
     json: false,
     temperature: 0.4,
-    maxTokens: 16000,
+    maxTokens: 24000,
     system:
       'Sei un coach didattico per il corso HTR Training. Rispondi solo con JSON valido che rispetti lo schema richiesto. ' +
       'Non inventare contenuti: usa solo ciò che leggi nel transcript fornito. ' +
@@ -912,7 +912,7 @@ Hai a disposizione SOLO il transcript VERBATIM dell'audio (fonte primaria di ver
 
 TRANSCRIPT:
 \`\`\`
-${transcript.slice(0, 28000)}${transcript.length > 28000 ? '\n[...truncated...]' : ''}
+${transcript.slice(0, 15000)}${transcript.length > 15000 ? '\n[...truncated...]' : ''}
 \`\`\`
 
 Devi produrre ESCLUSIVAMENTE un JSON valido (nessun testo prima o dopo) con questo schema.

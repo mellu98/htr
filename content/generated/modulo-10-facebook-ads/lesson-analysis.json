@@ -1,0 +1,99 @@
+{
+  "lessonSlug": "modulo-10-facebook-ads",
+  "mainTopics": [
+    "Introduzione a Facebook Ads",
+    "Struttura delle campagne (Campagna, Ad Set, Inserzione)",
+    "Obiettivi di campagna (Notorietà, Traffico, Interazione, Contatti, Vendite)",
+    "Configurazione del Business Manager",
+    "Importanza della creatività e del testing",
+    "Gestione del budget e dei posizionamenti"
+  ],
+  "visualElements": [
+    {
+      "type": "screen",
+      "description": "Interfaccia del Business Manager di Facebook, mostrando la navigazione e le sezioni principali."
+    },
+    {
+      "type": "screen",
+      "description": "Schermata di creazione di una nuova campagna, con selezione degli obiettivi (Notorietà, Traffico, Interazione, ecc.)."
+    },
+    {
+      "type": "screen",
+      "description": "Sezione 'Ad Set' con configurazione del target (interessi come 'rap italiano', 'trap', 'Marracash') e dimensione del pubblico."
+    },
+    {
+      "type": "screen",
+      "description": "Sezione 'Ad Set' con configurazione dei posizionamenti (Instagram Stories e Feed)."
+    },
+    {
+      "type": "screen",
+      "description": "Sezione 'Inserzione' con caricamento di un video/immagine di esempio e configurazione della call to action e del link."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:04",
+      "title": "Introduzione a Facebook Ads e Business Manager",
+      "why": "Segna l'inizio della lezione pratica sulla promozione a pagamento e introduce la complessità iniziale del Business Manager."
+    },
+    {
+      "timestamp": "00:35",
+      "title": "Non fare promo da Instagram direttamente",
+      "why": "Un consiglio cruciale per gli studenti, evidenziando l'importanza del Business Manager per un controllo efficace."
+    },
+    {
+      "timestamp": "00:59",
+      "title": "Facebook Ads si basa sul testing",
+      "why": "Concetto fondamentale che sottolinea la necessità di sperimentare e analizzare i dati per ottimizzare le campagne."
+    },
+    {
+      "timestamp": "02:46",
+      "title": "Importanza dei pagamenti precisi",
+      "why": "Avvertimento critico sulla gestione dei pagamenti per evitare blocchi o problemi con l'account pubblicitario."
+    },
+    {
+      "timestamp": "03:06",
+      "title": "Attivare autenticazione a due fattori",
+      "why": "Consiglio di sicurezza essenziale per proteggere l'account da accessi non autorizzati."
+    },
+    {
+      "timestamp": "04:16",
+      "title": "Sei obiettivi di campagna",
+      "why": "Introduzione ai diversi scopi che una campagna può avere, spiegando come Facebook ottimizza in base all'obiettivo scelto."
+    },
+    {
+      "timestamp": "05:56",
+      "title": "Non mettere obiettivi a caso",
+      "why": "Spiegazione chiave sul funzionamento dell'algoritmo di Facebook e come la scelta dell'obiettivo influenzi la distribuzione delle inserzioni."
+    },
+    {
+      "timestamp": "08:02",
+      "title": "Struttura Campagna, Ad Set, Inserzione",
+      "why": "Presentazione della gerarchia fondamentale per la creazione di una campagna, essenziale per la comprensione pratica."
+    },
+    {
+      "timestamp": "12:21",
+      "title": "I risultati stimati non valgono nulla",
+      "why": "Sfatare un mito comune, sottolineando che Facebook non è un 'mago' e che il testing reale è l'unico modo per ottenere dati affidabili."
+    },
+    {
+      "timestamp": "12:50",
+      "title": "Posizionamenti consigliati (Stories e Feed Instagram)",
+      "why": "Consiglio pratico su dove concentrare gli sforzi per massimizzare l'efficacia delle inserzioni."
+    },
+    {
+      "timestamp": "17:43",
+      "title": "Dobbiamo puntare sulle creativity",
+      "why": "Il punto cruciale per gli artisti con budget limitati: la creatività è l'arma vincente per competere con chi ha maggiori risorse."
+    },
+    {
+      "timestamp": "19:50",
+      "title": "Costruire una fan base con Facebook Ads",
+      "why": "Sottolinea il potenziale a lungo termine di Facebook Ads non solo per gli ascolti ma anche per la crescita della comunità di fan."
+    }
+  ],
+  "practicalOutput": "Lo studente sarà in grado di configurare un account pubblicitario su Facebook Business Manager, impostare una campagna base scegliendo un obiettivo specifico (es. Traffico o Interazione), definire un target e dei posizionamenti, e caricare una creatività, comprendendo l'importanza del testing e della qualità del contenuto.",
+  "difficulty": "beginner",
+  "recommendedNextAction": "Creare il proprio account pubblicitario nel Business Manager di Facebook e familiarizzare con l'interfaccia, simulando la creazione di una campagna senza pubblicarla, per esplorare le opzioni di targeting e creatività.",
+  "managerNotes": "Verificare che gli studenti abbiano compreso la distinzione tra Campagna, Ad Set e Inserzione, e l'importanza del testing continuo. Assicurarsi che abbiano attivato le misure di sicurezza per i loro account pubblicitari. Monitorare la loro capacità di identificare l'obiettivo di campagna più adatto per scenari specifici di promozione musicale."
+}

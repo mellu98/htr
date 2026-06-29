@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la funzione principale della scheda audio in un Home Studio?",
+    "options": [
+      "Permettere al microfono di comunicare con il computer e alle casse con il computer.",
+      "Mixare e masterizzare le tracce audio.",
+      "Generare effetti sonori e sintetizzare suoni.",
+      "Amplificare il segnale del microfono prima che arrivi al computer."
+    ],
+    "correctAnswer": "Permettere al microfono di comunicare con il computer e alle casse con il computer.",
+    "explanation": "La scheda audio è il ponte che permette a microfoni, strumenti e monitor esterni di interagire con il computer, convertendo i segnali analogici in digitali e viceversa."
+  },
+  {
+    "id": "q2",
+    "question": "Perché è sconsigliato utilizzare microfoni USB per registrazioni di qualità?",
+    "options": [
+      "Hanno una resa davvero pessima.",
+      "Sono troppo costosi per un Home Studio.",
+      "Richiedono software di registrazione specifici e complessi.",
+      "Non sono compatibili con le schede audio esterne."
+    ],
+    "correctAnswer": "Hanno una resa davvero pessima.",
+    "explanation": "Il docente sconsiglia i microfoni USB perché 'hanno una resa davvero, davvero pessima' e sono quelli per cui rifiuta di fare mix e master."
+  },
+  {
+    "id": "q3",
+    "question": "Qual è la differenza fondamentale tra insonorizzazione e trattamento acustico?",
+    "options": [
+      "L'insonorizzazione evita che il suono esca dalla stanza, il trattamento acustico migliora l'acustica interna della stanza.",
+      "L'insonorizzazione è per studi professionali, il trattamento acustico è per Home Studio.",
+      "L'insonorizzazione si fa con pannelli di spugna, il trattamento acustico con lana di roccia.",
+      "L'insonorizzazione riduce la latenza, il trattamento acustico elimina l'eco."
+    ],
+    "correctAnswer": "L'insonorizzazione evita che il suono esca dalla stanza, il trattamento acustico migliora l'acustica interna della stanza.",
+    "explanation": "L'insonorizzazione serve a impedire che il suono si propaghi all'esterno della stanza, agendo solitamente sui muri. Il trattamento acustico, invece, mira a migliorare l'acustica interna della stanza, riducendo eco e riflessioni."
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere il mindset basato sull'azione",
+    "description": "Assicurati di aver compreso che il mindset efficace è quello che porta all'azione concreta, non solo alla riflessione o al 'sentirsi bene'.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Contestualizzare le strategie",
+    "description": "Verifica di non applicare ciecamente le strategie del corso, ma di contestualizzarle al tuo specifico progetto artistico e alle tue possibilità.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Valutare l'impegno",
+    "description": "Rifletti sull'impegno che dedichi alla tua musica rispetto ad altre attività (scuola, lavoro) e identifica aree di miglioramento per superare pigrizia e superficialità.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Pianificare l'azione notturna/weekend",
+    "description": "Se hai un lavoro o studi, pianifica come sfruttare le ore serali e i weekend per dedicarti concretamente alla tua musica, come suggerito nella lezione.",
+    "completed": false
+  }
+]

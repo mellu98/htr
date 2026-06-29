@@ -1,0 +1,20 @@
+[
+  {
+    "id": "check-1",
+    "title": "Valutare la propria fase di marketing",
+    "description": "Capire se si è nella fase di 'macro cambiamento' o pronti per un marketing più specifico.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Identificare i 'claim' artistici attrattivi",
+    "description": "Rivedere l'identità artistica per trovare elementi che possano attrarre un pubblico 'freddo'.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Pianificare la costanza di pubblicazione",
+    "description": "Definire una strategia per pubblicare contenuti (reel/TikTok) e musica con regolarità.",
+    "completed": false
+  }
+]

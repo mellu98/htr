@@ -1,0 +1,41 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è uno dei principali vantaggi dell'home studio menzionati nella lezione?",
+    "options": [
+      "a) Costi di produzione più elevati",
+      "b) La possibilità di registrare 24 H",
+      "c) Accesso esclusivo a produttori famosi",
+      "d) Maggiore complessità nella creazione musicale",
+      "e) Non è più opzionale"
+    ],
+    "correctAnswer": "b) La possibilità di registrare 24 H",
+    "explanation": "La lezione sottolinea che l'home studio permette di registrare 24 ore su 24, offrendo flessibilità e tempo per sperimentare."
+  },
+  {
+    "id": "q2",
+    "question": "Secondo la lezione, quali sono i due motivi principali per cui si va in uno studio professionale?",
+    "options": [
+      "a) Per socializzare e fare networking",
+      "b) Per risparmiare tempo e denaro",
+      "c) Per la qualità e per migliorare",
+      "d) Per usare attrezzature analogiche e digitali",
+      "e) Per fare mix e master subito dopo la sessione di rec"
+    ],
+    "correctAnswer": "c) Per la qualità e per migliorare",
+    "explanation": "Il relatore afferma chiaramente che si va in studio principalmente per la qualità e per migliorare."
+  },
+  {
+    "id": "q3",
+    "question": "Qual è il primo step del processo di sessione in studio descritto nella lezione?",
+    "options": [
+      "a) Iniziare subito la fase di rec ufficiale",
+      "b) Fare un premix del brano",
+      "c) Ascoltare il provino",
+      "d) Dividere il brano in parti",
+      "e) Analizzare il brano"
+    ],
+    "correctAnswer": "c) Ascoltare il provino",
+    "explanation": "Il primo passo del processo di sessione in studio è l'ascolto del provino per capire la direzione e chiedere feedback."
+  }
+]

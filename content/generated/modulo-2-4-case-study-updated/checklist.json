@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere la differenza tra Trend Setter e Follower",
+    "description": "Assicurati di aver afferrato le strategie e i percorsi di carriera associati a ciascun ruolo nel mercato musicale.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Identificare il concetto di 'Claim'",
+    "description": "Definisci cosa sia un 'claim' nel contesto artistico e perché è cruciale per l'attrazione del pubblico.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Analizzare i case study presentati",
+    "description": "Rivedi gli esempi di Sfera Ebbasta, Lazza e da Sup per capire come i concetti teorici si applicano nella pratica.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Riflettere sul proprio posizionamento artistico",
+    "description": "Inizia a pensare a come i concetti di 'claim' e 'trend setting/following' si applicano alla tua musica e alla tua identità.",
+    "completed": false
+  }
+]

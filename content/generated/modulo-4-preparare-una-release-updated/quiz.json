@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Quale delle seguenti affermazioni descrive meglio la funzione di un singolo 'broad'?",
+    "options": [
+      "È un singolo molto introspettivo per la community.",
+      "È un singolo che segue un filone musicale popolare del momento.",
+      "È un singolo che può essere capito da tutti e ha un bel gancio.",
+      "È un singolo che anticipa un album con tracce sperimentali."
+    ],
+    "correctAnswer": "È un singolo che può essere capito da tutti e ha un bel gancio.",
+    "explanation": "Un singolo 'broad' è pensato per raggiungere un pubblico ampio, con sonorità facili e un gancio accattivante, anche se non necessariamente radiofonico."
+  },
+  {
+    "id": "q2",
+    "question": "Secondo la lezione, quante tracce dovrebbe avere un EP per i distributori digitali?",
+    "options": [
+      "Meno di due tracce.",
+      "Tra due e sei tracce.",
+      "Più di dieci tracce.",
+      "Almeno dodici tracce."
+    ],
+    "correctAnswer": "Tra due e sei tracce.",
+    "explanation": "L'EP è definito come un progetto che include tra le due e le sei tracce, specialmente per come viene visto dai distributori digitali."
+  },
+  {
+    "id": "q3",
+    "question": "In quale scenario l'album è sconsigliato per un artista emergente?",
+    "options": [
+      "Quando c'è una forte richiesta da parte del pubblico.",
+      "Quando l'etichetta discografica lo richiede.",
+      "Quando l'artista ha una visione artistica chiara e un budget illimitato.",
+      "Quando non c'è una chiara visione artistica o commerciale e un budget limitato."
+    ],
+    "correctAnswer": "Quando non c'è una chiara visione artistica o commerciale e un budget limitato.",
+    "explanation": "L'album è sconsigliato se non c'è una forte richiesta del pubblico, una visione chiara o un budget adeguato, poiché può ingessare il percorso dell'artista e portare a fallimenti."
+  }
+]

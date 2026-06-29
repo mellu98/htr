@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la primissima cosa che un artista emergente dovrebbe fare in termini di marketing, secondo il coach?",
+    "options": [
+      "Spendere di più in ADV",
+      "Complicare le strategie di marketing",
+      "Fare le cose semplici e concentrarsi su poche azioni",
+      "Pubblicare un lyric video come reel"
+    ],
+    "correctAnswer": "Fare le cose semplici e concentrarsi su poche azioni",
+    "explanation": "Il coach sottolinea che per gli artisti emergenti è fondamentale fare le cose semplici, poche e concentrarsi su una o due per ottenere i maggiori risultati."
+  },
+  {
+    "id": "q2",
+    "question": "Quali sono le fasi principali del marketing menzionate nella lezione?",
+    "options": [
+      "Creazione, Promozione, Vendita",
+      "Attrazione, Educazione, Conversione",
+      "Branding, Pubblicità, Distribuzione",
+      "Analisi, Strategia, Esecuzione"
+    ],
+    "correctAnswer": "Attrazione, Educazione, Conversione",
+    "explanation": "Le fasi principali del marketing descritte sono Attrazione, Educazione e Conversione, con una fase bonus di Conversione Ripetuta."
+  },
+  {
+    "id": "q3",
+    "question": "Perché le storie di Instagram non sono considerate efficaci per la fase di attrazione?",
+    "options": [
+      "Perché sono troppo lunghe",
+      "Perché non arrivano a chi non ci conosce",
+      "Perché sono solo per un pubblico caldo",
+      "Perché non permettono l'uso di musica"
+    ],
+    "correctAnswer": "Perché non arrivano a chi non ci conosce",
+    "explanation": "Le storie di Instagram sono viste principalmente da chi già segue l'artista, rendendole meno efficaci per attrarre un pubblico nuovo ('freddo')."
+  }
+]

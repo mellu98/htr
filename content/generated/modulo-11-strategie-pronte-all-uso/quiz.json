@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è il focus principale della strategia a budget zero?",
+    "options": [
+      "Investire in pubblicità a pagamento.",
+      "Sfruttare tempo, impegno e network.",
+      "Collaborare solo con artisti affermati.",
+      "Ignorare le piattaforme social."
+    ],
+    "correctAnswer": "Sfruttare tempo, impegno e network.",
+    "explanation": "La strategia a budget zero si basa sull'utilizzo di risorse non economiche come il tempo, l'impegno e il network personale per la promozione."
+  },
+  {
+    "id": "q2",
+    "question": "In quale delle seguenti aree può risiedere un elemento di viralità?",
+    "options": [
+      "Solo nella qualità della registrazione audio.",
+      "Nella musica, nell'identità e nelle visual.",
+      "Esclusivamente nelle collaborazioni con influencer.",
+      "Solo nel numero di follower preesistenti."
+    ],
+    "correctAnswer": "Nella musica, nell'identità e nelle visual.",
+    "explanation": "L'elemento di viralità può essere trovato in diversi aspetti: nella musica (intro, ritornello), nell'identità dell'artista (immaginario, attitudine) e nelle visual (location, movimenti, pattern interrupt)."
+  },
+  {
+    "id": "q3",
+    "question": "Cosa si intende per 'pattern interrupt' nelle visual?",
+    "options": [
+      "Un errore tecnico nel video.",
+      "Un elemento visivo che interrompe improvvisamente lo scroll e cattura l'attenzione.",
+      "Una pausa musicale all'interno del brano.",
+      "Un cambiamento improvviso di location."
+    ],
+    "correctAnswer": "Un elemento visivo che interrompe improvvisamente lo scroll e cattura l'attenzione.",
+    "explanation": "I 'pattern interrupt' sono ganci ad inizio video che fermano improvvisamente l'attenzione dell'osservatore, spingendolo a continuare la visione."
+  }
+]

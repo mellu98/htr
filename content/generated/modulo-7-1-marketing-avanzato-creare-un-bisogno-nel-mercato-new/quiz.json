@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Secondo il relatore, qual è la vera complessità del marketing?",
+    "options": [
+      "Capire i termini tecnici.",
+      "Applicarlo in modo profondo e prevederne i risultati nel tempo.",
+      "Creare campagne pubblicitarie costose.",
+      "Trovare un pubblico vasto fin da subito."
+    ],
+    "correctAnswer": "Applicarlo in modo profondo e prevederne i risultati nel tempo.",
+    "explanation": "Il relatore afferma che la vera complessità del marketing sta nel capirlo in maniera così profonda da riuscire ad applicarlo e a prevederne i risultati nel tempo."
+  },
+  {
+    "id": "q2",
+    "question": "Quali sono i paesi suggeriti per osservare le tendenze musicali e riportarle in Italia?",
+    "options": [
+      "Spagna, Portogallo, Grecia, Brasile.",
+      "Stati Uniti, Francia, Inghilterra, Germania.",
+      "Cina, Giappone, Corea del Sud, India.",
+      "Canada, Australia, Nuova Zelanda, Sudafrica."
+    ],
+    "correctAnswer": "Stati Uniti, Francia, Inghilterra, Germania.",
+    "explanation": "Il relatore menziona esplicitamente Stati Uniti, Francia, Inghilterra e Germania come paesi da cui prendere ispirazione per le tendenze musicali."
+  },
+  {
+    "id": "q3",
+    "question": "Perché, secondo il relatore, le microniche in Italia spesso non riescono a diventare mainstream?",
+    "options": [
+      "Mancanza di talenti musicali.",
+      "C'è troppo poco pubblico e una cultura musicale meno radicata per certi generi.",
+      "Le etichette discografiche non investono abbastanza.",
+      "Gli artisti italiani non sono abbastanza creativi."
+    ],
+    "correctAnswer": "C'è troppo poco pubblico e una cultura musicale meno radicata per certi generi.",
+    "explanation": "Il relatore spiega che le microniche in Italia muoiono perché c'è troppo poco pubblico e una cultura che non è ancora abbastanza radicata, come nel caso dell'Urban."
+  }
+]

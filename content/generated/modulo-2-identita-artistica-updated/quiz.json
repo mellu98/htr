@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Secondo la lezione, quali sono i tre elementi fondamentali che l'identità artistica deve comunicare ai fan?",
+    "options": [
+      "Nome, genere, città",
+      "Chi siete, cosa fate, come lo fate",
+      "Età, provenienza, influenze musicali",
+      "Numero di follower, stream, visualizzazioni"
+    ],
+    "correctAnswer": "Chi siete, cosa fate, come lo fate",
+    "explanation": "L'identità artistica dà ai vostri fan la possibilità di capire chi siete, cosa fate e come lo fate. Senza questi tre elementi, il pubblico è confuso."
+  },
+  {
+    "id": "q2",
+    "question": "Perché è importante che l'identità artistica segua le sfumature naturali del carattere dell'artista?",
+    "options": [
+      "Perché rende l'identità più artificiale e unica.",
+      "Perché aiuta a fare qualcosa che è sostenibile nel tempo.",
+      "Perché permette di cambiare identità ogni tre mesi.",
+      "Perché è l'unico modo per combattere la timidezza."
+    ],
+    "correctAnswer": "Perché aiuta a fare qualcosa che è sostenibile nel tempo.",
+    "explanation": "È importante seguire le sfumature naturali perché fondamentalmente ci aiutano a fare qualcosa che è sostenibile nel tempo."
+  },
+  {
+    "id": "q3",
+    "question": "Cosa si intende per 'reverse marketing' nel contesto della costruzione dell'identità artistica?",
+    "options": [
+      "Copiare esattamente le strategie dei big per ottenere gli stessi risultati.",
+      "Una pratica per capire cosa c'è dietro una strategia che è stata messa in atto da qualcuno che non siamo noi, partendo dal risultato e risalendo alla prima azione di marketing.",
+      "Ignorare completamente le strategie degli altri artisti per essere totalmente originali.",
+      "Concentrarsi solo sul risultato finale senza analizzare il processo."
+    ],
+    "correctAnswer": "Una pratica per capire cosa c'è dietro una strategia che è stata messa in atto da qualcuno che non siamo noi, partendo dal risultato e risalendo alla prima azione di marketing.",
+    "explanation": "Il reverse marketing è una pratica di marketing per capire cosa c'è dietro una strategia che è stata messa in atto da qualcuno che non siamo noi. E quindi si va al contrario, ovvero si parte dal risultato e si risale step by step alla prima azione che è stata fatta di marketing per arrivare a quel risultato."
+  }
+]

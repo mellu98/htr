@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Quale piattaforma di streaming musicale è considerata dominante in Italia e in Europa secondo il relatore?",
+    "options": [
+      "Apple Music",
+      "Amazon Music",
+      "Tidal",
+      "Spotify"
+    ],
+    "correctAnswer": "Spotify",
+    "explanation": "Il relatore afferma chiaramente che in Italia, se non in Europa, Apple Music, Amazon e Tidal non esistono praticamente, mentre esiste Spotify."
+  },
+  {
+    "id": "q2",
+    "question": "Cosa indica il relatore come un segnale che l'algoritmo di Spotify potrebbe aver 'punito' un artista, specialmente se ha molte canzoni fuori?",
+    "options": [
+      "Avere un alto numero di follower rispetto agli ascoltatori mensili.",
+      "Non avere la sezione 'ai fan piace anche' o 'i fan apprezzano anche'.",
+      "Avere tutte le canzoni con un numero di ascolti simile.",
+      "Pubblicare musica con costanza."
+    ],
+    "correctAnswer": "Non avere la sezione 'ai fan piace anche' o 'i fan apprezzano anche'.",
+    "explanation": "Il relatore spiega che se un artista ha tante canzoni fuori (15, 20, 25) ma non ha la sezione 'ai fan piace anche', significa che ha fatto qualcosa che non doveva fare."
+  },
+  {
+    "id": "q3",
+    "question": "Qual è una delle prime cose che un artista dovrebbe fare su Spotify for Artists dopo l'uscita del primo brano?",
+    "options": [
+      "Richiedere un account Premium.",
+      "Contattare le playlist editoriali di Spotify.",
+      "Scaricare Spotify for Artist e reclamare il profilo.",
+      "Iniziare a comprare stream per aumentare la visibilità."
+    ],
+    "correctAnswer": "Scaricare Spotify for Artist e reclamare il profilo.",
+    "explanation": "Il relatore afferma che una volta che il brano esce, si scarica Spotify for Artist e si reclama il profilo inserendo i propri dati."
+  }
+]

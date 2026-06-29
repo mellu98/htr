@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Analizzare la propria costanza di pubblicazione",
+    "description": "Verificare la frequenza con cui si è prodotta e rilasciata musica nel tempo, confrontandola con l'esempio di Tommy Richman.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Valutare la propria identità artistica",
+    "description": "Riflettere su quanto la propria musica e immagine siano coerenti o se ci sia spazio per una sperimentazione più ampia, mantenendo un elemento distintivo.",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Definire un \"claim\" artistico",
+    "description": "Identificare una frase o un concetto chiave che riassuma l'essenza del proprio progetto artistico, come \"Everything is Punk\" per Tommy Richman.",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Esplorare la propria \"voce\" distintiva",
+    "description": "Individuare gli elementi unici della propria performance vocale o strumentale che possono diventare un marchio di fabbrica.",
+    "completed": false
+  }
+]

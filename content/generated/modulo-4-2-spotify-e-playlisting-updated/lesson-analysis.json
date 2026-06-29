@@ -1,0 +1,85 @@
+{
+  "lessonSlug": "modulo-4-2-spotify-e-playlisting-updated",
+  "mainTopics": [
+    "Importanza di Spotify nel mercato musicale italiano",
+    "Funzionamento dell'algoritmo di Spotify",
+    "Cura del profilo artista su Spotify",
+    "Spotify for Artists e le sue funzionalità",
+    "Strategie per essere premiati dall'algoritmo (costanza, cura del profilo)",
+    "Segnali di 'punizione' da parte dell'algoritmo (es. mancanza di 'ai fan piace anche')"
+  ],
+  "visualElements": [
+    {
+      "type": "screen",
+      "description": "Interfaccia di Spotify, mostrando il profilo di un artista (es. Lazzza) per illustrare elementi come immagine di copertina, foto profilo, Artist Pick, discografia, sezioni 'ai fan piace anche', date del tour, video musicali, merchandising e bio."
+    },
+    {
+      "type": "screen",
+      "description": "Interfaccia di Spotify for Artists, mostrando la home, la sezione 'Musica' con release, canzoni, playlist (algoritmiche ed editoriali) e listener, e la sezione 'upcoming'."
+    },
+    {
+      "type": "slide",
+      "description": "Slide introduttiva con il titolo del modulo e l'argomento principale."
+    },
+    {
+      "type": "diagram",
+      "description": "Schema semplificato del funzionamento dell'algoritmo di Spotify e come premia o penalizza gli artisti."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:04",
+      "title": "Spotify come costante imprescindibile",
+      "why": "Sottolinea l'importanza cruciale di Spotify nel mercato musicale italiano ed europeo, evidenziando il suo quasi monopolio rispetto ad altre piattaforme."
+    },
+    {
+      "timestamp": "00:20",
+      "title": "Pro e contro del monopolio di Spotify",
+      "why": "Spiega come la dominanza di Spotify possa sia favorire che ostacolare la carriera di un artista, rendendo fondamentale una gestione attenta della piattaforma."
+    },
+    {
+      "timestamp": "01:02",
+      "title": "Spotify come piattaforma di atterraggio",
+      "why": "Introduce il concetto che Spotify facilita l'ascolto di musica già conosciuta, un dato rilevante per gli artisti emergenti."
+    },
+    {
+      "timestamp": "02:32",
+      "title": "Algoritmo di Spotify che favorisce i big",
+      "why": "Evidenzia un cambiamento recente nell'algoritmo che privilegia gli artisti già noti, rendendo più complessa la scoperta per i nuovi talenti."
+    },
+    {
+      "timestamp": "03:58",
+      "title": "Come Spotify premia gli artisti",
+      "why": "Spiega che Spotify premia gli artisti che generano più engagement e che mantengono gli utenti sulla piattaforma, come quelli con più musica e profili curati."
+    },
+    {
+      "timestamp": "04:20",
+      "title": "Importanza del profilo curato",
+      "why": "Dettaglia gli elementi essenziali di un profilo Spotify ben curato: immagini, Artist Pick, bio e link social, fornendo esempi pratici."
+    },
+    {
+      "timestamp": "05:06",
+      "title": "Creazione di playlist 'This Is' personalizzate",
+      "why": "Fornisce un consiglio pratico per gli artisti emergenti senza una playlist 'This Is' automatica, suggerendo di crearne una propria per mantenere gli ascoltatori sulla propria musica."
+    },
+    {
+      "timestamp": "07:44",
+      "title": "Azione immediata: sistemare il profilo",
+      "why": "Consiglia agli studenti di mettere in pausa la lezione per applicare subito i suggerimenti sulla cura del profilo tramite Spotify for Artists."
+    },
+    {
+      "timestamp": "08:14",
+      "title": "Segnali di 'punizione' dell'algoritmo",
+      "why": "Introduce i segnali che indicano una possibile penalizzazione da parte di Spotify, come l'assenza della sezione 'ai fan piace anche' nonostante molte uscite."
+    },
+    {
+      "timestamp": "09:43",
+      "title": "Introduzione a Spotify for Artists",
+      "why": "Spiega cos'è Spotify for Artists e come gli artisti possono accedervi e utilizzarlo per monitorare le proprie performance e gestire il profilo."
+    }
+  ],
+  "practicalOutput": "Un profilo Spotify artista completamente ottimizzato e aggiornato, con immagini professionali, bio identitaria, Artist Pick pertinente, link social collegati e una playlist 'This Is' o discografia creata manualmente se non generata automaticamente.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Analizzare i dati del proprio profilo Spotify for Artists per identificare le aree di forza e debolezza, e pianificare una strategia di pubblicazione musicale che tenga conto della costanza e della qualità del profilo.",
+  "managerNotes": "Verificare che gli studenti abbiano compreso l'importanza strategica di Spotify e sappiano applicare le best practice per la cura del profilo artista. Assicurarsi che abbiano accesso e sappiano utilizzare Spotify for Artists per monitorare le proprie performance. Prestare attenzione a chi non ha ancora una strategia di pubblicazione costante."
+}

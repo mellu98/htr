@@ -1,0 +1,26 @@
+[
+  {
+    "id": "check-1",
+    "title": "Comprendere l'evoluzione di TikTok",
+    "description": "Assicurati di aver capito come è cambiata la piattaforma e l'aumento della competizione.",
+    "completed": false
+  },
+  {
+    "id": "check-2",
+    "title": "Distinguere i due tipi di 'share'",
+    "description": "Sii in grado di spiegare la differenza tra la condivisione diretta e la 'replica' (creazione di trend).",
+    "completed": false
+  },
+  {
+    "id": "check-3",
+    "title": "Identificare gli elementi di viralità",
+    "description": "Riconosci quali fattori spingono le persone a replicare un contenuto (parte del brano che funziona, elementi riconoscibili, far sentire 'figo').",
+    "completed": false
+  },
+  {
+    "id": "check-4",
+    "title": "Applicare la mentalità 'egocentrica' del pubblico",
+    "description": "Ricorda che le persone pensano a come un contenuto le valorizza, non a te.",
+    "completed": false
+  }
+]

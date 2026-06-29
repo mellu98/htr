@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Qual è l'alternativa di scheda audio consigliata per il miglior rapporto qualità-prezzo?",
+    "back": "Audient ID4 Mark II.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Quale microfono a condensatore è considerato uno standard di mercato per artisti emergenti?",
+    "back": "Rode NT1A.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Quali sono le cuffie raccomandate dal docente e perché?",
+    "back": "Audio Technica ATH M50X, per la loro risposta fedele e divertente, e l'ottimo rapporto qualità-prezzo anche rispetto a modelli più costosi.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f4",
+    "front": "Cosa si intende per 'latenza' in fase di registrazione e come si risolve?",
+    "back": "La latenza è il ritardo tra il momento in cui si parla nel microfono e quando ci si risente. Si risolve abbassando al minimo il buffer nelle impostazioni della scheda audio e della DAW.",
+    "difficulty": "medium"
+  }
+]

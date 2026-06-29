@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è la funzione principale di un distributore musicale?",
+    "options": [
+      "Produrre la musica dell'artista.",
+      "Promuovere l'artista sui social media.",
+      "Portare la musica sulle piattaforme digitali.",
+      "Gestire i concerti e le tournée dell'artista."
+    ],
+    "correctAnswer": "Portare la musica sulle piattaforme digitali.",
+    "explanation": "La distribuzione è un'infrastruttura terza che porta la vostra musica sulle piattaforme digitali come Spotify, Apple Music, Amazon, Tidal, ecc."
+  },
+  {
+    "id": "q2",
+    "question": "Quale piano di DistroKid è raccomandato per avere la data di pubblicazione personalizzabile?",
+    "options": [
+      "Musician",
+      "Musician Plus",
+      "Ultimate",
+      "Free"
+    ],
+    "correctAnswer": "Musician Plus",
+    "explanation": "Dovete sempre prendere il piano di mezzo, Musician Plus, perché permette di avere la data di pubblicazione personalizzabile."
+  },
+  {
+    "id": "q3",
+    "question": "Perché è sconsigliato lasciare selezionato YouTube Music durante il caricamento su DistroKid?",
+    "options": [
+      "Perché DistroKid non supporta YouTube Music.",
+      "Perché crea un profilo Topic non gestibile dall'artista, splittando gli ascolti.",
+      "Perché YouTube Music richiede un pagamento aggiuntivo.",
+      "Perché la qualità audio su YouTube Music è inferiore."
+    ],
+    "correctAnswer": "Perché crea un profilo Topic non gestibile dall'artista, splittando gli ascolti.",
+    "explanation": "Quando Distro Kid va a caricare il vostro brano su YouTube, creerà un profilo che si chiama Topic, gestito da Distro Kid stesso e non gestibile dall'artista, splittando gli ascolti."
+  }
+]

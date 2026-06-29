@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Cos'è il 'claim' nel contesto del brand?",
+    "back": "È cosa sei esattamente e come devono perceverti gli altri (percezione esterna).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Qual è la differenza chiave tra 'nemico' e 'competitor'?",
+    "back": "Il competitor fa la tua stessa cosa e tu la fai meglio; il nemico fa qualcosa di simile e tu ti differenzi da lui.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Come si può trovare un 'claim'?",
+    "back": "Ragionando per differenziazione (rispetto a un nemico) o per miglioramento (rispetto a un competitor).",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f4",
+    "front": "Qual è il ruolo del marketing rispetto al messaggio del brand?",
+    "back": "Il marketing manipola il messaggio lanciato dal brand.",
+    "difficulty": "medium"
+  }
+]

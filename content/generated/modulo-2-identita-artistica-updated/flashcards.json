@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "front": "Cos'è l'identità artistica?",
+    "back": "È ciò che caratterizza un artista e permette ai fan di capire chi è, cosa fa e come lo fa.",
+    "difficulty": "easy"
+  },
+  {
+    "id": "f2",
+    "front": "Perché l'identità artistica deve essere sostenibile nel tempo?",
+    "back": "Perché un'identità basata sulle sfumature naturali è più autentica e meno soggetta a cambiamenti frequenti che confonderebbero il pubblico.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f3",
+    "front": "Qual è il rapporto tra identità e musica nell'era dei social media?",
+    "back": "Identità e musica hanno pari valore; spesso l'identità è il primo contatto che il pubblico ha con un artista, specialmente su piattaforme visive come Instagram e TikTok.",
+    "difficulty": "medium"
+  },
+  {
+    "id": "f4",
+    "front": "Quando è utile copiare le strategie dei 'big'?",
+    "back": "Solo quando l'azione copiata aiuta a chiarire i propri 'chi, cosa, come' e non quando si copia solo il risultato finale senza comprenderne il processo o la fase dell'artista.",
+    "difficulty": "hard"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Quali sono le fasi principali di una campagna marketing menzionate nella lezione?",
+    "options": [
+      "Pre-lancio, lancio, post-lancio",
+      "Ideazione, produzione, distribuzione",
+      "Acquisizione, mantenimento, fidelizzazione",
+      "Analisi, strategia, esecuzione"
+    ],
+    "correctAnswer": "Pre-lancio, lancio, post-lancio",
+    "explanation": "La lezione menziona esplicitamente le fasi di 'Pre-lancio, pre-lancio, lancio, post-lancio' come struttura di una campagna marketing."
+  },
+  {
+    "id": "q2",
+    "question": "Secondo la lezione, quale strumento è considerato uno dei pochi modi organici per colpire il pubblico 'caldo'?",
+    "options": [
+      "Reel e TikTok",
+      "ADV a pagamento",
+      "Instagram Stories",
+      "Collaborazioni con influencer"
+    ],
+    "correctAnswer": "Instagram Stories",
+    "explanation": "Viene affermato che 'le storie sono uno dei pochi modi organici, non a TV, per colpire il pubblico caldo'."
+  },
+  {
+    "id": "q3",
+    "question": "Cosa significa utilizzare il lancio di un brano come 'pre-lancio' per un evento live?",
+    "options": [
+      "Promuovere il brano e l'evento live contemporaneamente con la stessa strategia.",
+      "Usare il successo e l'attenzione generata dal brano per attirare un pubblico più ampio prima di annunciare i dettagli del live.",
+      "Organizzare l'evento live prima del lancio del brano per creare hype.",
+      "Concentrarsi esclusivamente sul brano e poi, in un secondo momento, pensare al live."
+    ],
+    "correctAnswer": "Usare il successo e l'attenzione generata dal brano per attirare un pubblico più ampio prima di annunciare i dettagli del live.",
+    "explanation": "La lezione spiega: 'Noi abbiamo usato il lancio di Tornami addosso come pre-lancio del lancio del live', intendendo che il successo del brano ha generato l'attrazione necessaria prima di comunicare i dettagli del live."
+  }
+]

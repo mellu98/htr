@@ -1,0 +1,73 @@
+{
+  "lessonSlug": "modulo-6-1-come-fare-contenuti-and-case-study-new",
+  "mainTopics": [
+    "Obiettivi dei contenuti",
+    "Fasi del marketing (attrazione, educazione, conversione, fidelizzazione)",
+    "Differenza tra ascoltatore e fan",
+    "Tipi di contenuti attivi (post, reel, TikTok, stories)",
+    "Strategia per i post (caroselli)",
+    "Struttura e vantaggi del carosello"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Slide introduttiva del modulo e del tema 'Contenuti e Social parte 2'."
+    },
+    {
+      "type": "slide",
+      "description": "Slide che elenca le fasi del marketing: Attrazione, Educazione, Conversione, e la fase aggiuntiva di Fidelizzazione."
+    },
+    {
+      "type": "slide",
+      "description": "Slide che confronta 'Ascoltatore' e 'Fan', evidenziando l'importanza di un catalogo musicale."
+    },
+    {
+      "type": "slide",
+      "description": "Slide che elenca i 'Tipi di Contenuti Attivi': Post, Reel, TikTok, Stories."
+    },
+    {
+      "type": "slide",
+      "description": "Slide dedicata alla strategia dei 'Post', specificando le fasi di marketing in cui utilizzarli (Educazione, Conversione) e i motivi."
+    },
+    {
+      "type": "slide",
+      "description": "Slide che illustra i vantaggi del 'Carosello' e la sua struttura consigliata (es. Foto, Nota, Spoiler)."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:25",
+      "title": "Importanza del Marketing per i Contenuti",
+      "why": "Viene sottolineato che senza una chiara comprensione del marketing, l'obiettivo del contenuto non sarà definito, portando all'inefficacia."
+    },
+    {
+      "timestamp": "01:52",
+      "title": "Revisione delle Fasi di Marketing",
+      "why": "Vengono ripetute e spiegate le tre fasi chiave del marketing (attrazione, educazione, conversione) e introdotta la fase di fidelizzazione."
+    },
+    {
+      "timestamp": "02:44",
+      "title": "Differenza tra Ascoltatore e Fan",
+      "why": "Viene spiegata la distinzione cruciale tra un ascoltatore occasionale e un fan fedele, evidenziando come un catalogo ampio sia fondamentale per la fidelizzazione."
+    },
+    {
+      "timestamp": "05:22",
+      "title": "Classificazione dei Tipi di Contenuti",
+      "why": "Vengono elencati e categorizzati i principali tipi di contenuti attivi sui social media (post, reel, TikTok, stories)."
+    },
+    {
+      "timestamp": "06:30",
+      "title": "Strategia per l'uso dei Post",
+      "why": "Si specifica che i post sono più efficaci nelle fasi di educazione e conversione, non di attrazione, e si consiglia l'uso dei caroselli."
+    },
+    {
+      "timestamp": "07:40",
+      "title": "Vantaggi e Struttura del Carosello",
+      "why": "Vengono spiegati i benefici statistici del carosello (maggiore visibilità) e fornita una struttura dettagliata per creare un carosello che racconti una storia."
+    }
+  ],
+  "practicalOutput": "Un piano per la creazione di caroselli per Instagram, con una struttura definita che include foto, note testuali e spoiler audio/video, allineato agli obiettivi di educazione o conversione.",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Crea almeno un carosello per Instagram seguendo la struttura suggerita e monitora le metriche di engagement per valutarne l'efficacia nella fase di educazione del tuo pubblico.",
+  "managerNotes": "Verificare che lo studente abbia compreso l'importanza di allineare ogni contenuto a un obiettivo di marketing specifico e che sia in grado di distinguere l'uso appropriato dei diversi formati (es. post vs. reel). Monitorare l'applicazione della strategia dei caroselli per i post."
+}

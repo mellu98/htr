@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Quale strumento di Meta è consigliato utilizzare per le campagne pubblicitarie avanzate?",
+    "options": [
+      "Business Suite",
+      "Business Manager",
+      "Creator Studio",
+      "Page Manager"
+    ],
+    "correctAnswer": "Business Manager",
+    "explanation": "Il Business Manager offre funzionalità complete e avanzate per la gestione delle campagne, a differenza della Business Suite."
+  },
+  {
+    "id": "q2",
+    "question": "Perché è importante testare diversi obiettivi di prestazioni in una campagna di traffico?",
+    "options": [
+      "Per ridurre il budget giornaliero",
+      "Per capire quale opzione porta più ascolti effettivi su Spotify",
+      "Per aumentare la copertura su Facebook",
+      "Per semplificare la creazione dell'inserzione"
+    ],
+    "correctAnswer": "Per capire quale opzione porta più ascolti effettivi su Spotify",
+    "explanation": "Testare gli obiettivi di prestazioni aiuta a capire se è più efficace massimizzare i click o le visualizzazioni della pagina di destinazione per ottenere ascolti reali."
+  },
+  {
+    "id": "q3",
+    "question": "Cosa si intende per 'pubblico originale' nelle impostazioni di targeting di Meta Ads?",
+    "options": [
+      "Un pubblico creato automaticamente da Meta",
+      "Un pubblico predefinito che non può essere modificato",
+      "Le opzioni di targeting manuali che c'erano prima dell'introduzione di Advantage Plus",
+      "Un pubblico di utenti che hanno già interagito con i tuoi contenuti"
+    ],
+    "correctAnswer": "Le opzioni di targeting manuali che c'erano prima dell'introduzione di Advantage Plus",
+    "explanation": "Il 'pubblico originale' si riferisce alle opzioni di targeting manuali che permettono un controllo più preciso sul pubblico, a differenza del 'pubblico Advantage Plus' suggerito da Meta."
+  }
+]

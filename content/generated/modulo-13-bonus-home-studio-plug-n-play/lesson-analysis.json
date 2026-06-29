@@ -1,0 +1,109 @@
+{
+  "lessonSlug": "modulo-13-bonus-home-studio-plug-n-play",
+  "mainTopics": [
+    "Introduzione all'Home Studio",
+    "Componenti essenziali dell'Home Studio",
+    "Scelta della strumentazione (scheda audio, microfono, cuffie, monitor, DAW)",
+    "Trattamento acustico vs. Insonorizzazione",
+    "Consigli pratici per la registrazione (latenza, volumi, distanza microfono)",
+    "Esportazione delle tracce per mix e master"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Titolo della lezione e introduzione agli obiettivi."
+    },
+    {
+      "type": "slide",
+      "description": "Elenco dei componenti essenziali per un Home Studio."
+    },
+    {
+      "type": "photo",
+      "description": "Immagini delle schede audio consigliate (Native Instruments Complete Audio 2, Audient ID4 Mark II, SSL2)."
+    },
+    {
+      "type": "photo",
+      "description": "Immagini dei microfoni a condensatore suggeriti (SE Electronics X1S, Rode NT1A, Shure PGA27, Aston Spirit)."
+    },
+    {
+      "type": "photo",
+      "description": "Immagini delle cuffie Audio Technica ATH M40X e M50X."
+    },
+    {
+      "type": "photo",
+      "description": "Immagini dei monitor da studio (M Audio BX5 D3, Yamaha HS5/HS7)."
+    },
+    {
+      "type": "screen",
+      "description": "Screenshot dell'interfaccia di FL Studio o Cubase per mostrare la selezione della DAW."
+    },
+    {
+      "type": "diagram",
+      "description": "Schema concettuale della differenza tra insonorizzazione e trattamento acustico."
+    },
+    {
+      "type": "photo",
+      "description": "Esempi di pannelli in lana di roccia o pannelli piramidali per il trattamento acustico."
+    },
+    {
+      "type": "screen",
+      "description": "Screenshot di una DAW che mostra l'impostazione del buffer e l'onda di registrazione."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:00",
+      "title": "Introduzione e Obiettivi della Lezione",
+      "why": "Stabilisce il contesto e l'importanza di un Home Studio per gli artisti."
+    },
+    {
+      "timestamp": "00:56",
+      "title": "Budget e Necessità",
+      "why": "Sottolinea l'importanza di non fare tutto subito e di adattare le scelte al proprio budget e fase di carriera."
+    },
+    {
+      "timestamp": "02:20",
+      "title": "Il Computer: non è un problema",
+      "why": "Sfata il mito della necessità di un computer potente, rassicurando gli studenti sull'uso del proprio PC."
+    },
+    {
+      "timestamp": "03:04",
+      "title": "Componenti Indispensabili",
+      "why": "Elenca i cinque elementi chiave per un Home Studio: microfono, scheda audio, cuffie, monitor e DAW."
+    },
+    {
+      "timestamp": "04:41",
+      "title": "Microfoni: evitare USB",
+      "why": "Fornisce un avvertimento cruciale sui microfoni USB e suggerisce alternative a condensatore."
+    },
+    {
+      "timestamp": "07:37",
+      "title": "Importanza delle Cuffie in Home Studio",
+      "why": "Spiega perché le cuffie sono vitali, specialmente quando i monitor non sono utilizzabili o la stanza non è trattata."
+    },
+    {
+      "timestamp": "11:09",
+      "title": "Trattamento Acustico vs. Insonorizzazione",
+      "why": "Chiarisce una distinzione fondamentale spesso confusa dagli artisti, guidando verso la soluzione corretta per l'Home Studio."
+    },
+    {
+      "timestamp": "14:27",
+      "title": "Gestione della Latenza",
+      "why": "Fornisce una soluzione pratica a un problema comune durante la registrazione."
+    },
+    {
+      "timestamp": "15:03",
+      "title": "Registrare a Volumi Bassi",
+      "why": "Consiglio tecnico fondamentale per preservare la qualità del suono e del microfono."
+    },
+    {
+      "timestamp": "16:11",
+      "title": "Esportazione Tracce per Mix e Master",
+      "why": "Fornisce istruzioni dettagliate per un passaggio critico che spesso causa problemi con i fonici."
+    }
+  ],
+  "practicalOutput": "Un Home Studio funzionale e ottimizzato per la registrazione di provini e tracce di qualità, con la capacità di esportare correttamente i multitraccia per il mix e master professionale.",
+  "difficulty": "beginner",
+  "recommendedNextAction": "Iniziare a stilare una lista della strumentazione necessaria, confrontando i prezzi dei modelli consigliati e valutando le opzioni di acquisto (nuovo/usato) in base al proprio budget.",
+  "managerNotes": "Verificare che gli studenti comprendano la differenza tra insonorizzazione e trattamento acustico e l'importanza di quest'ultimo per le registrazioni in Home Studio. Assicurarsi che siano consapevoli delle best practice per l'esportazione delle tracce."
+}

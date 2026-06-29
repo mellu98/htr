@@ -1,0 +1,38 @@
+[
+  {
+    "id": "q1",
+    "question": "Qual è il motivo più comune per cui un contenuto non funziona?",
+    "options": [
+      "a) Non è stato pubblicato al momento giusto.",
+      "b) Non si capisce qual è l'obiettivo del contenuto perché il marketing non è chiaro.",
+      "c) Non ha abbastanza like e commenti.",
+      "d) È stato creato con strumenti non professionali."
+    ],
+    "correctAnswer": "b) Non si capisce qual è l'obiettivo del contenuto perché il marketing non è chiaro.",
+    "explanation": "Il transcript afferma chiaramente che 'dove il marketing non è chiaro, non si capirà qual è l'obiettivo del contenuto. Ecco, questo probabilmente è uno dei motivi più comuni per cui poi un contenuto non funziona.'"
+  },
+  {
+    "id": "q2",
+    "question": "In quale fase del marketing è consigliato utilizzare i post, secondo la lezione?",
+    "options": [
+      "a) Attrazione.",
+      "b) Educazione e conversione.",
+      "c) Solo conversione.",
+      "d) Tutte le fasi indistintamente."
+    ],
+    "correctAnswer": "b) Educazione e conversione.",
+    "explanation": "Il relatore indica che il post è 'farlo usare in fase di educazione. E in fase di conversione. Più in fase di educazione, meno in fase di conversione. Sicuramente non in fase di attrazione.'"
+  },
+  {
+    "id": "q3",
+    "question": "Qual è il vantaggio principale di utilizzare un carosello rispetto a un post singolo su Instagram?",
+    "options": [
+      "a) Permette di pubblicare video più lunghi.",
+      "b) Aumenta le chance statistiche che il contenuto venga visto dall'algoritmo di Instagram e racconta una storia.",
+      "c) È più facile da creare e richiede meno tempo.",
+      "d) Genera automaticamente più follower."
+    ],
+    "correctAnswer": "b) Aumenta le chance statistiche che il contenuto venga visto dall'algoritmo di Instagram e racconta una storia.",
+    "explanation": "Il transcript spiega che 'Col carosello, statisticamente, avete più chance... In più, statisticamente, è stato studiato che il carosello è più facile venderlo, tra virgolette, al pubblico, perché racconta una storia.'"
+  }
+]

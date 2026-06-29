@@ -1,0 +1,115 @@
+{
+  "lessonSlug": "modulo-4-1-distribuzione-fisica-e-digitale-updated",
+  "mainTopics": [
+    "Definizione di distribuzione musicale",
+    "Tipi di distributori (digitali vs. 'fisici')",
+    "Vantaggi e svantaggi della distribuzione digitale",
+    "Vantaggi e svantaggi della distribuzione 'fisica'",
+    "Analisi dei contratti di distribuzione (royalties, anticipi, edizioni)",
+    "Guida pratica all'uso di DistroKid (scelta del piano, caricamento brano, gestione YouTube Music)",
+    "Consigli per artisti emergenti sulla scelta del distributore"
+  ],
+  "visualElements": [
+    {
+      "type": "slide",
+      "description": "Introduzione alla distribuzione musicale."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Schema comparativo: Pro e Contro della distribuzione digitale vs. 'fisica'."
+    },
+    {
+      "type": "screen",
+      "description": "Interfaccia di DistroKid: scelta del piano tariffario."
+    },
+    {
+      "type": "screen",
+      "description": "Interfaccia di DistroKid: processo di caricamento di un brano."
+    },
+    {
+      "type": "whiteboard",
+      "description": "Schema del flusso di lavoro per la tutela del diritto d'autore e la distribuzione."
+    }
+  ],
+  "importantMoments": [
+    {
+      "timestamp": "00:41",
+      "title": "Cos'è la distribuzione",
+      "why": "Definizione fondamentale del concetto di distribuzione musicale come infrastruttura terza."
+    },
+    {
+      "timestamp": "01:03",
+      "title": "Tipi di distributori",
+      "why": "Introduzione alla distinzione tra distributori 'fisici' e digitali, con esempi."
+    },
+    {
+      "timestamp": "02:19",
+      "title": "Pro della distribuzione digitale",
+      "why": "Elenco dei vantaggi principali (economicità, 100% royalties, autonomia)."
+    },
+    {
+      "timestamp": "02:44",
+      "title": "Contro della distribuzione digitale",
+      "why": "Elenco degli svantaggi (qualità, supporto, gestione problematiche)."
+    },
+    {
+      "timestamp": "04:00",
+      "title": "Pro della distribuzione 'fisica'",
+      "why": "Elenco dei vantaggi (alta qualità, supporto, playlisting, contatti)."
+    },
+    {
+      "timestamp": "04:32",
+      "title": "Contro della distribuzione 'fisica'",
+      "why": "Elenco degli svantaggi (percentuale royalties, costi, autonomia ridotta)."
+    },
+    {
+      "timestamp": "05:42",
+      "title": "Contratti di distribuzione per emergenti",
+      "why": "Avvertimento sui contratti sfavorevoli e la confusione con contratti discografici."
+    },
+    {
+      "timestamp": "07:12",
+      "title": "Assenza di anticipo nei contratti di distribuzione",
+      "why": "Spiegazione del significato della mancanza di anticipo e come influisce sullo split delle royalties."
+    },
+    {
+      "timestamp": "08:35",
+      "title": "Contratti di distribuzione a pagamento",
+      "why": "Avvertimento sui distributori che chiedono soldi, distinguendoli dalle etichette."
+    },
+    {
+      "timestamp": "10:47",
+      "title": "Quando scegliere digitale e quando 'fisico'",
+      "why": "Consigli pratici sulla scelta del distributore in base alla fase di carriera dell'artista."
+    },
+    {
+      "timestamp": "13:06",
+      "title": "Processo corretto di tutela e distribuzione",
+      "why": "Spiegazione della sequenza ideale: SIAE/Soundreef prima della distribuzione."
+    },
+    {
+      "timestamp": "14:17",
+      "title": "Scelta del piano DistroKid",
+      "why": "Raccomandazione specifica sul piano Musician Plus per la data di pubblicazione personalizzabile."
+    },
+    {
+      "timestamp": "15:15",
+      "title": "Non creare due profili nello stesso account DistroKid",
+      "why": "Avvertimento importante per evitare problemi futuri nella gestione dei pagamenti e degli accessi."
+    },
+    {
+      "timestamp": "16:08",
+      "title": "Deselezionare YouTube Music su DistroKid",
+      "why": "Spiegazione del motivo per cui è meglio gestire il proprio canale YouTube autonomamente."
+    },
+    {
+      "timestamp": "17:47",
+      "title": "Scelta del nome d'artista",
+      "why": "Consigli sulla scelta di un nome unico e rappresentativo per evitare problemi e fare branding."
+    }
+  ],
+  "practicalOutput": "Lo studente sarà in grado di caricare un brano su DistroKid in modo corretto, scegliendo il piano adeguato e gestendo le impostazioni chiave (es. YouTube Music, nome d'artista).",
+  "difficulty": "intermediate",
+  "recommendedNextAction": "Prepara il tuo primo brano (audio WAV e copertina) e sottoscrivi il piano Musician Plus su DistroKid, iniziando il processo di caricamento ma senza finalizzare la pubblicazione, per familiarizzare con l'interfaccia.",
+  "managerNotes": "Verificare che gli studenti comprendano la differenza tra distributori e etichette, e siano consapevoli dei rischi legati a contratti sfavorevoli. Assicurarsi che sappiano come tutelare il diritto d'autore prima della distribuzione."
+}
