@@ -41,7 +41,6 @@ export const NAV_LINKS = {
     { href: '/call-prep', label: 'Call Prep' },
     { href: '/library', label: 'Video Library' },
     { href: '/review', label: 'Review' },
-    { href: '/ai', label: 'AI Processing' },
     { href: '/notes', label: 'Note' },
   ],
 } as const;
@@ -81,8 +80,6 @@ export const MOBILE_NAV_SECTIONS = [
     items: [
       { href: '/library', label: 'Video Library' },
       { href: '/review', label: 'Review' },
-      { href: '/ai', label: 'AI Processing' },
-      { href: '/ai/tutor', label: 'AI Tutor' },
       { href: '/notes', label: 'Note' },
     ],
   },

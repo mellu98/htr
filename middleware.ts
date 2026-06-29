@@ -64,8 +64,8 @@ export async function middleware(request: NextRequest) {
     return buildUnauthorizedResponse(request);
   }
 
-  // Admin-only area.
-  if (isAdminPath(pathname) && session.role !== 'admin') {
+  // Admin-only area is now disabled; /ai routes redirect to home for everyone.
+  if (isAdminPath(pathname)) {
     return buildForbiddenResponse(request);
   }
 
